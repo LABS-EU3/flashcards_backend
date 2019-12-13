@@ -6,12 +6,14 @@
   "scripts": {
     "test": " ",
     "start": "node index.js",
-    "server": "nodemon index.js "
+    "server": "nodemon index.js ",
+    "lint": "eslint . --ext .js; exit 0",
+    "lint-fix": "eslint . --ext .js --fix; exit 0"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm test",
-      "pre-push": "npm test"
+      "pre-commit": "npm run lint",
+      "pre-push": "npm run lint"
     }
   },
   "repository": {
