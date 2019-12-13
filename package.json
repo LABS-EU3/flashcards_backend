@@ -4,7 +4,9 @@
   "description": "Back end for the quick decks app.",
   "main": "index.js",
   "scripts": {
-    "test": " "
+    "test": " ",
+    "start": "node index.js",
+    "server": "nodemon index.js "
   },
   "repository": {
     "type": "git",
