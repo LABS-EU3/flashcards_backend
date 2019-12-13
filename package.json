@@ -8,6 +8,12 @@
     "start": "node index.js",
     "server": "nodemon index.js "
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm test",
+      "pre-push": "npm test"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/LABS-EU3/flashcards_backend.git"
