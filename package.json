@@ -1,0 +1,36 @@
+{
+  "name": "flashcards_backend",
+  "version": "0.0.1",
+  "description": "Back end for the quick decks app.",
+  "main": "index.js",
+  "scripts": {
+    "test": " ",
+    "start": "node index.js",
+    "server": "nodemon index.js "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LABS-EU3/flashcards_backend.git"
+  },
+  "keywords": [
+    "express",
+    "node",
+    "postgres",
+    "REST"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LABS-EU3/flashcards_backend/issues"
+  },
+  "homepage": "https://github.com/LABS-EU3/flashcards_backend#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "helmet": "^3.21.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
