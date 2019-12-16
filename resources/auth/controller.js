@@ -2,6 +2,7 @@ const joi = require('@hapi/joi');
 const bcrypt = require('bcrypt');
 
 const model = require('./model');
+const generateToken = require('../../utils/generateToken');
 
 const schema = joi.object({
   email: joi
@@ -43,10 +44,12 @@ exports.signup = async (req, res) => {
       isConfirmed: false,
     });
 
+    const token = generateToken(userCreated);
+
     res.status(201).json({
       error: false,
       message: `User created successfully`,
-      data: userCreated,
+      data: { token, user: userCreated },
     });
   } catch (error) {
     res.status(400).json({ error: true, message: error.message, data: error });
