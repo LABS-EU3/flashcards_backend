@@ -1,4 +1,4 @@
-const db = require('../../knexfile');
+const db = require('../../data/dbConfig');
 
 exports.createUser = user => {
   return db('users')
