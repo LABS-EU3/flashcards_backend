@@ -14,9 +14,9 @@ const schema = joi.object({
     .pattern(/^[a-zA-Z0-9]{3,30}$/)
     .required(),
 
-  full_name: joi.string().required(),
+  fullName: joi.string().required(),
 
-  image_url: joi.string(),
+  imageUrl: joi.string(),
 
   isConfirmed: joi.boolean(),
 });
@@ -25,7 +25,7 @@ exports.signup = async (req, res) => {
   try {
     await schema.validateAsync(req.body);
 
-    const { email, full_name, image_url, password } = req.body;
+    const { email, fullName, imageUrl, password } = req.body;
 
     const userExists = await model.filter({ email });
     if (userExists) {
@@ -38,8 +38,8 @@ exports.signup = async (req, res) => {
     const userCreated = model.createUser({
       email,
       password: hashedPassword,
-      full_name,
-      image_url,
+      full_name: fullName,
+      image_url: imageUrl,
       isConfirmed: false,
     });
 

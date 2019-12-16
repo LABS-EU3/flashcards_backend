@@ -16,8 +16,7 @@
     },
     "rules": {
         "prettier/prettier": "error",
-        "max-len": ["error", 80],
-        "camelcase": [0, {"properties": "always"}]
+        "max-len": ["error", 80]
     },
     "plugins": ["prettier"]
 }
