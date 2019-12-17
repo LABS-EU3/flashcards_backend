@@ -64,5 +64,18 @@ describe('Auth Router', () => {
 
       expect(res.status).toBe(400);
     });
+
+    test('Email cannot belong to multiple users', async () => {
+      await request(server)
+        .post('/api/auth/register')
+        .send(userObject);
+
+      const res = await request(server)
+        .post('/api/auth/register')
+        .send(userObject);
+
+      expect(res.status).toBe(400);
+      expect(res.body.message).toBe(`User with this email already exists`);
+    });
   });
 });
