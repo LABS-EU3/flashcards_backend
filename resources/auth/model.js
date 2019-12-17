@@ -19,3 +19,13 @@ exports.filter = filter => {
     .where(filter)
     .first();
 };
+
+// The findBy function is used when comparing passwords from the user on login
+// And password stored in the db
+
+exports.findBy = param => {
+  return db('users')
+    .select('full_name', 'email', 'password', 'isConfirmed')
+    .where(param)
+    .first();
+};
