@@ -52,5 +52,17 @@ describe('Auth Router', () => {
       expect(userCreated.email).toBe(userObject.email);
       expect(userCreated.password).not.toBe(userObject.password);
     });
+
+    test('Request body is validated', async () => {
+      const userCopy = { ...userObject };
+
+      delete userCopy.email;
+
+      const res = await request(server)
+        .post('/api/auth/register')
+        .send(userCopy);
+
+      expect(res.status).toBe(400);
+    });
   });
 });
