@@ -20,7 +20,7 @@ exports.filter = filter => {
     .first();
 };
 
-// FindBy is used when comparing passwords from the user on login
+// The findBy function is used when comparing passwords from the user on login
 // And password stored in the db
 
 exports.findBy = param => {
