@@ -19,3 +19,10 @@ exports.filter = filter => {
     .where(filter)
     .first();
 };
+
+exports.findBy = param => {
+  return db('users')
+    .select('full_name', 'email', 'password', 'isConfirmed')
+    .where(param)
+    .first();
+};
