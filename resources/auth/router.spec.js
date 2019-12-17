@@ -2,6 +2,8 @@ const request = require('supertest');
 
 const server = require('../../api/server');
 
+const model = require('./model');
+
 const db = require('../../data/dbConfig');
 
 beforeEach(async () => {
@@ -38,6 +40,17 @@ describe('Auth Router', () => {
         full_name: userObject.fullName,
         isConfirmed: false,
       });
+    });
+
+    test('Password is not stored in plain text', async () => {
+      await request(server)
+        .post('/api/auth/register')
+        .send(userObject);
+
+      const userCreated = await model.findBy({ email: userObject.email });
+
+      expect(userCreated.email).toBe(userObject.email);
+      expect(userCreated.password).not.toBe(userObject.password);
     });
   });
 });
