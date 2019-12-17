@@ -19,4 +19,20 @@ const signUpSchema = joi.object({
   isConfirmed: joi.boolean().label('isConfirmed'),
 });
 
-module.exports = signUpSchema;
+const loginSchema = joi.object({
+  email: joi
+    .string()
+    .label('Email')
+    .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
+    .required(),
+  password: joi
+    .string()
+    .label('Password')
+    .pattern(/^[a-zA-Z0-9]{3,30}$/)
+    .required(),
+});
+
+module.exports = {
+  signUpSchema,
+  loginSchema,
+};
