@@ -6,11 +6,8 @@ exports.up = function(knex) {
       .notNullable()
       .unique();
     table.string('password').notNullable();
-    table
-      .string('full_name')
-      .notNullable()
-      .unique();
-    table.string('image_url').notNullable();
+    table.string('full_name').notNullable();
+    table.string('image_url');
     table.boolean('isConfirmed').defaultTo(false);
   });
 };
