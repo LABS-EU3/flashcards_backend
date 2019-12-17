@@ -4,8 +4,8 @@ exports.createUser = user => {
   return db('users')
     .insert(user, 'id')
     .then(ids => {
-      const [userId] = ids;
-      return this.filter({ id: userId });
+      const [id] = ids;
+      return this.filter({ id });
     });
 };
 
