@@ -9,6 +9,6 @@ const authRouter = express.Router();
 
 authRouter.post('/register', validate(signUpSchema), checkUserExists, signup);
 authRouter.post('/login', validate(loginSchema), checkEmailExists, login);
-authRouter.get('/confirmEmail/:token', confirmEmail);
+authRouter.post('/confirmEmail', confirmEmail);
 
 module.exports = authRouter;

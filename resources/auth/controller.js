@@ -26,6 +26,7 @@ exports.signup = async (req, res) => {
     const token = generateToken(userCreated);
 
     const url = `${BACKEND_HOST}:${port}/api/auth/confirmEmail/${token}`;
+
     const html = `<b>Please click on this 
     <a href="${url}>${url}</a> 
     to confrim your email address.</b>`;
@@ -70,8 +71,10 @@ exports.login = async (req, res) => {
 
 exports.confirmEmail = async (req, res) => {
   try {
-    const { token } = req.params;
+    const { token } = req.body;
     const decodedToken = validateToken(token);
+
+    console.log(token, decodedToken);
 
     const response = await model.confirmEmail(decodedToken.subject);
 
