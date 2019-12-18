@@ -15,7 +15,7 @@ exports.createUser = user => {
 
 exports.filter = filter => {
   return db('users')
-    .select('full_name', 'email', 'image_url', 'isConfirmed')
+    .select('id', 'full_name', 'email', 'image_url', 'isConfirmed')
     .where(filter)
     .first();
 };
@@ -25,14 +25,32 @@ exports.filter = filter => {
 
 exports.findBy = param => {
   return db('users')
-    .select('full_name', 'email', 'password', 'isConfirmed')
+    .select('id', 'full_name', 'email', 'password', 'isConfirmed')
     .where(param)
     .first();
 };
 
-exports.findAndUpdate = email => {
+// takes email, returns token (send token).
+exports.InsertResetToken = (userId, token) => {
+  return db('reset_password').insert(userId, token);
+};
+
+exports.revokeResetToken = token => {
+  return db('reset_password')
+    .update('active', null)
+    .where('token', token);
+};
+
+exports.filterForToken = token => {
+  return db('reset_password')
+    .select('user_id', 'token', 'active')
+    .where(token)
+    .groupBy('active', 'token', 'user_id')
+    .havingNotNull('active');
+};
+
+exports.changePassword = (userId, password) => {
   return db('users')
-    .join('reset_password', 'users.id', 'reset_password.user_id')
-    .select('email', 'token')
-    .where({ email });
+    .where({ id: userId })
+    .update('password', password);
 };
