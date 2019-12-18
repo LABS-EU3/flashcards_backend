@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const stubTransport = require('nodemailer-stub-transport');
 const { senderEmail, password } = require('../config/index');
 
 // A sendEmail util accepting `subject` as subject of the email to be sent
@@ -7,13 +8,18 @@ const { senderEmail, password } = require('../config/index');
 // information obtained from nodemailer on success
 
 module.exports = (subject, recipients, emailBody, next) => {
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: senderEmail,
-      pass: password,
-    },
-  });
+  // Make transporter a test stub when testing and a gmail
+  // transporter otherwise.
+  const transporter =
+    process.env.DB_ENV !== 'testing'
+      ? nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: senderEmail,
+            pass: password,
+          },
+        })
+      : nodemailer.createTransport(stubTransport());
 
   const mailOptions = {
     from: `"Your QuickDecks Plug" <${senderEmail}>`,
