@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 
 const model = require('./model');
 const generateToken = require('../../utils/generateToken');
+const validateToken = require('../../utils/validateToken');
 const { welcomeText } = require('../../utils/constants');
 
 const { BACKEND_HOST, port } = require('../../config/index');
@@ -24,7 +25,7 @@ exports.signup = async (req, res) => {
 
     const token = generateToken(userCreated);
 
-    const url = `${BACKEND_HOST}:${port}/confirmation/${token}`;
+    const url = `${BACKEND_HOST}:${port}/api/auth/confirmEmail/${token}`;
     const html = `<b>Please click on this 
     <a href="${url}>${url}</a> 
     to confrim your email address.</b>`;
@@ -64,5 +65,24 @@ exports.login = async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({ message: error.message, data: error });
+  }
+};
+
+exports.confirmToken = async (req, res) => {
+  try {
+    const { token } = req.params;
+    const decodedToken = validateToken(token);
+
+    const response = await model.confirmEmail(decodedToken.subject);
+
+    if (response) {
+      res
+        .status(200)
+        .json({ message: `User with email: ${response.email} confirmed` });
+    } else {
+      res.status(400).json({ message: `Email confirmation failed!` });
+    }
+  } catch (error) {
+    res.status(400).json({ message: `Confirmation failed: ${error.message}!` });
   }
 };

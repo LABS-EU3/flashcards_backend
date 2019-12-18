@@ -29,3 +29,13 @@ exports.findBy = param => {
     .where(param)
     .first();
 };
+
+exports.confirmEmail = id => {
+  return db('users')
+    .where({ id })
+    .update({ isConfirmed: true }, 'id')
+    .then(ids => {
+      const userId = ids[0];
+      return this.filter({ id: userId });
+    });
+};
