@@ -58,7 +58,7 @@ describe('Auth Router', () => {
       expect(userCreated.password).not.toBe(userObject.password);
     });
 
-    test('Request body is validated', async () => {
+    test('Email is required', async () => {
       const userCopy = { ...userObject };
 
       delete userCopy.email;
@@ -68,6 +68,43 @@ describe('Auth Router', () => {
         .send(userCopy);
 
       expect(res.status).toBe(400);
+    });
+
+    test('Password is required', async () => {
+      const userCopy = { ...userObject };
+
+      delete userCopy.password;
+
+      const res = await request(server)
+        .post('/api/auth/register')
+        .send(userCopy);
+
+      expect(res.status).toBe(400);
+    });
+
+    test('Full Name is required', async () => {
+      const userCopy = { ...userObject };
+
+      delete userCopy.fullName;
+
+      const res = await request(server)
+        .post('/api/auth/register')
+        .send(userCopy);
+
+      expect(res.status).toBe(400);
+    });
+
+    test('imageUrl and isConfirmed are not required', async () => {
+      const userCopy = { ...userObject };
+
+      delete userCopy.imageUrl;
+      delete userCopy.isConfirmed;
+
+      const res = await request(server)
+        .post('/api/auth/register')
+        .send(userCopy);
+
+      expect(res.status).toBe(201);
     });
 
     test('Email cannot belong to multiple users', async () => {
