@@ -1,5 +1,5 @@
 const nodemailer = require('nodemailer');
-const stubTransport = require('nodemailer-stub-transport');
+const { stubTransport } = require('nodemailer-stub');
 const { senderEmail, password } = require('../config/index');
 
 // A sendEmail util accepting `subject` as subject of the email to be sent
@@ -19,7 +19,7 @@ module.exports = (subject, recipients, emailBody, next) => {
             pass: password,
           },
         })
-      : nodemailer.createTransport(stubTransport());
+      : nodemailer.createTransport(stubTransport);
 
   const mailOptions = {
     from: `"Your QuickDecks Plug" <${senderEmail}>`,
