@@ -15,7 +15,7 @@ exports.createUser = user => {
 
 exports.filter = filter => {
   return db('users')
-    .select('full_name', 'email', 'image_url', 'isConfirmed')
+    .select('id', 'full_name', 'email', 'image_url', 'isConfirmed')
     .where(filter)
     .first();
 };
