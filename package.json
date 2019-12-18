@@ -46,6 +46,7 @@
     "knex": "^0.20.4",
     "mailgen": "^2.0.10",
     "nodemailer": "^6.4.2",
+    "nodemailer-stub-transport": "^1.1.0",
     "pg": "^7.14.0"
   },
   "devDependencies": {
