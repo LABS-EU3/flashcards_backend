@@ -10,6 +10,9 @@ server.use(cors());
 server.use(helmet());
 
 server.use('/api', apiRouter);
+server.get('/confirmation/token', () => {
+  
+})
 server.get('/', (req, res) => {
   res.status(200).json({ message: `Welcome to the QuickDecks API` });
 });
