@@ -4,7 +4,7 @@ const model = require('./model');
 const generateToken = require('../../utils/generateToken');
 const { welcomeText } = require('../../utils/constants');
 
-const { BACKEND_HOST } = require('../../config/index');
+const { BACKEND_HOST, port } = require('../../config/index');
 
 const sendEmail = require('../../utils/sendEmail');
 
@@ -24,7 +24,7 @@ exports.signup = async (req, res) => {
 
     const token = generateToken(userCreated);
 
-    const url = `${BACKEND_HOST}/confirmation/${token}`;
+    const url = `${BACKEND_HOST}:${port}/confirmation/${token}`;
     const html = `<b>Please click on this 
     <a href="${url}>${url}</a> 
     to confrim your email address.</b>`;
