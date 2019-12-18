@@ -47,6 +47,16 @@ describe('Auth Router', () => {
       });
     });
 
+    test('Token is returned on signup successful', async () => {
+      const res = await request(server)
+        .post('/api/auth/register')
+        .send(userObject);
+
+      expect(res.status).toBe(201);
+
+      expect(res.body.data.token).not.toBe(null || undefined);
+    });
+
     test('Password is not stored in plain text', async () => {
       await request(server)
         .post('/api/auth/register')
