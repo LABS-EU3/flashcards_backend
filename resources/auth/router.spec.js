@@ -25,7 +25,7 @@ const userObject = {
 
 describe('Auth Router', () => {
   describe('Register Endpoint', () => {
-    test('Returns 200 on success', async () => {
+    test('Returns 201 on success', async () => {
       await request(server)
         .post('/api/auth/register')
         .send(userObject)
@@ -128,6 +128,90 @@ describe('Auth Router', () => {
 
       expect(res.status).toBe(400);
       expect(res.body.message).toBe(`User with this email already exists`);
+    });
+  });
+
+  const loginUserObject = {
+    email: 'h.kakashi@gmail.com',
+    password: 'aVeryLongPassword',
+  };
+
+  describe('Login Endpoint', () => {
+    test('Returns 200 OK on successful login', async () => {
+      await request(server)
+        .post('/api/auth/register')
+        .send(userObject);
+
+      const res = await request(server)
+        .post('/api/auth/login')
+        .send(loginUserObject);
+      expect(res.status).toBe(200);
+    });
+
+    test('Token is returned on successful login', async () => {
+      await request(server)
+        .post('/api/auth/register')
+        .send(userObject);
+
+      const res = await request(server)
+        .post('/api/auth/login')
+        .send(loginUserObject);
+
+      expect(res.status).toBe(200);
+      expect(res.body.data.token).not.toBe(null || undefined);
+    });
+
+    test('Provided Email does not exist', async () => {
+      await request(server)
+        .post('/api/auth/register')
+        .send(userObject);
+
+      const res = await request(server)
+        .post('/api/auth/login')
+        .send({ email: 'test@test.com', password: 'aVeryLongPassword' });
+
+      expect(res.status).toBe(404);
+      expect(res.body.message).toBe(`User with this email does not exists`);
+    });
+
+    test('Provided password is invalid', async () => {
+      await request(server)
+        .post('/api/auth/register')
+        .send(userObject);
+
+      const res = await request(server)
+        .post('/api/auth/login')
+        .send({
+          email: 'h.kakashi@gmail.com',
+          password: 'testPasswordNotCorrect',
+        });
+
+      expect(res.status).toBe(401);
+      expect(res.body.message).toBe('Invalid credentials');
+    });
+
+    test('Email is required', async () => {
+      const userCopy = { ...userObject };
+
+      delete userCopy.email;
+
+      const res = await request(server)
+        .post('/api/auth/register')
+        .send(userCopy);
+
+      expect(res.status).toBe(400);
+    });
+
+    test('Password is required', async () => {
+      const userCopy = { ...loginUserObject };
+
+      delete userCopy.password;
+
+      const res = await request(server)
+        .post('/api/auth/register')
+        .send(userCopy);
+
+      expect(res.status).toBe(400);
     });
   });
 });
