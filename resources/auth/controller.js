@@ -68,7 +68,7 @@ exports.login = async (req, res) => {
   }
 };
 
-exports.confirmToken = async (req, res) => {
+exports.confirmEmail = async (req, res) => {
   try {
     const { token } = req.params;
     const decodedToken = validateToken(token);
