@@ -25,9 +25,9 @@ exports.signup = async (req, res) => {
     const token = generateToken(userCreated);
 
     const url = `${BACKEND_HOST}/confirmation/${token}`;
-    const html = `Please click on this 
-    <a href="${url}><${url}> 
-    to confrim your email address.`;
+    const html = `<b>Please click on this 
+    <a href="${url}>${url}</a> 
+    to confrim your email address.</b>`;
 
     sendEmail(welcomeText, email, html, info => {
       console.log(info);
