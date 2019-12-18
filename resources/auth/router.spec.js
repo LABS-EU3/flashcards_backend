@@ -130,4 +130,8 @@ describe('Auth Router', () => {
       expect(res.body.message).toBe(`User with this email already exists`);
     });
   });
+
+  
+  describe('Login Endpoint', () => { 
+  });
 });
