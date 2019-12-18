@@ -4,7 +4,7 @@ const senderEmail = process.env.NODEMAILER_EMAIL_ADDRESS;
 const password = process.env.NODEMAILER_EMAIL_PASSWORD;
 const BACKEND_HOST = process.env.HOST;
 const confirmEmailRedirect = process.env.EMAIL_CONFIRMATION_REDIRECT;
-const frontEndSite = process.env.FRONTEND_SITE;
+const frontEndSite = process.env.FRONTEND_SITE || `https://www.google.com`;
 module.exports = {
   port,
   SECRET,
