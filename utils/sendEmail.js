@@ -19,8 +19,7 @@ module.exports = (subject, recipients, emailBody, next) => {
     from: `"Your QuickDecks Plug" <${senderEmail}>`,
     to: recipients,
     subject,
-    text: emailBody,
-    html: `<b>${emailBody}</>`,
+    html: emailBody,
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
