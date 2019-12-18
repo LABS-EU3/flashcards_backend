@@ -152,6 +152,7 @@ describe('Auth Router', () => {
       await request(server)
         .post('/api/auth/register')
         .send(userObject);
+
       const res = await request(server)
         .post('/api/auth/login')
         .send(loginUserObject);
@@ -171,6 +172,22 @@ describe('Auth Router', () => {
 
       expect(res.status).toBe(404);
       expect(res.body.message).toBe(`User with this email does not exists`);
+    });
+
+    test('Provided password is invalid', async () => {
+      await request(server)
+        .post('/api/auth/register')
+        .send(userObject);
+
+      const res = await request(server)
+        .post('/api/auth/login')
+        .send({
+          email: 'h.kakashi@gmail.com',
+          password: 'testPasswordNotCorrect',
+        });
+
+      expect(res.status).toBe(401);
+      expect(res.body.message).toBe('Invalid credentials');
     });
 
     test('Email is required', async () => {
@@ -195,22 +212,6 @@ describe('Auth Router', () => {
         .send(userCopy);
 
       expect(res.status).toBe(400);
-    });
-
-    test('Credentials are correct', async () => {
-      await request(server)
-        .post('/api/auth/register')
-        .send(userObject);
-
-      const res = await request(server)
-        .post('/api/auth/login')
-        .send({
-          email: 'h.kakashi@gmail.com',
-          password: 'testPasswordNotCorrect',
-        });
-
-      expect(res.status).toBe(401);
-      expect(res.body.message).toBe('Invalid credentials');
     });
   });
 });
