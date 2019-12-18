@@ -32,7 +32,15 @@ const loginSchema = joi.object({
     .required(),
 });
 
+const forgotPasswordSchema = joi.object({
+  email: joi
+    .string()
+    .label('Email')
+    .required(),
+});
+
 module.exports = {
   signUpSchema,
   loginSchema,
+  forgotPasswordSchema,
 };
