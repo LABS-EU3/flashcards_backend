@@ -23,7 +23,7 @@ exports.signup = async (req, res) => {
 
     const token = generateToken(userCreated);
 
-    sendEmail(welcomeText, email, emailTemplate, info => {
+    sendEmail(welcomeText, email, emailTemplate(fullName), info => {
       console.log(info);
     });
 
