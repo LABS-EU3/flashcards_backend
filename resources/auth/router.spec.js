@@ -131,7 +131,33 @@ describe('Auth Router', () => {
     });
   });
 
-  
-  describe('Login Endpoint', () => { 
+  const loginUserObject = {
+    email: 'h.kakashi@gmail.com',
+    password: 'aVeryLongPassword',
+  };
+
+  describe('Login Endpoint', () => {
+    test('Returns 200 OK on successful login', async () => {
+      await request(server)
+        .post('/api/auth/register')
+        .send(userObject);
+
+      const res = await request(server)
+        .post('/api/auth/login')
+        .send(loginUserObject);
+      expect(res.status).toBe(200);
+    });
+
+    test('Token is returned on successful login', async () => {
+      await request(server)
+        .post('/api/auth/register')
+        .send(userObject);
+      const res = await request(server)
+        .post('/api/auth/login')
+        .send(loginUserObject);
+
+      expect(res.status).toBe(200);
+      expect(res.body.data.token).not.toBe(null || undefined);
+    });
   });
 });
