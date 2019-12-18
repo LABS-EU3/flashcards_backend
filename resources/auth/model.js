@@ -29,3 +29,10 @@ exports.findBy = param => {
     .where(param)
     .first();
 };
+
+exports.findAndUpdate = email => {
+  return db('users')
+    .join('reset_password', 'users.id', 'reset_password.user_id')
+    .select('email', 'token')
+    .where({ email });
+};
