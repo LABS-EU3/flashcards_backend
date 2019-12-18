@@ -37,6 +37,7 @@ describe('Auth Router', () => {
         .post('/api/auth/register')
         .send(userObject);
 
+      console.log(res);
       expect(res.status).toBe(201);
 
       expect(res.body.data.user).toMatchObject({
