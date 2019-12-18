@@ -197,6 +197,20 @@ describe('Auth Router', () => {
       expect(res.status).toBe(400);
     });
 
-    test('Credentials are correct', async () => {});
+    test('Credentials are correct', async () => {
+      await request(server)
+        .post('/api/auth/register')
+        .send(userObject);
+
+      const res = await request(server)
+        .post('/api/auth/login')
+        .send({
+          email: 'h.kakashi@gmail.com',
+          password: 'testPasswordNotCorrect',
+        });
+
+      expect(res.status).toBe(401);
+      expect(res.body.message).toBe('Invalid credentials');
+    });
   });
 });
