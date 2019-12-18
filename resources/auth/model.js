@@ -31,7 +31,7 @@ exports.findBy = param => {
 };
 
 // takes email, returns token (send token).
-exports.InsertResetToken = (userId, token) => {
+exports.insertResetToken = (userId, token) => {
   return db('reset_password').insert(userId, token);
 };
 
