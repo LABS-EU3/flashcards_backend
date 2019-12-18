@@ -4,9 +4,7 @@ const model = require('./model');
 const generateToken = require('../../utils/generateToken');
 const validateToken = require('../../utils/validateToken');
 const { welcomeText } = require('../../utils/constants');
-
-const { BACKEND_HOST, port } = require('../../config/index');
-
+const emailTemplate = require('../../templates/confirmEmail');
 const sendEmail = require('../../utils/sendEmail');
 
 exports.signup = async (req, res) => {
@@ -25,13 +23,7 @@ exports.signup = async (req, res) => {
 
     const token = generateToken(userCreated);
 
-    const url = `${BACKEND_HOST}:${port}/api/auth/confirmEmail/${token}`;
-
-    const html = `<b>Please click on this 
-    <a href="${url}>${url}</a> 
-    to confrim your email address.</b>`;
-
-    sendEmail(welcomeText, email, html, info => {
+    sendEmail(welcomeText, email, emailTemplate, info => {
       console.log(info);
     });
 
