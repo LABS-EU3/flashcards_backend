@@ -18,7 +18,7 @@ module.exports = userFullName => {
       action: {
         instructions: 'Please click the button below to verify your account',
         button: {
-          color: '#33b5e5',
+          color: '#D21F3C',
           text: 'Verify account',
           link: confirmEmailRedirect,
         },
