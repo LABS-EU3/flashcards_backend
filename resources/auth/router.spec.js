@@ -159,5 +159,44 @@ describe('Auth Router', () => {
       expect(res.status).toBe(200);
       expect(res.body.data.token).not.toBe(null || undefined);
     });
+
+    test('Provided Email does not exist', async () => {
+      await request(server)
+        .post('/api/auth/register')
+        .send(userObject);
+
+      const res = await request(server)
+        .post('/api/auth/login')
+        .send({ email: 'test@test.com', password: 'aVeryLongPassword' });
+
+      expect(res.status).toBe(404);
+      expect(res.body.message).toBe(`User with this email does not exists`);
+    });
+
+    test('Email is required', async () => {
+      const userCopy = { ...userObject };
+
+      delete userCopy.email;
+
+      const res = await request(server)
+        .post('/api/auth/register')
+        .send(userCopy);
+
+      expect(res.status).toBe(400);
+    });
+
+    test('Password is required', async () => {
+      const userCopy = { ...loginUserObject };
+
+      delete userCopy.password;
+
+      const res = await request(server)
+        .post('/api/auth/register')
+        .send(userCopy);
+
+      expect(res.status).toBe(400);
+    });
+
+    test('Credentials are correct', async () => {});
   });
 });
