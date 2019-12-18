@@ -74,8 +74,6 @@ exports.confirmEmail = async (req, res) => {
     const { token } = req.body;
     const decodedToken = validateToken(token);
 
-    console.log(token, decodedToken);
-
     const response = await model.confirmEmail(decodedToken.subject);
 
     if (response) {
