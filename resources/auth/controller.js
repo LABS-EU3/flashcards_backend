@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const crypto = require('crypto');
 
 const model = require('./model');
 const generateToken = require('../../utils/generateToken');
@@ -50,4 +51,47 @@ exports.login = async (req, res) => {
   }
 };
 
-exports.forgotPassword = async () => {};
+exports.requestResetToken = async (req, res) => {
+  try {
+    const passwordResetToken = crypto.randomBytes(20).toString('hex');
+    const resetRequestEmail = req.body.email;
+    const user = await model.filter({ email: resetRequestEmail });
+
+    await model.InsertResetToken({
+      user_id: user.id,
+      token: passwordResetToken,
+      active: 1,
+    });
+
+    // Insert sending email code here
+    res.status(200).json({ message: `Password reset link sent to your email` });
+  } catch (error) {
+    res.status(500).json({ message: error.message, data: error });
+  }
+};
+
+exports.checkResetToken = async (req, res) => {
+  try {
+    const token = req.param('token', 0);
+
+    const checkToken = await model.filterForToken({ token });
+    // Returns an array (0 if not found, 1 if found)
+
+    if (checkToken.length === 0) {
+      res
+        .status(403)
+        .json({ message: 'Invalid token or previously used token' });
+    } else {
+      const password = bcrypt.hashSync(req.body.password, 10);
+      const userId = checkToken[0].user_id;
+
+      await model.changePassword(userId, password);
+      await model.revokeResetToken(token);
+      res.status(200).json({ message: 'Password has been reset' });
+
+      // Change password here
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message, data: error });
+  }
+};
