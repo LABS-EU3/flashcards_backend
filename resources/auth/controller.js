@@ -3,9 +3,9 @@ const bcrypt = require('bcrypt');
 const model = require('./model');
 const generateToken = require('../../utils/generateToken');
 const validateToken = require('../../utils/validateToken');
-const { welcomeText } = require('../../utils/constants');
-const emailTemplate = require('../../templates/confirmEmail');
-const sendEmail = require('../../utils/sendEmail');
+// const { welcomeText } = require('../../utils/constants');
+// const emailTemplate = require('../../templates/confirmEmail');
+// const sendEmail = require('../../utils/sendEmail');
 
 exports.signup = async (req, res) => {
   try {
@@ -23,9 +23,7 @@ exports.signup = async (req, res) => {
 
     const token = generateToken(userCreated);
 
-    sendEmail(welcomeText, email, emailTemplate(fullName), info => {
-      console.log(info);
-    });
+    // sendEmail(welcomeText, email, emailTemplate(fullName));
 
     res.status(201).json({
       message: `User created successfully`,
