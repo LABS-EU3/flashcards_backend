@@ -2,6 +2,11 @@ const bcrypt = require('bcrypt');
 
 const model = require('./model');
 const generateToken = require('../../utils/generateToken');
+const { welcomeText } = require('../../utils/constants');
+
+const { BACKEND_HOST } = require('../../config/index');
+
+const sendEmail = require('../../utils/sendEmail');
 
 exports.signup = async (req, res) => {
   try {
@@ -19,9 +24,21 @@ exports.signup = async (req, res) => {
 
     const token = generateToken(userCreated);
 
+    const url = `${BACKEND_HOST}/confirmation/${token}`;
+    const html = `Please click on this 
+    <a href="${url}><${url}> 
+    to confrim your email address.`;
+
+    sendEmail(welcomeText, email, html, info => {
+      console.log(info);
+    });
+
     res.status(201).json({
       message: `User created successfully`,
-      data: { token, user: userCreated },
+      data: {
+        token,
+        user: userCreated,
+      },
     });
   } catch (error) {
     res.status(500).json({ message: error.message, data: error });
