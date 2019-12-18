@@ -25,7 +25,7 @@ const userObject = {
 
 describe('Auth Router', () => {
   describe('Register Endpoint', () => {
-    test('Returns 200 on success', async () => {
+    test('Returns 201 on success', async () => {
       await request(server)
         .post('/api/auth/register')
         .send(userObject)
