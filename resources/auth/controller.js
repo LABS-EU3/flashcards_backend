@@ -2,6 +2,10 @@ const bcrypt = require('bcrypt');
 
 const model = require('./model');
 const generateToken = require('../../utils/generateToken');
+const { welcomeText } = require('../../utils/constants');
+const { EMAIL_SECRET } = require('../../config');
+const emailTemplate = require('../../templates/confirmEmail');
+const sendEmail = require('../../utils/sendEmail');
 
 exports.signup = async (req, res) => {
   try {
@@ -19,9 +23,16 @@ exports.signup = async (req, res) => {
 
     const token = generateToken(userCreated);
 
+    const emailToken = generateToken(userCreated, EMAIL_SECRET);
+
+    sendEmail(welcomeText, email, emailTemplate(fullName, emailToken));
+
     res.status(201).json({
       message: `User created successfully`,
-      data: { token, user: userCreated },
+      data: {
+        token,
+        user: userCreated,
+      },
     });
   } catch (error) {
     res.status(500).json({ message: error.message, data: error });
@@ -48,4 +59,14 @@ exports.login = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message, data: error });
   }
+};
+
+exports.confirmEmail = async (req, res) => {
+  const user = model.filter({ id: req.userId });
+
+  const signInToken = generateToken(user);
+  res.status(200).json({
+    message: `User with email: ${req.userEmail} confirmed.`,
+    token: signInToken,
+  });
 };

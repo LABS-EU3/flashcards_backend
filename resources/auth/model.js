@@ -15,7 +15,7 @@ exports.createUser = user => {
 
 exports.filter = filter => {
   return db('users')
-    .select('full_name', 'email', 'image_url', 'isConfirmed')
+    .select('id', 'full_name', 'email', 'image_url', 'isConfirmed')
     .where(filter)
     .first();
 };
@@ -28,4 +28,14 @@ exports.findBy = param => {
     .select('full_name', 'email', 'password', 'isConfirmed')
     .where(param)
     .first();
+};
+
+exports.confirmEmail = id => {
+  return db('users')
+    .where({ id })
+    .update({ isConfirmed: true }, 'id')
+    .then(ids => {
+      const userId = ids[0];
+      return this.filter({ id: userId });
+    });
 };
