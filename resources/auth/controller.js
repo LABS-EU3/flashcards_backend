@@ -87,21 +87,13 @@ exports.forgotPassword = async (req, res) => {
 
 exports.resetPassword = async (req, res) => {
   try {
-    const token = req.param('token', 0);
-    const checkToken = await model.filterForToken({ token });
+    const { token } = req;
+    const newPassword = bcrypt.hashSync(req.body.password, 10);
+    const userId = token[0].user_id;
+    await model.changePassword(userId, newPassword);
+    await model.revokeResetToken(token);
 
-    if (checkToken.length === 0) {
-      // Returns an array (0 if token not found, 1 if found)
-      res
-        .status(403)
-        .json({ message: 'Invalid token or previously used token' });
-    } else {
-      const newPassword = bcrypt.hashSync(req.body.password, 10);
-      const userId = checkToken[0].user_id;
-      await model.changePassword(userId, newPassword);
-      await model.revokeResetToken(token);
-      res.status(200).json({ message: 'Password has been reset' });
-    }
+    res.status(200).json({ message: 'Password has been reset' });
   } catch (error) {
     res.status(500).json({ message: error.message, data: error });
   }

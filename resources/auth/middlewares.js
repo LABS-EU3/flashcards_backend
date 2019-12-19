@@ -19,3 +19,15 @@ exports.checkEmailExists = async (req, res, next) => {
     next();
   }
 };
+
+exports.validateResetToken = async (req, res, next) => {
+  const { token } = req.params;
+  const resetToken = await model.filterForToken({ token });
+
+  if (!resetToken) {
+    res.status(400).json({ message: 'Invalid token or previously used token' });
+  } else {
+    req.token = resetToken;
+    next();
+  }
+};
