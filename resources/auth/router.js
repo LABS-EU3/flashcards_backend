@@ -12,6 +12,7 @@ const {
   signUpSchema,
   loginSchema,
   forgotPasswordSchema,
+  resetPasswordSchema,
 } = require('./authSchema');
 const { checkUserExists, checkEmailExists } = require('./middlewares');
 
@@ -30,7 +31,11 @@ authRouter.get('/reset_password', function(req, res) {
   res.send(req.query.token);
 });
 
-authRouter.post('/reset_password', checkResetTokenAndChangePWD);
+authRouter.post(
+  '/reset_password',
+  validate(resetPasswordSchema),
+  checkResetTokenAndChangePWD
+);
 authRouter.post('/confirmEmail', confirmEmail);
 
 module.exports = authRouter;
