@@ -3,6 +3,10 @@ const crypto = require('crypto');
 
 const model = require('./model');
 const generateToken = require('../../utils/generateToken');
+const validateToken = require('../../utils/validateToken');
+const { welcomeText } = require('../../utils/constants');
+const emailTemplate = require('../../templates/confirmEmail');
+const sendEmail = require('../../utils/sendEmail');
 
 exports.signup = async (req, res) => {
   try {
@@ -20,9 +24,14 @@ exports.signup = async (req, res) => {
 
     const token = generateToken(userCreated);
 
+    sendEmail(welcomeText, email, emailTemplate(fullName));
+
     res.status(201).json({
       message: `User created successfully`,
-      data: { token, user: userCreated },
+      data: {
+        token,
+        user: userCreated,
+      },
     });
   } catch (error) {
     res.status(500).json({ message: error.message, data: error });
@@ -97,5 +106,24 @@ exports.checkResetTokenAndChangePWD = async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({ message: error.message, data: error });
+  }
+};
+
+exports.confirmEmail = async (req, res) => {
+  try {
+    const { token } = req.body;
+    const decodedToken = validateToken(token);
+
+    const response = await model.confirmEmail(decodedToken.subject);
+
+    if (response) {
+      res
+        .status(200)
+        .json({ message: `User with email: ${response.email} confirmed` });
+    } else {
+      res.status(400).json({ message: `Email confirmation failed!` });
+    }
+  } catch (error) {
+    res.status(400).json({ message: `Confirmation failed: ${error.message}!` });
   }
 };

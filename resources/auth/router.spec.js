@@ -1,4 +1,5 @@
 const request = require('supertest');
+const iwm = require('nodemailer-stub').interactsWithMail;
 
 const server = require('../../api/server');
 
@@ -21,6 +22,15 @@ const userObject = {
   fullName: 'Hatake Kakashi',
   imageUrl: 'google.com',
   isConfirmed: false,
+};
+
+const exampleMail = {
+  to: 'john@domain.com',
+  from: 'jimmy@domain.com',
+  subject: 'testing',
+  content: 'foo',
+  contents: ['foo'],
+  contentType: 'text/plain',
 };
 
 describe('Auth Router', () => {
@@ -212,6 +222,16 @@ describe('Auth Router', () => {
         .send(userCopy);
 
       expect(res.status).toBe(400);
+    });
+  });
+
+  describe('Email Confirmation', () => {
+    test('Email is sent', async () => {
+      iwm.newMail(exampleMail);
+
+      const lastMail = iwm.lastMail();
+
+      expect(lastMail).not.toBe(null || undefined);
     });
   });
 });

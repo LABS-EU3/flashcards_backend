@@ -4,6 +4,7 @@ const {
   login,
   requestResetToken,
   checkResetTokenAndChangePWD,
+  confirmEmail,
 } = require('./controller');
 
 const validate = require('../../utils/validate');
@@ -24,5 +25,6 @@ authRouter.post(
   requestResetToken
 );
 authRouter.post('/reset_password', checkResetTokenAndChangePWD);
+authRouter.post('/confirmEmail', confirmEmail);
 
 module.exports = authRouter;
