@@ -24,6 +24,12 @@ authRouter.post(
   validate(forgotPasswordSchema),
   requestResetToken
 );
+
+// Temporary endpoint for testing emails, is defined in ENV.
+authRouter.get('/reset_password', function(req, res) {
+  res.send(req.query.token);
+});
+
 authRouter.post('/reset_password', checkResetTokenAndChangePWD);
 authRouter.post('/confirmEmail', confirmEmail);
 
