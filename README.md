@@ -29,12 +29,15 @@ Request Error ( **400 - Bad Request** || **404 - Not Found** || **403 - Unauthor
 
 ### API Endpoints
 
-| ENDPOINT                                                  | DESCRIPTION               |
-| ----------------------------------------------------------| ------------------------- |
-| [GET /](#get)                                             | Base URL                  |
-| [POST /api/auth/register](#post-apiauthregister)          | Register new Student      |
-| [POST /api/auth/login](#post-apiauthlogin)                | Login for Student         |
-| [POST /api/auth/confirmEmail](#post-apiauthconfirmEmail)  | Confirm Email for student |
+| ENDPOINT                                                          | DESCRIPTION               |
+| ------------------------------------------------------------------| ------------------------- |
+| [GET /](#get)                                                     | Base URL                  |
+| [POST /api/auth/register](#post-apiauthregister)                  | Register new Student      |
+| [POST /api/auth/login](#post-apiauthlogin)                        | Login for Student         |
+| [POST /api/auth/confirmEmail](#post-apiauthconfirmEmail)          | Confirm Email for student |
+| [POST /api/auth/confirmEmail](#post-apiauthconfirmEmail)          | Confirm Email for student |
+| [POST /api/auth/forgot_password](#post-apiauthforgot_password)    | Confirm Email for student |
+| [POST /api/auth/reset_password](#post-apiauthreset_password)      | Confirm Email for student |
 
 #### GET /
 
@@ -126,6 +129,47 @@ Response body:
 {
   "message": "User with email: maaruf@xyz.com confirmed.",
   "token": "aTokenYouShouldNotBotherDecryprting.eyJzdWJqZWN0IjADfe3KLo98IjoiTWFhcnVmIERhdWRhIiwiaWF0IjoxNTc2NzYzNzA0LCJleHAiOjE1NzY4NTAxMDR9.jsihrtPG37mKBHp3xvjrQ-UselessRjSMr5YlPovG5A",
+}
+```
+
+#### POST /api/auth/forgot_password
+
+_**Description**: Begins password reset process by sending email token to the user's registered email._.
+
+Request body:
+
+```json
+{
+  "email": "anna@xyz.com"
+}
+```
+
+Response body:
+
+```json
+{
+  "message": "Email sent to user",
+}
+```
+
+#### POST /api/auth/reset_Password
+
+_**Description**: Completes password reset process. Changes user's saved password. Passwords must match._.
+
+Request body:
+
+```json
+{
+  "password": "toldYouSecurityIsNotAFad",
+  "confirmPassword": "toldYouSecurityIsNotAFad"
+}
+```
+
+Response body:
+
+```json
+{
+  "message": "Password reset successfully.",
 }
 ```
 
