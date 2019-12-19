@@ -31,11 +31,11 @@ authRouter.post(
   forgotPassword
 );
 authRouter.post(
-  '/reset_password',
+  '/reset_password/:token',
   validate(resetPasswordSchema),
   validateResetToken,
   resetPassword
 );
-authRouter.post('/confirmEmail', validateToken, confirmEmail);
+authRouter.post('/confirm_email', validateToken, confirmEmail);
 
 module.exports = authRouter;
