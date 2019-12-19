@@ -14,7 +14,7 @@ module.exports = userFullName => {
   const email = {
     body: {
       name: userFullName,
-      intro: 'Are you ready to be a savant?',
+      intro: 'Are you ready to start acing those tests?',
       action: {
         instructions: 'Please click the button below to verify your account',
         button: {
