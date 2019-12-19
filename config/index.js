@@ -5,6 +5,7 @@ const password = process.env.NODEMAILER_EMAIL_PASSWORD;
 const BACKEND_HOST = process.env.HOST;
 const confirmEmailRedirect = process.env.EMAIL_CONFIRMATION_REDIRECT;
 const frontEndSite = process.env.FRONTEND_SITE || `https://www.google.com`;
+const EMAIL_SECRET = process.env.EMAIL_SECRET || `emailSecret`;
 module.exports = {
   port,
   SECRET,
@@ -13,4 +14,5 @@ module.exports = {
   BACKEND_HOST,
   confirmEmailRedirect,
   frontEndSite,
+  EMAIL_SECRET,
 };
