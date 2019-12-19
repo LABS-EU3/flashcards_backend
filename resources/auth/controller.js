@@ -4,6 +4,7 @@ const model = require('./model');
 const generateToken = require('../../utils/generateToken');
 const validateToken = require('../../utils/validateToken');
 const { welcomeText } = require('../../utils/constants');
+const { EMAIL_SECRET } = require('../../config');
 const emailTemplate = require('../../templates/confirmEmail');
 const sendEmail = require('../../utils/sendEmail');
 
@@ -23,7 +24,9 @@ exports.signup = async (req, res) => {
 
     const token = generateToken(userCreated);
 
-    sendEmail(welcomeText, email, emailTemplate(fullName));
+    const emailToken = generateToken(userCreated, EMAIL_SECRET);
+
+    sendEmail(welcomeText, email, emailTemplate(fullName, emailToken));
 
     res.status(201).json({
       message: `User created successfully`,
@@ -62,14 +65,19 @@ exports.login = async (req, res) => {
 exports.confirmEmail = async (req, res) => {
   try {
     const { token } = req.body;
-    const decodedToken = validateToken(token);
+    const decodedToken = validateToken(token, EMAIL_SECRET);
 
-    const response = await model.confirmEmail(decodedToken.subject);
+    const userId = decodedToken.subject;
+    const response = await model.confirmEmail(userId);
 
     if (response) {
-      res
-        .status(200)
-        .json({ message: `User with email: ${response.email} confirmed` });
+      const user = model.filter({ id: userId });
+
+      const signInToken = generateToken(user);
+      res.status(200).json({
+        message: `User with email: ${response.email} confirmed.`,
+        token: signInToken,
+      });
     } else {
       res.status(400).json({ message: `Email confirmation failed!` });
     }
