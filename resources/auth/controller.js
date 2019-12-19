@@ -6,6 +6,7 @@ const generateToken = require('../../utils/generateToken');
 const validateToken = require('../../utils/validateToken');
 const { welcomeText } = require('../../utils/constants');
 const emailTemplate = require('../../templates/confirmEmail');
+const resetPasswordTemplate = require('../../templates/forgotPassword');
 const sendEmail = require('../../utils/sendEmail');
 
 exports.signup = async (req, res) => {
@@ -73,6 +74,12 @@ exports.requestResetToken = async (req, res) => {
     });
 
     // Insert sending email code here
+    sendEmail(
+      welcomeText,
+      resetRequestEmail,
+      resetPasswordTemplate(resetRequestEmail, passwordResetToken)
+    );
+
     res.status(200).json({ message: `Password reset link sent to your email` });
   } catch (error) {
     res.status(500).json({ message: error.message, data: error });
@@ -88,21 +95,32 @@ exports.requestResetToken = async (req, res) => {
 exports.checkResetTokenAndChangePWD = async (req, res) => {
   try {
     const token = req.param('token', 0);
-
     const checkToken = await model.filterForToken({ token });
-    // Returns an array (0 if not found, 1 if found)
 
     if (checkToken.length === 0) {
+      // Returns an array (0 if token not found, 1 if found)
       res
         .status(403)
         .json({ message: 'Invalid token or previously used token' });
+    }
+
+    if (req.body.password && req.body.passwordConfirm) {
+      // If both password and password confirm are set
+      const { password } = req.body;
+      const { passwordConfirm } = req.body;
+
+      // Are these passwords the same?
+      if (password !== passwordConfirm) {
+        res.status(404).json({ message: 'Passwords need to match' });
+      } else {
+        const newPassword = bcrypt.hashSync(req.body.password, 10);
+        const userId = checkToken[0].user_id;
+        await model.changePassword(userId, newPassword);
+        await model.revokeResetToken(token);
+        res.status(200).json({ message: 'Password has been reset' });
+      }
     } else {
-      const password = bcrypt.hashSync(req.body.password, 10);
-      const userId = checkToken[0].user_id;
-      // passwords need to match, before hashing - confirm pw and a
-      await model.changePassword(userId, password);
-      await model.revokeResetToken(token);
-      res.status(200).json({ message: 'Password has been reset' });
+      res.status(404).json({ message: 'Complete Password Confirmation' });
     }
   } catch (error) {
     res.status(500).json({ message: error.message, data: error });
