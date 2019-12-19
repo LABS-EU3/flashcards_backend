@@ -2,9 +2,48 @@
 
 ```json
 "version": "1.0"
-"description": "FLASCARDS REST API"
+"description": "QUICKDECKS REST API"
 "apihost":  "https://quickdecks-staging.herokuapp.com/"
 ```
+
+## Getting Started
+
+These instructions will get you a copy of the project up and running on your local machine for contribution and testing purposes.
+
+## Installing
+
+- Clone Repository
+  `$ git clone https://github.com/LABS-EU3/flashcards_backend.git`
+
+- Change Directory
+  `$ cd flashcards_backend`
+
+- Install Node Modules
+  `$ npm i`
+
+- Setup Environment Variables (.env) on root folder:
+
+  ```.env
+  PORT
+  TEST_DATABASE_URL
+  DATABASE_URL
+  SECRET
+  EMAIL_SECRET
+  DB_ENV
+  FRONTEND_SITE
+  NODEMAILER_EMAIL_ADDRESS
+  NODEMAILER_EMAIL_PASSWORD
+  ```
+
+- To start API
+  `$ npm start`
+  or `$ npm run server`
+
+## Running the tests
+
+- To run tests on api
+  - `$ npm test`
+  - or use Postman
 
 ## Request & Response Examples
 
@@ -29,14 +68,14 @@ Request Error ( **400 - Bad Request** || **404 - Not Found** || **403 - Unauthor
 
 ### API Endpoints
 
-| ENDPOINT                                                          | DESCRIPTION               |
-| ------------------------------------------------------------------| ------------------------- |
-| [GET /](#get)                                                     | Base URL                  |
-| [POST /api/auth/register](#post-apiauthregister)                  | Register new Student      |
-| [POST /api/auth/login](#post-apiauthlogin)                        | Login for Student         |
-| [POST /api/auth/confirmEmail](#post-apiauthconfirmemail)          | Confirm Email for student |
-| [POST /api/auth/forgot_password](#post-apiauthforgot_password)    | Request reset token       |
-| [POST /api/auth/reset_password](#post-apiauthreset_password)      | Reset password            |
+| ENDPOINT                                                       | DESCRIPTION            |
+| -------------------------------------------------------------- | ---------------------- |
+| [GET /](#get)                                                  | Base URL               |
+| [POST /api/auth/register](#post-apiauthregister)               | Register new User      |
+| [POST /api/auth/login](#post-apiauthlogin)                     | Login for User         |
+| [POST /api/auth/confirmEmail](#post-apiauthconfirmemail)       | Confirm Email for User |
+| [POST /api/auth/forgot_password](#post-apiauthforgot_password) | Request reset token    |
+| [POST /api/auth/reset_password](#post-apiauthreset_password)   | Reset password         |
 
 #### GET /
 
@@ -52,7 +91,7 @@ Response body:
 
 #### POST /api/auth/register
 
-_**Description**: Creates a new Student Account with `"isConfirmed": "false"` by default_.
+_**Description**: Creates a new User Account with `"isConfirmed": "false"` by default_.
 
 Request body:
 
@@ -112,7 +151,7 @@ Response body:
 
 #### POST /api/auth/confirmEmail
 
-_**Description**: Confirms Email for a Student. Email token must be passed in. Returns an Acces token for the user._.
+_**Description**: Confirms Email for a User. Email token must be passed in. Returns an Acces token for the user._.
 
 Request body:
 
@@ -127,7 +166,7 @@ Response body:
 ```json
 {
   "message": "User with email: maaruf@xyz.com confirmed.",
-  "token": "aTokenYouShouldNotBotherDecryprting.eyJzdWJqZWN0IjADfe3KLo98IjoiTWFhcnVmIERhdWRhIiwiaWF0IjoxNTc2NzYzNzA0LCJleHAiOjE1NzY4NTAxMDR9.jsihrtPG37mKBHp3xvjrQ-UselessRjSMr5YlPovG5A",
+  "token": "aTokenYouShouldNotBotherDecryprting.eyJzdWJqZWN0IjADfe3KLo98IjoiTWFhcnVmIERhdWRhIiwiaWF0IjoxNTc2NzYzNzA0LCJleHAiOjE1NzY4NTAxMDR9.jsihrtPG37mKBHp3xvjrQ-UselessRjSMr5YlPovG5A"
 }
 ```
 
@@ -147,7 +186,7 @@ Response body:
 
 ```json
 {
-  "message": "Email sent to user",
+  "message": "Email sent to user"
 }
 ```
 
@@ -168,7 +207,7 @@ Response body:
 
 ```json
 {
-  "message": "Password reset successfully.",
+  "message": "Password reset successfully."
 }
 ```
 
