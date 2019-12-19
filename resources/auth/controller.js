@@ -2,7 +2,6 @@ const bcrypt = require('bcrypt');
 
 const model = require('./model');
 const generateToken = require('../../utils/generateToken');
-const validateToken = require('../../utils/validateToken');
 const { welcomeText } = require('../../utils/constants');
 const { EMAIL_SECRET } = require('../../config');
 const emailTemplate = require('../../templates/confirmEmail');
@@ -63,25 +62,11 @@ exports.login = async (req, res) => {
 };
 
 exports.confirmEmail = async (req, res) => {
-  try {
-    const { token } = req.body;
-    const decodedToken = validateToken(token, EMAIL_SECRET);
+  const user = model.filter({ id: req.userId });
 
-    const userId = decodedToken.subject;
-    const response = await model.confirmEmail(userId);
-
-    if (response) {
-      const user = model.filter({ id: userId });
-
-      const signInToken = generateToken(user);
-      res.status(200).json({
-        message: `User with email: ${response.email} confirmed.`,
-        token: signInToken,
-      });
-    } else {
-      res.status(400).json({ message: `Email confirmation failed!` });
-    }
-  } catch (error) {
-    res.status(400).json({ message: `Confirmation failed: ${error.message}!` });
-  }
+  const signInToken = generateToken(user);
+  res.status(200).json({
+    message: `User with email: ${req.userEmail} confirmed.`,
+    token: signInToken,
+  });
 };
