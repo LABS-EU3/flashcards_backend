@@ -1,20 +1,24 @@
 const express = require('express');
+
 const {
   signup,
   login,
-  requestResetToken,
-  checkResetTokenAndChangePWD,
+  forgotPassword,
+  resetPassword,
   confirmEmail,
 } = require('./controller');
-
-const validate = require('../../utils/validate');
 const {
   signUpSchema,
   loginSchema,
   forgotPasswordSchema,
   resetPasswordSchema,
 } = require('./authSchema');
-const { checkUserExists, checkEmailExists } = require('./middlewares');
+const validate = require('../../utils/validate');
+const {
+  checkUserExists,
+  checkEmailExists,
+  validateResetToken,
+} = require('./middlewares');
 
 const authRouter = express.Router();
 
@@ -23,18 +27,14 @@ authRouter.post('/login', validate(loginSchema), checkEmailExists, login);
 authRouter.post(
   '/forgot_password',
   validate(forgotPasswordSchema),
-  requestResetToken
+  forgotPassword
 );
-
-// Temporary endpoint for testing emails, is defined in ENV.
-authRouter.get('/reset_password', function(req, res) {
-  res.send(req.query.token);
-});
 
 authRouter.post(
   '/reset_password',
   validate(resetPasswordSchema),
-  checkResetTokenAndChangePWD
+  validateResetToken,
+  resetPassword
 );
 authRouter.post('/confirmEmail', confirmEmail);
 
