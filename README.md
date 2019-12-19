@@ -2,8 +2,8 @@
 
 ```json
 "version": "1.0"
-"description": "DROOM REST API"
-"apihost":  "https://jobdroom.herokuapp.com"
+"description": "FLASCARDS REST API"
+"apihost":  "https://quickdecks-staging.herokuapp.com/"
 ```
 
 ## Request & Response Examples
