@@ -102,25 +102,12 @@ exports.checkResetTokenAndChangePWD = async (req, res) => {
       res
         .status(403)
         .json({ message: 'Invalid token or previously used token' });
-    }
-
-    if (req.body.password && req.body.passwordConfirm) {
-      // If both password and password confirm are set
-      const { password } = req.body;
-      const { passwordConfirm } = req.body;
-
-      // Are these passwords the same?
-      if (password !== passwordConfirm) {
-        res.status(404).json({ message: 'Passwords need to match' });
-      } else {
-        const newPassword = bcrypt.hashSync(req.body.password, 10);
-        const userId = checkToken[0].user_id;
-        await model.changePassword(userId, newPassword);
-        await model.revokeResetToken(token);
-        res.status(200).json({ message: 'Password has been reset' });
-      }
     } else {
-      res.status(404).json({ message: 'Complete Password Confirmation' });
+      const newPassword = bcrypt.hashSync(req.body.password, 10);
+      const userId = checkToken[0].user_id;
+      await model.changePassword(userId, newPassword);
+      await model.revokeResetToken(token);
+      res.status(200).json({ message: 'Password has been reset' });
     }
   } catch (error) {
     res.status(500).json({ message: error.message, data: error });
