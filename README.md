@@ -34,10 +34,9 @@ Request Error ( **400 - Bad Request** || **404 - Not Found** || **403 - Unauthor
 | [GET /](#get)                                                     | Base URL                  |
 | [POST /api/auth/register](#post-apiauthregister)                  | Register new Student      |
 | [POST /api/auth/login](#post-apiauthlogin)                        | Login for Student         |
-| [POST /api/auth/confirmEmail](#post-apiauthconfirmEmail)          | Confirm Email for student |
-| [POST /api/auth/confirmEmail](#post-apiauthconfirmEmail)          | Confirm Email for student |
-| [POST /api/auth/forgot_password](#post-apiauthforgot_password)    | Confirm Email for student |
-| [POST /api/auth/reset_password](#post-apiauthreset_password)      | Confirm Email for student |
+| [POST /api/auth/confirmEmail](#post-apiauthconfirmemail)          | Confirm Email for student |
+| [POST /api/auth/forgot_password](#post-apiauthforgot_password)    | Request reset token       |
+| [POST /api/auth/reset_password](#post-apiauthreset_password)      | Reset password            |
 
 #### GET /
 
