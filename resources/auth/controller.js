@@ -57,7 +57,7 @@ exports.requestResetToken = async (req, res) => {
     const resetRequestEmail = req.body.email;
     const user = await model.filter({ email: resetRequestEmail });
 
-    await model.InsertResetToken({
+    await model.insertResetToken({
       user_id: user.id,
       token: passwordResetToken,
       active: 1,
@@ -67,10 +67,16 @@ exports.requestResetToken = async (req, res) => {
     res.status(200).json({ message: `Password reset link sent to your email` });
   } catch (error) {
     res.status(500).json({ message: error.message, data: error });
+    // This is returning a message saying that reset
+    // link has been sent to their email,
+    // Otherwise, we're giving away to attackers that the user is registered
+    // res.status(500).json({ message:
+    // 'Password reset link sent to your email'
+    // });
   }
 };
 
-exports.checkResetToken = async (req, res) => {
+exports.checkResetTokenAndChangePWD = async (req, res) => {
   try {
     const token = req.param('token', 0);
 
@@ -84,12 +90,10 @@ exports.checkResetToken = async (req, res) => {
     } else {
       const password = bcrypt.hashSync(req.body.password, 10);
       const userId = checkToken[0].user_id;
-
+      // passwords need to match, before hashing - confirm pw and a
       await model.changePassword(userId, password);
       await model.revokeResetToken(token);
       res.status(200).json({ message: 'Password has been reset' });
-
-      // Change password here
     }
   } catch (error) {
     res.status(500).json({ message: error.message, data: error });

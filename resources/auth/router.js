@@ -3,7 +3,7 @@ const {
   signup,
   login,
   requestResetToken,
-  checkResetToken,
+  checkResetTokenAndChangePWD,
 } = require('./controller');
 
 const validate = require('../../utils/validate');
@@ -23,6 +23,6 @@ authRouter.post(
   validate(forgotPasswordSchema),
   requestResetToken
 );
-authRouter.post('/check_valid_token', checkResetToken);
+authRouter.post('/reset_password', checkResetTokenAndChangePWD);
 
 module.exports = authRouter;
