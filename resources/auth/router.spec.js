@@ -8,6 +8,7 @@ const model = require('./model');
 const db = require('../../data/dbConfig');
 
 beforeEach(async () => {
+  await db('reset_password').truncate();
   await db('users').truncate();
 });
 
