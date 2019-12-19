@@ -61,7 +61,7 @@ exports.login = async (req, res) => {
   }
 };
 
-exports.requestResetToken = async (req, res) => {
+exports.forgotPassword = async (req, res) => {
   try {
     const passwordResetToken = crypto.randomBytes(20).toString('hex');
     const resetRequestEmail = req.body.email;
@@ -79,20 +79,13 @@ exports.requestResetToken = async (req, res) => {
       resetRequestEmail,
       resetPasswordTemplate(resetRequestEmail, passwordResetToken)
     );
-
     res.status(200).json({ message: `Password reset link sent to your email` });
   } catch (error) {
     res.status(500).json({ message: error.message, data: error });
-    // This is returning a message saying that reset
-    // link has been sent to their email,
-    // Otherwise, we're giving away to attackers that the user is registered
-    // res.status(500).json({ message:
-    // 'Password reset link sent to your email'
-    // });
   }
 };
 
-exports.checkResetTokenAndChangePWD = async (req, res) => {
+exports.resetPassword = async (req, res) => {
   try {
     const token = req.param('token', 0);
     const checkToken = await model.filterForToken({ token });
