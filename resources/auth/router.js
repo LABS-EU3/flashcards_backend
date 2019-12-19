@@ -17,6 +17,7 @@ const validate = require('../../utils/validate');
 const {
   checkUserExists,
   checkEmailExists,
+  validateToken,
   validateResetToken,
 } = require('./middlewares');
 
@@ -29,13 +30,12 @@ authRouter.post(
   validate(forgotPasswordSchema),
   forgotPassword
 );
-
 authRouter.post(
   '/reset_password',
   validate(resetPasswordSchema),
   validateResetToken,
   resetPassword
 );
-authRouter.post('/confirmEmail', confirmEmail);
+authRouter.post('/confirmEmail', validateToken, confirmEmail);
 
 module.exports = authRouter;

@@ -1,7 +1,7 @@
 const MailGen = require('mailgen');
 const { confirmEmailRedirect, frontEndSite } = require('../../config');
 
-module.exports = userFullName => {
+module.exports = (userFullName, token) => {
   const mailGenerator = new MailGen({
     theme: 'salted',
     product: {
@@ -14,13 +14,13 @@ module.exports = userFullName => {
   const email = {
     body: {
       name: userFullName,
-      intro: 'Are you ready to be a savant?',
+      intro: 'Are you ready to start acing those tests?',
       action: {
         instructions: 'Please click the button below to verify your account',
         button: {
           color: '#D21F3C',
           text: 'Verify account',
-          link: confirmEmailRedirect,
+          link: `${confirmEmailRedirect}/${token}`,
         },
       },
     },

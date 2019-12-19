@@ -1,3 +1,5 @@
+const validateToken = require('../../utils/validateToken');
+const { EMAIL_SECRET } = require('../../config');
 const model = require('./model');
 
 exports.checkUserExists = async (req, res, next) => {
@@ -29,5 +31,25 @@ exports.validateResetToken = async (req, res, next) => {
   } else {
     req.token = resetToken;
     next();
+  }
+};
+
+exports.validateToken = async (req, res, next) => {
+  try {
+    const { token } = req.body;
+    const decodedToken = validateToken(token, EMAIL_SECRET);
+
+    const userId = decodedToken.subject;
+    const response = await model.confirmEmail(userId);
+
+    if (response) {
+      req.userId = decodedToken.subject;
+      req.userEmail = response.email;
+      next();
+    } else {
+      res.status(400).json({ message: `Email confirmation failed!` });
+    }
+  } catch (error) {
+    res.status(400).json({ message: `Confirmation failed: ${error.message}!` });
   }
 };
