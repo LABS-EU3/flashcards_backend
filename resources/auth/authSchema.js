@@ -35,7 +35,29 @@ const loginSchema = joi.object({
     .required(),
 });
 
+const forgotPasswordSchema = joi.object({
+  email: joi
+    .string()
+    .label('Email')
+    .required(),
+});
+
+const resetPasswordSchema = joi.object({
+  password: joi
+    .string()
+    .label('Password')
+    .pattern(/^[a-zA-Z0-9]{3,30}$/)
+    .required(),
+
+  confirmPassword: joi
+    .string()
+    .required()
+    .valid(joi.ref('password')),
+});
+
 module.exports = {
   signUpSchema,
   loginSchema,
+  forgotPasswordSchema,
+  resetPasswordSchema,
 };

@@ -73,7 +73,7 @@ Request Error ( **400 - Bad Request** || **404 - Not Found** || **403 - Unauthor
 | [GET /](#get)                                                  | Base URL               |
 | [POST /api/auth/register](#post-apiauthregister)               | Register new User      |
 | [POST /api/auth/login](#post-apiauthlogin)                     | Login for User         |
-| [POST /api/auth/confirmEmail](#post-apiauthconfirmemail)       | Confirm Email for User |
+| [POST /api/auth/confirm_email](#post-apiauthconfirm_email)     | Confirm Email for User |
 | [POST /api/auth/forgot_password](#post-apiauthforgot_password) | Request reset token    |
 | [POST /api/auth/reset_password](#post-apiauthreset_password)   | Reset password         |
 
@@ -149,7 +149,7 @@ Response body:
 }
 ```
 
-#### POST /api/auth/confirmEmail
+#### POST /api/auth/confirm_email
 
 _**Description**: Confirms Email for a User. Email token must be passed in. Returns an Acces token for the user._.
 

@@ -25,9 +25,35 @@ exports.filter = filter => {
 
 exports.findBy = param => {
   return db('users')
-    .select('full_name', 'email', 'password', 'isConfirmed')
+    .select('id', 'full_name', 'email', 'password', 'isConfirmed')
     .where(param)
     .first();
+};
+
+// takes email, returns token (send token).
+exports.insertResetToken = (userId, token) => {
+  return db('reset_password').insert(userId, token);
+};
+
+exports.revokeResetToken = token => {
+  return db('reset_password')
+    .where(token, token)
+    .del();
+};
+
+exports.filterForToken = token => {
+  return db('reset_password')
+    .select('user_id', 'token', 'active')
+    .where(token)
+    .groupBy('active', 'token', 'user_id')
+    .havingNotNull('active')
+    .first();
+};
+
+exports.changePassword = (userId, password) => {
+  return db('users')
+    .where({ id: userId })
+    .update('password', password);
 };
 
 exports.confirmEmail = id => {
