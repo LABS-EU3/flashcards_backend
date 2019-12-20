@@ -15,7 +15,10 @@ const signUpSchema = joi.object({
     .string()
     .label('Full Name')
     .required(),
-  imageUrl: joi.string().label('Image URL'),
+  imageUrl: joi
+    .string()
+    .allow('')
+    .label('Image URL'),
   isConfirmed: joi.boolean().label('isConfirmed'),
 });
 
