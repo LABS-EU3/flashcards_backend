@@ -79,7 +79,7 @@ exports.forgotPassword = async (req, res) => {
     });
 
     sendEmail(
-      welcomeText,
+      'Forgot Password - QuickDecks',
       resetRequestEmail,
       resetPasswordTemplate(resetRequestEmail, passwordResetToken)
     );
