@@ -206,7 +206,7 @@ describe('Auth Router', () => {
       delete userCopy.email;
 
       const res = await request(server)
-        .post('/api/auth/register')
+        .post('/api/auth/login')
         .send(userCopy);
 
       expect(res.status).toBe(400);
@@ -218,7 +218,7 @@ describe('Auth Router', () => {
       delete userCopy.password;
 
       const res = await request(server)
-        .post('/api/auth/register')
+        .post('/api/auth/login')
         .send(userCopy);
 
       expect(res.status).toBe(400);
@@ -232,6 +232,21 @@ describe('Auth Router', () => {
       const lastMail = iwm.lastMail();
 
       expect(lastMail).not.toBe(null || undefined);
+    });
+  });
+
+  describe('Forgot Password', () => {
+    test('Get token when forgot password', async () => {
+      await request(server)
+        .post('/api/auth/register')
+        .send(userObject);
+
+      const res = await request(server)
+        .post('/api/auth/forgot_password')
+        .send({ email: 'h.kakashi@gmail.com' });
+
+      expect(res.status).toBe(200);
+      expect(res.body.message).toBe('Password reset link sent to your email');
     });
   });
 });
