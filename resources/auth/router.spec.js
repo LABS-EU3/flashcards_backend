@@ -228,7 +228,12 @@ describe('Auth Router', () => {
 
   describe('Email Confirmation', () => {
     test('Validation works', async () => {
-      const token = generateToken(userObject);
+      const userRes = await request(server)
+        .post('/api/auth/register')
+        .send(userObject);
+
+      const { user } = userRes.body.data;
+      const token = generateToken(user, 'emailSecret');
 
       const res = await request(server)
         .post('/api/auth/confirm_email')

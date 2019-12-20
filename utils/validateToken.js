@@ -6,6 +6,8 @@ module.exports = (token, secret = SECRET) => {
     try {
       return jwt.verify(token, secret);
     } catch (error) {
+      console.log(error.message);
+
       return undefined;
     }
   } else {
