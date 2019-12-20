@@ -43,18 +43,20 @@ exports.signup = async (req, res) => {
 
 exports.login = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    const user = await model.findBy({ email });
+    const {
+      user,
+      body: { password },
+    } = req;
 
-    if (user && bcrypt.compareSync(password, user.password)) {
-      /* 1st is user submitted password. 2nd is hashed stored password */
-
+    /* 1st is user submitted password. 2nd is hashed stored password */
+    const isPasswordValid = bcrypt.compareSync(password, user.password);
+    if (isPasswordValid) {
+      delete user.password;
       const token = generateToken(user);
-      const logInUser = await model.filter({ email });
 
       res.status(200).json({
         message: `Welcome. You're logged in!`,
-        data: { token, logInUser },
+        data: { token, user },
       });
     } else {
       res.status(401).json({ message: 'Invalid credentials' });
@@ -92,7 +94,7 @@ exports.resetPassword = async (req, res) => {
   try {
     const { token } = req;
     const newPassword = bcrypt.hashSync(req.body.password, 10);
-    const userId = token[0].user_id;
+    const userId = token.user_id;
     await model.changePassword(userId, newPassword);
     await model.revokeResetToken(token);
 

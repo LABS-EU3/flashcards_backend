@@ -37,8 +37,8 @@ exports.insertResetToken = (userId, token) => {
 
 exports.revokeResetToken = token => {
   return db('reset_password')
-    .update('active', null)
-    .where('token', token);
+    .where(token, token)
+    .del();
 };
 
 exports.filterForToken = token => {
@@ -46,7 +46,8 @@ exports.filterForToken = token => {
     .select('user_id', 'token', 'active')
     .where(token)
     .groupBy('active', 'token', 'user_id')
-    .havingNotNull('active');
+    .havingNotNull('active')
+    .first();
 };
 
 exports.changePassword = (userId, password) => {
