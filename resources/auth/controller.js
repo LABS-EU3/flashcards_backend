@@ -78,7 +78,6 @@ exports.forgotPassword = async (req, res) => {
       active: 1,
     });
 
-    // Insert sending email code here
     sendEmail(
       welcomeText,
       resetRequestEmail,
