@@ -50,10 +50,11 @@ exports.login = async (req, res) => {
       /* 1st is user submitted password. 2nd is hashed stored password */
 
       const token = generateToken(user);
+      const logInUser = await model.filter({ email });
 
       res.status(200).json({
         message: `Welcome. You're logged in!`,
-        data: { token, user },
+        data: { token, logInUser },
       });
     } else {
       res.status(401).json({ message: 'Invalid credentials' });
