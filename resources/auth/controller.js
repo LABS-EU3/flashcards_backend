@@ -104,7 +104,7 @@ exports.resetPassword = async (req, res) => {
 };
 
 exports.confirmEmail = async (req, res) => {
-  const user = model.filter({ id: req.userId });
+  const user = await model.filter({ id: req.userId });
 
   const signInToken = generateToken(user);
   res.status(200).json({
