@@ -1,6 +1,7 @@
 const request = require('supertest');
-const iwm = require('nodemailer-stub').interactsWithMail;
+// const iwm = require('nodemailer-stub').interactsWithMail;
 
+const generateToken = require('../../utils/generateToken');
 const server = require('../../api/server');
 
 const model = require('./model');
@@ -24,14 +25,14 @@ const userObject = {
   isConfirmed: false,
 };
 
-const exampleMail = {
-  to: 'john@domain.com',
-  from: 'jimmy@domain.com',
-  subject: 'testing',
-  content: 'foo',
-  contents: ['foo'],
-  contentType: 'text/plain',
-};
+// const exampleMail = {
+//   to: 'john@domain.com',
+//   from: 'jimmy@domain.com',
+//   subject: 'testing',
+//   content: 'foo',
+//   contents: ['foo'],
+//   contentType: 'text/plain',
+// };
 
 describe('Auth Router', () => {
   describe('Register Endpoint', () => {
@@ -226,12 +227,14 @@ describe('Auth Router', () => {
   });
 
   describe('Email Confirmation', () => {
-    test('Email is sent', async () => {
-      iwm.newMail(exampleMail);
+    test('Validation works', async () => {
+      const token = generateToken(userObject);
 
-      const lastMail = iwm.lastMail();
+      const res = await request(server)
+        .post('/api/auth/confirm_email')
+        .send({ token });
 
-      expect(lastMail).not.toBe(null || undefined);
+      expect(res.status).toBe(200);
     });
   });
 });
