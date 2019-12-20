@@ -68,5 +68,6 @@ exports.confirmEmail = async (req, res) => {
   res.status(200).json({
     message: `User with email: ${req.userEmail} confirmed.`,
     token: signInToken,
+    user,
   });
 };
