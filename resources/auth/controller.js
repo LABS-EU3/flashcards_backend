@@ -1,10 +1,12 @@
 const bcrypt = require('bcrypt');
+const crypto = require('crypto');
 
 const model = require('./model');
 const generateToken = require('../../utils/generateToken');
 const { welcomeText } = require('../../utils/constants');
 const { EMAIL_SECRET } = require('../../config');
 const emailTemplate = require('../../templates/confirmEmail');
+const resetPasswordTemplate = require('../../templates/forgotPassword');
 const sendEmail = require('../../utils/sendEmail');
 
 exports.signup = async (req, res) => {
@@ -41,12 +43,15 @@ exports.signup = async (req, res) => {
 
 exports.login = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    const user = await model.findBy({ email });
+    const {
+      user,
+      body: { password },
+    } = req;
 
-    if (user && bcrypt.compareSync(password, user.password)) {
-      /* 1st is user submitted password. 2nd is hashed stored password */
-
+    /* 1st is user submitted password. 2nd is hashed stored password */
+    const isPasswordValid = bcrypt.compareSync(password, user.password);
+    if (isPasswordValid) {
+      delete user.password;
       const token = generateToken(user);
 
       res.status(200).json({
@@ -56,6 +61,43 @@ exports.login = async (req, res) => {
     } else {
       res.status(401).json({ message: 'Invalid credentials' });
     }
+  } catch (error) {
+    res.status(500).json({ message: error.message, data: error });
+  }
+};
+
+exports.forgotPassword = async (req, res) => {
+  try {
+    const passwordResetToken = crypto.randomBytes(20).toString('hex');
+    const resetRequestEmail = req.body.email;
+    const user = await model.filter({ email: resetRequestEmail });
+
+    await model.insertResetToken({
+      user_id: user.id,
+      token: passwordResetToken,
+      active: 1,
+    });
+
+    sendEmail(
+      welcomeText,
+      resetRequestEmail,
+      resetPasswordTemplate(resetRequestEmail, passwordResetToken)
+    );
+    res.status(200).json({ message: `Password reset link sent to your email` });
+  } catch (error) {
+    res.status(500).json({ message: error.message, data: error });
+  }
+};
+
+exports.resetPassword = async (req, res) => {
+  try {
+    const { token } = req;
+    const newPassword = bcrypt.hashSync(req.body.password, 10);
+    const userId = token.user_id;
+    await model.changePassword(userId, newPassword);
+    await model.revokeResetToken(token);
+
+    res.status(200).json({ message: 'Password has been reset' });
   } catch (error) {
     res.status(500).json({ message: error.message, data: error });
   }
