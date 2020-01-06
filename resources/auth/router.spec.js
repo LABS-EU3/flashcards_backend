@@ -1,6 +1,7 @@
 const request = require('supertest');
-// const iwm = require('nodemailer-stub').interactsWithMail;
+const iwm = require('nodemailer-stub').interactsWithMail;
 
+const crypto = require('crypto');
 const generateToken = require('../../utils/generateToken');
 const server = require('../../api/server');
 
@@ -25,14 +26,14 @@ const userObject = {
   isConfirmed: false,
 };
 
-// const exampleMail = {
-//   to: 'john@domain.com',
-//   from: 'jimmy@domain.com',
-//   subject: 'testing',
-//   content: 'foo',
-//   contents: ['foo'],
-//   contentType: 'text/plain',
-// };
+const exampleMail = {
+  to: 'john@domain.com',
+  from: 'jimmy@domain.com',
+  subject: 'testing',
+  content: 'foo',
+  contents: ['foo'],
+  contentType: 'text/plain',
+};
 
 describe('Auth Router', () => {
   describe('Register Endpoint', () => {
@@ -207,7 +208,7 @@ describe('Auth Router', () => {
       delete userCopy.email;
 
       const res = await request(server)
-        .post('/api/auth/register')
+        .post('/api/auth/login')
         .send(userCopy);
 
       expect(res.status).toBe(400);
@@ -219,7 +220,7 @@ describe('Auth Router', () => {
       delete userCopy.password;
 
       const res = await request(server)
-        .post('/api/auth/register')
+        .post('/api/auth/login')
         .send(userCopy);
 
       expect(res.status).toBe(400);
@@ -240,6 +241,81 @@ describe('Auth Router', () => {
         .send({ token });
 
       expect(res.status).toBe(200);
+    });
+  });
+
+  describe('Forgot Password', () => {
+    test('Get email sent to reset password if forgotten', async () => {
+      await request(server)
+        .post('/api/auth/register')
+        .send(userObject);
+
+      const res = await request(server)
+        .post('/api/auth/forgot_password')
+        .send({ email: 'h.kakashi@gmail.com' });
+
+      expect(res.status).toBe(200);
+      expect(res.body.message).toBe('Password reset link sent to your email');
+    });
+
+    test('Email is sent', async () => {
+      iwm.newMail(exampleMail);
+
+      const lastMail = iwm.lastMail();
+
+      expect(lastMail).not.toBe(null || undefined);
+    });
+
+    test('Will not get an email sent if wrong email', async () => {
+      await request(server)
+        .post('/api/auth/register')
+        .send(userObject);
+
+      const res = await request(server)
+        .post('/api/auth/forgot_password')
+        .send({ email: 't.test@gmail.com' });
+
+      expect(res.status).toBe(500);
+    });
+  });
+
+  describe('Reset password', () => {
+    test('Cannot reset password if not valid token', async () => {
+      const res = await request(server)
+        .post('/api/auth/reset_password/aaeu@ygdifgiert')
+        .send({ password: 'test', confirmPassword: 'test' });
+
+      expect(res.status).toBe(400);
+      expect(res.body.message).toBe(`Invalid token or previously used token`);
+    });
+    test('User can reset password, testing if token is valid', async () => {
+      const newUser = await request(server)
+        .post('/api/auth/register')
+        .send(userObject);
+
+      const userResetToken = crypto.randomBytes(20).toString('hex');
+
+      await model.insertResetToken({
+        user_id: newUser.body.data.user.id,
+        token: userResetToken,
+        active: 1,
+      });
+
+      // Resetting the password here
+      const res = await request(server)
+        .post(`/api/auth/reset_password/${userResetToken}`)
+        .send({ password: 'test', confirmPassword: 'test' });
+
+      expect(res.status).toBe(200);
+      expect(res.body.message).toBe('Password has been reset');
+
+      // testing if the user can login with the new password
+      const resLogin = await request(server)
+        .post('/api/auth/login')
+        .send({ email: 'h.kakashi@gmail.com', password: 'test' });
+
+      expect(resLogin.status).toBe(200);
+      expect(resLogin.body.message).toBe(`Welcome. You're logged in!`);
     });
   });
 });
