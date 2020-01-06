@@ -8,6 +8,8 @@ const model = require('./model');
 
 const db = require('../../data/dbConfig');
 
+const crypto = require('crypto');
+
 beforeEach(async () => {
   await db.raw('TRUNCATE TABLE users, reset_password CASCADE');
 });
@@ -275,6 +277,37 @@ describe('Auth Router', () => {
         .send({ email: 't.test@gmail.com' });
 
       expect(res.status).toBe(500);
+    });
+  });
+
+  describe('Reset password', () => {
+    test('Cannot reset password if not valid token', async () => {
+      const res = await request(server)
+        .post('/api/auth/reset_password/aaeu@ygdifgiert')
+        .send({ password: 'test', confirmPassword: 'test' });
+
+      expect(res.status).toBe(400);
+      expect(res.body.message).toBe(`Invalid token or previously used token`);
+    });
+    test('User can reset password, testing if token is valid', async () => {
+      const newUser = await request(server)
+        .post('/api/auth/register')
+        .send(userObject);
+
+      const userResetToken = crypto.randomBytes(20).toString('hex');
+
+      await model.insertResetToken({
+        user_id: newUser.body.data.user.id,
+        token: userResetToken,
+        active: 1,
+      });
+
+      const res = await request(server)
+        .post(`/api/auth/reset_password/${userResetToken}`)
+        .send({ password: 'test', confirmPassword: 'test' });
+
+      expect(res.status).toBe(200);
+      expect(res.body.message).toBe('Password has been reset');
     });
   });
 });
