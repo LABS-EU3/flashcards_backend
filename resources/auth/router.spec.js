@@ -236,7 +236,7 @@ describe('Auth Router', () => {
   });
 
   describe('Forgot Password', () => {
-    test('Get token when forgot password', async () => {
+    test('Get email sent to reset password if forgotten', async () => {
       await request(server)
         .post('/api/auth/register')
         .send(userObject);
@@ -247,6 +247,26 @@ describe('Auth Router', () => {
 
       expect(res.status).toBe(200);
       expect(res.body.message).toBe('Password reset link sent to your email');
+    });
+
+    test('Email is sent', async () => {
+      iwm.newMail(exampleMail);
+
+      const lastMail = iwm.lastMail();
+
+      expect(lastMail).not.toBe(null || undefined);
+    });
+
+    test('Will not get an email sent if wrong email', async () => {
+      await request(server)
+        .post('/api/auth/register')
+        .send(userObject);
+
+      const res = await request(server)
+        .post('/api/auth/forgot_password')
+        .send({ email: 't.test@gmail.com' });
+
+      expect(res.status).toBe(500);
     });
   });
 });
