@@ -1,6 +1,7 @@
 const request = require('supertest');
 const iwm = require('nodemailer-stub').interactsWithMail;
 
+const generateToken = require('../../utils/generateToken');
 const server = require('../../api/server');
 
 const model = require('./model');
@@ -226,12 +227,19 @@ describe('Auth Router', () => {
   });
 
   describe('Email Confirmation', () => {
-    test('Email is sent', async () => {
-      iwm.newMail(exampleMail);
+    test('Validation works', async () => {
+      const userRes = await request(server)
+        .post('/api/auth/register')
+        .send(userObject);
 
-      const lastMail = iwm.lastMail();
+      const { user } = userRes.body.data;
+      const token = generateToken(user, 'emailSecret');
 
-      expect(lastMail).not.toBe(null || undefined);
+      const res = await request(server)
+        .post('/api/auth/confirm_email')
+        .send({ token });
+
+      expect(res.status).toBe(200);
     });
   });
 

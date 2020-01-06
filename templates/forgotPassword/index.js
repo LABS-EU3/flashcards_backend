@@ -1,5 +1,5 @@
 const MailGen = require('mailgen');
-const { resetPassword, frontEndSite } = require('../../config');
+const { frontEndSite } = require('../../config');
 
 module.exports = (userEmail, token) => {
   const mailGenerator = new MailGen({
@@ -20,7 +20,7 @@ module.exports = (userEmail, token) => {
         button: {
           color: '#D21F3C',
           text: 'Reset password',
-          link: `${resetPassword}?token=${token}`,
+          link: `${frontEndSite}/reset/${token}`,
         },
       },
     },

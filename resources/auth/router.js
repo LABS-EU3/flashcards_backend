@@ -36,6 +36,7 @@ authRouter.post(
   validateResetToken,
   resetPassword
 );
+
 authRouter.post('/confirm_email', validateToken, confirmEmail);
 
 module.exports = authRouter;

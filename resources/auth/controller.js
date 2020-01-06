@@ -37,7 +37,7 @@ exports.signup = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(500).json({ message: error.message, data: error });
+    res.status(500).json({ message: `Failed to sign user up` });
   }
 };
 
@@ -62,7 +62,7 @@ exports.login = async (req, res) => {
       res.status(401).json({ message: 'Invalid credentials' });
     }
   } catch (error) {
-    res.status(500).json({ message: error.message, data: error });
+    res.status(500).json({ message: `Failed to log user in` });
   }
 };
 
@@ -79,13 +79,13 @@ exports.forgotPassword = async (req, res) => {
     });
 
     sendEmail(
-      welcomeText,
+      'Forgot Password - QuickDecks',
       resetRequestEmail,
       resetPasswordTemplate(resetRequestEmail, passwordResetToken)
     );
     res.status(200).json({ message: `Password reset link sent to your email` });
   } catch (error) {
-    res.status(500).json({ message: error.message, data: error });
+    res.status(500).json({ message: `Failed to send reset link` });
   }
 };
 
@@ -99,16 +99,21 @@ exports.resetPassword = async (req, res) => {
 
     res.status(200).json({ message: 'Password has been reset' });
   } catch (error) {
-    res.status(500).json({ message: error.message, data: error });
+    res.status(500).json({ message: `Failed to reset password` });
   }
 };
 
 exports.confirmEmail = async (req, res) => {
-  const user = model.filter({ id: req.userId });
+  try {
+    const user = await model.filter({ id: req.userId });
 
-  const signInToken = generateToken(user);
-  res.status(200).json({
-    message: `User with email: ${req.userEmail} confirmed.`,
-    token: signInToken,
-  });
+    const signInToken = generateToken(user);
+    res.status(200).json({
+      message: `User with email: ${req.userEmail} confirmed.`,
+      token: signInToken,
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({ message: `Failed to confirm user email` });
+  }
 };
