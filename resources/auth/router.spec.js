@@ -1,14 +1,13 @@
 const request = require('supertest');
 const iwm = require('nodemailer-stub').interactsWithMail;
 
+const crypto = require('crypto');
 const generateToken = require('../../utils/generateToken');
 const server = require('../../api/server');
 
 const model = require('./model');
 
 const db = require('../../data/dbConfig');
-
-const crypto = require('crypto');
 
 beforeEach(async () => {
   await db.raw('TRUNCATE TABLE users, reset_password CASCADE');
@@ -302,12 +301,21 @@ describe('Auth Router', () => {
         active: 1,
       });
 
+      // Resetting the password here
       const res = await request(server)
         .post(`/api/auth/reset_password/${userResetToken}`)
         .send({ password: 'test', confirmPassword: 'test' });
 
       expect(res.status).toBe(200);
       expect(res.body.message).toBe('Password has been reset');
+
+      // testing if the user can login with the new password
+      const resLogin = await request(server)
+        .post('/api/auth/login')
+        .send({ email: 'h.kakashi@gmail.com', password: 'test' });
+
+      expect(resLogin.status).toBe(200);
+      expect(resLogin.body.message).toBe(`Welcome. You're logged in!`);
     });
   });
 });
