@@ -1,25 +1,28 @@
 const joi = require('@hapi/joi');
 
 const createCardSchema = joi.object({
-  email: joi
-    .string()
-    .label('Email')
-    .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
+  deckId: joi
+    .number()
+    .integer()
+    .label('Deck Id')
     .required(),
-  password: joi
-    .string()
-    .label('Password')
-    .pattern(/^[a-zA-Z0-9]{3,30}$/)
+  userId: joi
+    .number()
+    .integer()
+    .label('User Id')
     .required(),
-  fullName: joi
+  questionText: joi
     .string()
-    .label('Full Name')
+    .label('Question Text')
+    .required(),
+  answerText: joi
+    .string()
+    .label('Answer Text')
     .required(),
   imageUrl: joi
     .string()
     .allow('')
     .label('Image URL'),
-  isConfirmed: joi.boolean().label('isConfirmed'),
 });
 
 module.exports = {

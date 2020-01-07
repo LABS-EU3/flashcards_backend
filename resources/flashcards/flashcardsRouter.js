@@ -1,12 +1,12 @@
 const express = require('express');
 
-const { createCard } = require('./flashcardsController');
+const { makeCard } = require('./flashcardsController');
 const { createCardSchema } = require('./flashcardsSchema');
 const validate = require('../../utils/validate');
-// const {} = require('./flashcardsMiddlewares');
+const { validateCard } = require('./flashcardsMiddlewares');
 
 const flashcardsRouter = express.Router();
 
-flashcardsRouter.post('/register', validate(createCardSchema), createCard);
+flashcardsRouter.post('/', validateCard, validate(createCardSchema), makeCard);
 
 module.exports = flashcardsRouter;
