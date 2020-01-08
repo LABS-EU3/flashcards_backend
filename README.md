@@ -76,11 +76,11 @@ Request Error ( **400 - Bad Request** || **404 - Not Found** || **403 - Unauthor
 | [POST /api/auth/confirm_email](#post-apiauthconfirm_email)     | Confirm Email for User |
 | [POST /api/auth/forgot_password](#post-apiauthforgot_password) | Request reset token    |
 | [POST /api/auth/reset_password](#post-apiauthreset_password)   | Reset password         |
-| [POST /api/card/](#post-apicard)                               | Create Flashcard       |
-| [GET /api/card/all/:userId](#get-apicardalluserId)             | All flashcards of User |
-| [GET /api/card/:id](#get-apicardId)                            | View one flashcard     |
-| [PUT /api/card/:id](#put-apicardId)                            | Edit flashcard         |
-| [DELETE /api/card/:id](#delete-apicardId)                      | Delete flashcard       |
+| [POST /api/cards/](#post-apicard)                              | Create Flashcard       |
+| [GET /api/cards/all/:userId](#get-apicardalluserId)            | All flashcards of User |
+| [GET /api/cards/:id](#get-apicardId)                           | View one flashcard     |
+| [PUT /api/cards/:id](#put-apicardId)                           | Edit flashcard         |
+| [DELETE /api/cards/:id](#delete-apicardId)                     | Delete flashcard       |
 
 #### GET /
 
@@ -220,7 +220,7 @@ Response body:
 
 ## Flashcards
 
-#### POST /api/card/
+#### POST /api/cards/
 
 _**Description**: Creates a flashcard in a deck._.
 
@@ -246,7 +246,7 @@ Response body:
 }
 ```
 
-#### GET /api/card/all/:userId
+#### GET /api/cards/all/:userId
 
 _**Description**: Retrieves all flashcards made by a specific User._.
 
@@ -293,7 +293,7 @@ Response body:
 ]
 ```
 
-#### GET /api/card/:id
+#### GET /api/cards/:id
 
 _**Description**: Retrieves a specific card by the card's id._.
 
@@ -318,7 +318,7 @@ Response body:
 }
 ```
 
-#### PUT /api/card/:id
+#### PUT /api/cards/:id
 
 _**Description**: Edit a flashcard by flashcard Id._.
 
@@ -341,7 +341,7 @@ Response body:
 }
 ```
 
-#### DELETE /api/card/:id
+#### DELETE /api/cards/:id
 
 _**Description**: Delete a flashcard._.
 

@@ -4,9 +4,9 @@ const {
   getAllCardsByUser,
   removeCard,
   updateCard,
-} = require('./flashcardsModel');
+} = require('./model');
 
-const fetchAllCardsByUser = async (req, res) => {
+exports.fetchAllCardsByUser = async (req, res) => {
   const { userId } = req.params;
   try {
     const cards = await getAllCardsByUser(userId);
@@ -19,7 +19,7 @@ const fetchAllCardsByUser = async (req, res) => {
   }
 };
 
-const fetchCardById = async (req, res) => {
+exports.fetchCardById = async (req, res) => {
   const { id } = req.params;
   try {
     const card = await getCardById(id);
@@ -32,7 +32,7 @@ const fetchCardById = async (req, res) => {
   }
 };
 
-const makeCard = async (req, res) => {
+exports.makeCard = async (req, res) => {
   const { deckId, userId, questionText, answerText, imageUrl } = req.body;
   const cardInfo = {
     deck_id: deckId,
@@ -54,7 +54,7 @@ const makeCard = async (req, res) => {
   }
 };
 
-const editCard = async (req, res) => {
+exports.editCard = async (req, res) => {
   const { deckId, questionText, answerText, imageUrl } = req.body;
   const { id } = req.params;
   const cardInfo = {
@@ -76,7 +76,7 @@ const editCard = async (req, res) => {
   }
 };
 
-const deleteCard = async (req, res) => {
+exports.deleteCard = async (req, res) => {
   const { id } = req.params;
   try {
     await removeCard(id);
@@ -87,12 +87,4 @@ const deleteCard = async (req, res) => {
       ${error.message}`,
     });
   }
-};
-
-module.exports = {
-  makeCard,
-  fetchCardById,
-  fetchAllCardsByUser,
-  deleteCard,
-  editCard,
 };
