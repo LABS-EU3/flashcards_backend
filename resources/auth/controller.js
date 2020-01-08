@@ -120,8 +120,9 @@ exports.confirmEmail = async (req, res) => {
 
 exports.viewProfile = async (req, res) => {
   try {
-    const user = await model.filter({ id: req.params.id });
-
+    // const user = await model.filter({ id: req.params.id });
+    const userID = await req.userId;
+    const user = await model.filter({ id: userID });
     res.status(200).json({
       'Full Name': user.full_name,
       Email: user.email,

@@ -53,3 +53,17 @@ exports.validateToken = async (req, res, next) => {
     res.status(400).json({ message: `Confirmation failed: ${error.message}!` });
   }
 };
+
+exports.validateLogin = async (req, res, next) => {
+  const { token } = req.body;
+  const decodedToken = validateToken(token, EMAIL_SECRET);
+
+  const userId = decodedToken.subject;
+
+  if (!userId) {
+    res.status(400).json({ message: 'Not logged in' });
+  } else {
+    req.userId = userId;
+    next();
+  }
+};
