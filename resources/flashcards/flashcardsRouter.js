@@ -7,7 +7,7 @@ const {
   deleteCard,
   editCard,
 } = require('./flashcardsController');
-const { createCardSchema } = require('./flashcardsSchema');
+const { createCardSchema, editCardSchema } = require('./flashcardsSchema');
 const validate = require('../../utils/validate');
 const { validateCard } = require('./flashcardsMiddlewares');
 
@@ -16,7 +16,7 @@ const flashcardsRouter = express.Router();
 flashcardsRouter.post('/', validateCard, validate(createCardSchema), makeCard);
 flashcardsRouter.get('/all/:userId', fetchAllCardsByUser);
 flashcardsRouter.get('/:id', fetchCardById);
-flashcardsRouter.put('/:id', editCard);
+flashcardsRouter.put('/:id', validate(editCardSchema), editCard);
 flashcardsRouter.delete('/:id', deleteCard);
 
 module.exports = flashcardsRouter;

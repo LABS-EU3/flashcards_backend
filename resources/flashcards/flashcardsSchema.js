@@ -25,6 +25,26 @@ const createCardSchema = joi.object({
     .label('Image URL'),
 });
 
+const editCardSchema = joi.object({
+  deckId: joi
+    .number()
+    .integer()
+    .label('Deck Id'),
+  questionText: joi
+    .string()
+    .allow('')
+    .label('Question Text'),
+  answerText: joi
+    .string()
+    .allow('')
+    .label('Answer Text'),
+  imageUrl: joi
+    .string()
+    .allow('')
+    .label('Image URL'),
+});
+
 module.exports = {
   createCardSchema,
+  editCardSchema,
 };
