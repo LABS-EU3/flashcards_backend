@@ -55,15 +55,19 @@ exports.validateToken = async (req, res, next) => {
 };
 
 exports.validateLogin = async (req, res, next) => {
-  const { token } = req.body;
-  const decodedToken = validateToken(token, EMAIL_SECRET);
+  try {
+    const { authorization } = req.headers;
+    const decodedToken = validateToken(authorization, EMAIL_SECRET);
 
-  const userId = decodedToken.subject;
+    const userId = decodedToken.subject;
 
-  if (!userId) {
-    res.status(400).json({ message: 'Not logged in' });
-  } else {
-    req.userId = userId;
-    next();
+    if (!userId) {
+      res.status(400).json({ message: 'Not logged in' });
+    } else {
+      req.userId = userId;
+      next();
+    }
+  } catch (error) {
+    res.status(400).json({ message: `can't fetch data: ${error.message}!` });
   }
 };
