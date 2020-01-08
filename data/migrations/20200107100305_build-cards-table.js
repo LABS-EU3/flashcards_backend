@@ -7,6 +7,7 @@ exports.up = function(knex) {
       .notNullable()
       .references('id')
       .inTable('decks')
+      .onUpdate('CASCADE')
       .onDelete('CASCADE');
     table
       .integer('user_id')
@@ -14,6 +15,7 @@ exports.up = function(knex) {
       .notNullable()
       .references('id')
       .inTable('users')
+      .onUpdate('CASCADE')
       .onDelete('CASCADE');
     table.string('question').notNullable();
     table.string('answer').notNullable();
