@@ -76,6 +76,11 @@ Request Error ( **400 - Bad Request** || **404 - Not Found** || **403 - Unauthor
 | [POST /api/auth/confirm_email](#post-apiauthconfirm_email)     | Confirm Email for User |
 | [POST /api/auth/forgot_password](#post-apiauthforgot_password) | Request reset token    |
 | [POST /api/auth/reset_password](#post-apiauthreset_password)   | Reset password         |
+| [POST /api/card/](#post-apicard)                               | Create Flashcard       |
+| [GET /api/card/all/:userId](#get-apicardalluserId)             | All flashcards of User |
+| [GET /api/card/:id](#get-apicardId)                            | View one flashcard     |
+| [PUT /api/card/:id](#put-apicardId)                            | Edit flashcard         |
+| [DELETE /api/card/:id](#delete-apicardId)                      | Delete flashcard       |
 
 #### GET /
 
@@ -208,6 +213,149 @@ Response body:
 ```json
 {
   "message": "Password reset successfully."
+}
+```
+
+## Decks
+
+## Flashcards
+
+#### POST /api/card/
+
+_**Description**: Creates a flashcard in a deck._.
+
+Request body:
+
+```json
+{
+  "deckId": 1,
+  "userId": 1,
+  "questionText": "How do I create a flashcard",
+  "answerText": "Post to /api/card",
+  "imageUrl": "I am not required but I also forgot to verify this is a valid image URL for now please don't try to test em"
+}
+```
+
+Required: deckId: int, userId: int, questionText: String, answertText: String
+
+Response body:
+
+```json
+{
+  "message": "`Successfully created card with the id of 1"
+}
+```
+
+#### GET /api/card/all/:userId
+
+_**Description**: Retrieves all flashcards made by a specific User._.
+
+Request body:
+
+```json
+{}
+```
+
+Response body:
+
+```json
+[
+  {
+    "id": 2,
+    "deck_id": 1,
+    "user_id": 1,
+    "question": "here is my question answer me",
+    "answer": "here is my answer question me",
+    "image_url": null,
+    "created_at": "2020-01-08T10:44:38.761Z",
+    "updated_at": "2020-01-08T10:44:38.761Z"
+  },
+  {
+    "id": 3,
+    "deck_id": 1,
+    "user_id": 1,
+    "question": "here is my question answer me",
+    "answer": "here is my answer question me",
+    "image_url": null,
+    "created_at": "2020-01-08T10:45:05.269Z",
+    "updated_at": "2020-01-08T10:45:05.269Z"
+  },
+  {
+    "id": 5,
+    "deck_id": 1,
+    "user_id": 1,
+    "question": "here is my question answer me",
+    "answer": "here is my answer question me",
+    "image_url": null,
+    "created_at": "2020-01-08T11:34:52.174Z",
+    "updated_at": "2020-01-08T11:34:52.174Z"
+  }
+]
+```
+
+#### GET /api/card/:id
+
+_**Description**: Retrieves a specific card by the card's id._.
+
+Request body:
+
+```json
+{}
+```
+
+Response body:
+
+```json
+{
+  "id": 3,
+  "deck_id": 1,
+  "user_id": 1,
+  "question": "here is my question answer me",
+  "answer": "here is my answer question me",
+  "image_url": null,
+  "created_at": "2020-01-08T10:45:05.269Z",
+  "updated_at": "2020-01-08T10:45:05.269Z"
+}
+```
+
+#### PUT /api/card/:id
+
+_**Description**: Edit a flashcard by flashcard Id._.
+
+Request body:
+
+```json
+{
+  "deck_id": 1,
+  "question": "different question",
+  "answer": "different question",
+  "image_url": "www.gify.com/image"
+}
+```
+
+Response body:
+
+```json
+{
+  "message": "Successfully updated card with the id of id"
+}
+```
+
+#### DELETE /api/card/:id
+
+_**Description**: Delete a flashcard._.
+
+Request body:
+
+```json
+{}
+```
+
+Response body:
+
+```json
+{
+  "message": "Successfully delete card with id 1"
 }
 ```
 
