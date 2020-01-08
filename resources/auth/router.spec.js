@@ -1,17 +1,13 @@
 const request = require('supertest');
-// const supertest = require('supertest');
-
 const iwm = require('nodemailer-stub').interactsWithMail;
 
 const crypto = require('crypto');
 const generateToken = require('../../utils/generateToken');
 const server = require('../../api/server');
-// const request = supertest(server);
 
 const model = require('./model');
 
 const db = require('../../data/dbConfig');
-// const { SECRET } = require('../../config');
 
 beforeEach(async () => {
   await db.raw('TRUNCATE TABLE users, reset_password CASCADE');
@@ -21,17 +17,12 @@ beforeEach(async () => {
 afterAll(async () => {
   await db.destroy();
 });
+
 const USER = {
   full_name: 'testuser',
   email: 'test@gmail.com',
   password: 'test-pass',
 };
-beforeAll(async () => {
-  // await db('users');
-  // .truncate();
-
-  await await db('users').insert(USER);
-});
 
 const userObject = {
   email: 'h.kakashi@gmail.com',
@@ -334,38 +325,27 @@ describe('Auth Router', () => {
     });
   });
 
-  // describe('viewProfile Endpoint', () => {
-  //   test('Returns 200 on success', async () => {
-  //     const token = generateToken(USER, `emailSecret`);
-  //     const res = await request
-  //       .get('/api/auth/view_profile')
-  //       .set('Authorization', `${token}`);
-  //     // .send(userId)
-  //     // .expect(200);
-  //     console.log(res);
-  //     await expect(res.status).toBe(200);
-  //     // res.expect(200).status
-  //   });
-  // });
   describe('viewProfile Endpoint', () => {
     test('Returns 200 on success', async () => {
+      //register the user
       await request(server)
         .post('/api/auth/register')
         .send(userObject);
 
+      //log the user in
       const res = await request(server)
         .post('/api/auth/login')
         .send(loginUserObject);
+
       const { token } = res.body.data;
       expect(res.status).toBe(200);
       expect(token).not.toBe(null || undefined);
 
+      //authorize token and get user profile
       await request(server)
         .get('/api/auth/view_profile')
         .set('Authorization', `${token}`)
-        // .send(userId)
         .expect(200);
-      // console.log(res, token);
     });
   });
 });
