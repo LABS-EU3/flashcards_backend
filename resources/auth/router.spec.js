@@ -18,11 +18,11 @@ afterAll(async () => {
   await db.destroy();
 });
 
-const USER = {
-  full_name: 'testuser',
-  email: 'test@gmail.com',
-  password: 'test-pass',
-};
+// const USER = {
+//   full_name: 'testuser',
+//   email: 'test@gmail.com',
+//   password: 'test-pass',
+// };
 
 const userObject = {
   email: 'h.kakashi@gmail.com',
@@ -327,12 +327,12 @@ describe('Auth Router', () => {
 
   describe('viewProfile Endpoint', () => {
     test('Returns 200 on success', async () => {
-      //register the user
+      // register the user
       await request(server)
         .post('/api/auth/register')
         .send(userObject);
 
-      //log the user in
+      // log the user in
       const res = await request(server)
         .post('/api/auth/login')
         .send(loginUserObject);
@@ -341,7 +341,7 @@ describe('Auth Router', () => {
       expect(res.status).toBe(200);
       expect(token).not.toBe(null || undefined);
 
-      //authorize token and get user profile
+      // authorize token and get user profile
       await request(server)
         .get('/api/auth/view_profile')
         .set('Authorization', `${token}`)
