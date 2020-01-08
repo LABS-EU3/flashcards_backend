@@ -2,12 +2,12 @@
 
 const Decks = require('./model');
 
-const getAllDecks = async (req, res) => {
+exports.getAllDecks = async (req, res) => {
   const decks = await Decks.getAll();
   res.status(200).json({ status: 200, data: decks });
 };
 
-const getDeck = (req, res) => {
+exports.getDeck = (req, res) => {
   const { id } = req.params;
 
   Decks.findById(id)
@@ -21,7 +21,7 @@ const getDeck = (req, res) => {
     });
 };
 
-const addDeck = (req, res) => {
+exports.addDeck = (req, res) => {
   const { name } = req.body;
   const newDeck = {
     name,
@@ -38,7 +38,7 @@ const addDeck = (req, res) => {
     });
 };
 
-const deleteDeck = (req, res) => {
+exports.deleteDeck = (req, res) => {
   const { id } = req.params;
   Decks.remove(id)
     .then(() => {
@@ -55,7 +55,7 @@ const deleteDeck = (req, res) => {
     });
 };
 
-const updateDeck = (req, res) => {
+exports.updateDeck = (req, res) => {
   const { id } = req.params;
 
   Decks.update(req.body, id)
@@ -69,12 +69,4 @@ const updateDeck = (req, res) => {
         error: `Error updating deck: ${error.message}`,
       });
     });
-};
-
-module.exports = {
-  getAllDecks,
-  addDeck,
-  getDeck,
-  updateDeck,
-  deleteDeck,
 };

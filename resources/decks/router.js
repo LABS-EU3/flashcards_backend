@@ -1,6 +1,12 @@
 const router = require('express').Router();
-const { decks } = require('./controller');
+const {
+  addDeck,
+  getAllDecks,
+  getDeck,
+  deleteDeck,
+  updateDeck,
+} = require('./controller');
 
-router.post('/', decks.addDeck);
+router.post('/', addDeck);
 
 module.exports = router;
