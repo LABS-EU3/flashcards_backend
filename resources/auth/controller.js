@@ -128,6 +128,6 @@ exports.viewProfile = async (req, res) => {
       'Profile Picture': user.image_url,
     });
   } catch (error) {
-    res.status(500).json({ message: `Error loading profile ${error}` });
+    res.status(500).json({ message: `Error loading profile ${error.message}` });
   }
 };
