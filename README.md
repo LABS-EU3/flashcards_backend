@@ -232,7 +232,7 @@ Request body:
   "userId": 1,
   "questionText": "How do I create a flashcard",
   "answerText": "Post to /api/card",
-  "imageUrl": "I am not required but I also forgot to verify this is a valid image URL for now please don't try to test em"
+  "imageUrl": "www.realurl.com"
 }
 ```
 
