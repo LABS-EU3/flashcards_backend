@@ -127,6 +127,6 @@ exports.viewProfile = async (req, res) => {
       user,
     });
   } catch (error) {
-    res.status(500).json({ message: `Error loading profile` });
+    res.status(500).json({ message: `Error loading profile` + error });
   }
 };
