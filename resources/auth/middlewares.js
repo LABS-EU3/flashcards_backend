@@ -57,8 +57,8 @@ exports.validateToken = async (req, res, next) => {
 exports.validateLogin = async (req, res, next) => {
   try {
     const { authorization } = req.headers;
-    const decodedToken = validateToken(authorization, EMAIL_SECRET);
-    const userId = decodedToken.subject;
+    const decodedToken = await validateToken(authorization, EMAIL_SECRET);
+    const userId = await decodedToken.subject;
 
     if (!userId) {
       res.status(400).json({ message: 'Not logged in' });
