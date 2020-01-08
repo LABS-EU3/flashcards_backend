@@ -4,7 +4,7 @@ const { SECRET } = require('../config');
 module.exports = (token, secret = SECRET) => {
   if (token) {
     try {
-      return jwt.verify(token, secret);
+      return jwt.decode(token, secret);
     } catch (error) {
       console.log(error.message);
 
