@@ -44,7 +44,7 @@ const makeCard = async (req, res) => {
   try {
     const card = await createCard(cardInfo);
     res
-      .status(200)
+      .status(201)
       .json({ message: `Successfully created card with the id of ${card.id}` });
   } catch (error) {
     res.status(500).json({

@@ -8,7 +8,7 @@ function validateCard(req, res, next) {
     next({
       message:
         'Missing one of the required field: deck id, user id, question, answer',
-      status: 401,
+      status: 400,
     });
   } else {
     next();
