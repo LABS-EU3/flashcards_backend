@@ -123,10 +123,11 @@ exports.viewProfile = async (req, res) => {
     const user = await model.filter({ id: req.params.id });
 
     res.status(200).json({
-      tttt: 'sucessss',
-      user,
+      'Full Name': user.full_name,
+      Email: user.email,
+      'Profile Picture': user.image_url,
     });
   } catch (error) {
-    res.status(500).json({ message: `Error loading profile${error}` });
+    res.status(500).json({ message: `Error loading profile ${error}` });
   }
 };
