@@ -20,6 +20,7 @@ const {
   checkEmailExists,
   validateToken,
   validateResetToken,
+  validateLogin,
 } = require('./middlewares');
 
 const authRouter = express.Router();
@@ -40,6 +41,6 @@ authRouter.post(
 
 authRouter.post('/confirm_email', validateToken, confirmEmail);
 
-authRouter.get('/view_profile/:id', viewProfile);
-
+// authRouter.get('/view_profile/:id', viewProfile);
+authRouter.get('/view_profile/', validateLogin, viewProfile);
 module.exports = authRouter;
