@@ -13,7 +13,7 @@ const validate = require('../../utils/validate');
 const flashcardsRouter = express.Router();
 
 flashcardsRouter.post('/', validate(createCardSchema), makeCard);
-flashcardsRouter.get('/user/:userId', fetchAllCardsByUser);
+flashcardsRouter.get('/users/:userId', fetchAllCardsByUser);
 flashcardsRouter.get('/:id', fetchCardById);
 flashcardsRouter.put('/:id', validate(editCardSchema), editCard);
 flashcardsRouter.delete('/:id', deleteCard);
