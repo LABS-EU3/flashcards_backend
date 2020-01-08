@@ -233,6 +233,22 @@ describe('Auth Router', () => {
     });
   });
 
+  // describe('Email Confirmation', () => {
+  //   test('Validation works', async () => {
+  //     const userRes = await request(server)
+  //       .post('/api/auth/register')
+  //       .send(userObject);
+
+  //     const { user } = userRes.body.data;
+  //     const token = generateToken(user, 'emailSecret');
+
+  //     const res = await request(server)
+  //       .post('/api/auth/confirm_email')
+  //       .send({ token });
+
+  //     expect(res.status).toBe(200);
+  //   });
+
   describe('Email Confirmation', () => {
     test('Validation works', async () => {
       const userRes = await request(server)
@@ -241,12 +257,12 @@ describe('Auth Router', () => {
 
       const { user } = userRes.body.data;
       const token = generateToken(user, 'emailSecret');
-
+      console.log(token);
       const res = await request(server)
         .post('/api/auth/confirm_email')
         .send({ token });
-
-      expect(res.status).toBe(200);
+      console.log(res);
+      expect(res.statusCode).toBe(200);
     });
   });
 
