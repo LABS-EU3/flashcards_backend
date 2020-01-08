@@ -58,7 +58,6 @@ exports.validateLogin = async (req, res, next) => {
   try {
     const { authorization } = req.headers;
     const decodedToken = validateToken(authorization, EMAIL_SECRET);
-
     const userId = decodedToken.subject;
 
     if (!userId) {
