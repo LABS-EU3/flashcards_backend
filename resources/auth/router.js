@@ -6,6 +6,7 @@ const {
   forgotPassword,
   resetPassword,
   confirmEmail,
+  viewProfile,
 } = require('./controller');
 const {
   signUpSchema,
@@ -38,5 +39,7 @@ authRouter.post(
 );
 
 authRouter.post('/confirm_email', validateToken, confirmEmail);
+
+authRouter.get('/view_profile/:id', viewProfile);
 
 module.exports = authRouter;
