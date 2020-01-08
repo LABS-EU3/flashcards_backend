@@ -77,7 +77,7 @@ Request Error ( **400 - Bad Request** || **404 - Not Found** || **403 - Unauthor
 | [POST /api/auth/forgot_password](#post-apiauthforgot_password) | Request reset token    |
 | [POST /api/auth/reset_password](#post-apiauthreset_password)   | Reset password         |
 | [POST /api/cards/](#post-apicard)                              | Create Flashcard       |
-| [GET /api/cards/by_user/:userId](#get-apicardalluserId)            | All flashcards of User |
+| [GET /api/cards/user/:userId](#get-apicardalluserId)            | All flashcards of User |
 | [GET /api/cards/:id](#get-apicardId)                           | View one flashcard     |
 | [PUT /api/cards/:id](#put-apicardId)                           | Edit flashcard         |
 | [DELETE /api/cards/:id](#delete-apicardId)                     | Delete flashcard       |
@@ -246,7 +246,7 @@ Response body:
 }
 ```
 
-#### GET /api/cards/by_user/:userId
+#### GET /api/cards/user/:userId
 
 _**Description**: Retrieves all flashcards made by a specific User._.
 
