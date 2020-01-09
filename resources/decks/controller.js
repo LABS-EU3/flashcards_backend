@@ -2,17 +2,18 @@
 
 const Decks = require('./model');
 
-const getAllDecks = async (req, res) => {
+exports.getAllDecks = async (req, res) => {
   const decks = await Decks.getAll();
   res.status(200).json({ status: 200, data: decks });
 };
 
-const getDeck = (req, res) => {
+exports.getDeck = (req, res) => {
   const { id } = req.params;
 
   Decks.findById(id)
     .then(async deck => {
-      res.status(200).json({ status: 200, data: [deck] });
+      const foundDeck = deck ? [deck] : [];
+      res.status(200).json({ status: 200, data: foundDeck });
     })
     .catch(error => {
       res
@@ -21,10 +22,12 @@ const getDeck = (req, res) => {
     });
 };
 
-const addDeck = (req, res) => {
+exports.addDeck = (req, res) => {
   const { name } = req.body;
+  const { subject } = req.decodedToken;
   const newDeck = {
     name,
+    user_id: subject,
   };
 
   Decks.add(newDeck)
@@ -38,14 +41,26 @@ const addDeck = (req, res) => {
     });
 };
 
-const deleteDeck = (req, res) => {
+exports.deleteDeck = (req, res) => {
   const { id } = req.params;
+
+  if (Number.isNaN(Number(id))) {
+    res.status(400).json({ status: 400, messagee: 'Invalid deck ID' });
+  }
+
   Decks.remove(id)
-    .then(() => {
-      res.status(200).json({
-        status: 200,
-        data: [{ message: 'Deck has been deleted', id }],
-      });
+    .then(deleted => {
+      if (deleted) {
+        res.status(200).json({
+          status: 200,
+          data: [{ message: 'Deck has been deleted', id }],
+        });
+      } else {
+        res.status(404).json({
+          status: 404,
+          message: `Could not find deck with ID -  ${id} `,
+        });
+      }
     })
     .catch(error => {
       res.status(500).json({
@@ -55,7 +70,7 @@ const deleteDeck = (req, res) => {
     });
 };
 
-const updateDeck = (req, res) => {
+exports.updateDeck = (req, res) => {
   const { id } = req.params;
 
   Decks.update(req.body, id)
@@ -69,12 +84,4 @@ const updateDeck = (req, res) => {
         error: `Error updating deck: ${error.message}`,
       });
     });
-};
-
-module.exports = {
-  getAllDecks,
-  addDeck,
-  getDeck,
-  updateDeck,
-  deleteDeck,
 };

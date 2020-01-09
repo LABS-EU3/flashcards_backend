@@ -1,6 +1,17 @@
 const router = require('express').Router();
-const { decks } = require('./controller');
+const {
+  addDeck,
+  getAllDecks,
+  getDeck,
+  deleteDeck,
+  updateDeck,
+} = require('./controller');
+const { authorized } = require('../auth/middlewares');
 
-router.post('/', decks.addDeck);
+router.post('/', authorized, addDeck);
+router.get('/', authorized, getAllDecks);
+router.get('/:id', authorized, getDeck);
+router.put('/:id', authorized, updateDeck);
+router.delete('/:id', authorized, deleteDeck);
 
 module.exports = router;
