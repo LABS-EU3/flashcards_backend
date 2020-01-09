@@ -1,5 +1,5 @@
 const validateToken = require('../../utils/validateToken');
-const { EMAIL_SECRET } = require('../../config');
+const { EMAIL_SECRET, SECRET } = require('../../config');
 const model = require('./model');
 
 exports.checkUserExists = async (req, res, next) => {
@@ -57,7 +57,7 @@ exports.validateToken = async (req, res, next) => {
 exports.validateLogin = async (req, res, next) => {
   try {
     const { authorization } = req.headers;
-    const decodedToken = await validateToken(authorization);
+    const decodedToken = await validateToken(authorization, SECRET);
     const userId = await decodedToken.subject;
 
     if (!userId) {
