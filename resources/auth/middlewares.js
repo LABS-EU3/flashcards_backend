@@ -1,5 +1,5 @@
 const validateToken = require('../../utils/validateToken');
-const { EMAIL_SECRET, SECRET } = require('../../config');
+const { EMAIL_SECRET } = require('../../config');
 const model = require('./model');
 
 // new addtions
@@ -53,22 +53,5 @@ exports.validateToken = async (req, res, next) => {
     }
   } catch (error) {
     res.status(400).json({ message: `Confirmation failed: ${error.message}!` });
-  }
-};
-
-exports.validateLogin = async (req, res, next) => {
-  try {
-    const { authorization } = req.headers;
-    const decodedToken = await validateToken(authorization, SECRET);
-    const userId = await decodedToken.subject;
-
-    if (!userId) {
-      res.status(400).json({ message: 'Not logged in' });
-    } else {
-      req.userId = userId;
-      next();
-    }
-  } catch (error) {
-    res.status(400).json({ message: `can't fetch data: ${error.message}!` });
   }
 };

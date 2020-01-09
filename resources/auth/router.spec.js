@@ -38,14 +38,15 @@ const exampleMail = {
 
 describe('Auth Router', () => {
   describe('Register Endpoint', () => {
-    test('Returns 201 on success', async () => {
+    test('Returns 201 on success', async done => {
       await request(server)
         .post('/api/auth/register')
         .send(userObject)
         .expect(201);
+      done();
     });
 
-    test('Returns created user without their password', async () => {
+    test('Returns created user without their password', async done => {
       const res = await request(server)
         .post('/api/auth/register')
         .send(userObject);
@@ -58,9 +59,10 @@ describe('Auth Router', () => {
         full_name: userObject.fullName,
         isConfirmed: false,
       });
+      done();
     });
 
-    test('Token is returned on signup successful', async () => {
+    test('Token is returned on signup successful', async done => {
       const res = await request(server)
         .post('/api/auth/register')
         .send(userObject);
@@ -68,9 +70,10 @@ describe('Auth Router', () => {
       expect(res.status).toBe(201);
 
       expect(res.body.data.token).not.toBe(null || undefined);
+      done();
     });
 
-    test('Password is not stored in plain text', async () => {
+    test('Password is not stored in plain text', async done => {
       await request(server)
         .post('/api/auth/register')
         .send(userObject);
@@ -79,9 +82,10 @@ describe('Auth Router', () => {
 
       expect(userCreated.email).toBe(userObject.email);
       expect(userCreated.password).not.toBe(userObject.password);
+      done();
     });
 
-    test('Email is required', async () => {
+    test('Email is required', async done => {
       const userCopy = { ...userObject };
 
       delete userCopy.email;
@@ -91,9 +95,10 @@ describe('Auth Router', () => {
         .send(userCopy);
 
       expect(res.status).toBe(400);
+      done();
     });
 
-    test('Password is required', async () => {
+    test('Password is required', async done => {
       const userCopy = { ...userObject };
 
       delete userCopy.password;
@@ -103,9 +108,10 @@ describe('Auth Router', () => {
         .send(userCopy);
 
       expect(res.status).toBe(400);
+      done();
     });
 
-    test('Full Name is required', async () => {
+    test('Full Name is required', async done => {
       const userCopy = { ...userObject };
 
       delete userCopy.fullName;
@@ -115,9 +121,10 @@ describe('Auth Router', () => {
         .send(userCopy);
 
       expect(res.status).toBe(400);
+      done();
     });
 
-    test('imageUrl and isConfirmed are not required', async () => {
+    test('imageUrl and isConfirmed are not required', async done => {
       const userCopy = { ...userObject };
 
       delete userCopy.imageUrl;
@@ -128,9 +135,10 @@ describe('Auth Router', () => {
         .send(userCopy);
 
       expect(res.status).toBe(201);
+      done();
     });
 
-    test('Email cannot belong to multiple users', async () => {
+    test('Email cannot belong to multiple users', async done => {
       await request(server)
         .post('/api/auth/register')
         .send(userObject);
@@ -140,7 +148,9 @@ describe('Auth Router', () => {
         .send(userObject);
 
       expect(res.status).toBe(400);
+
       expect(res.body.message).toBe(`User with this email already exists`);
+      done();
     });
   });
 
@@ -150,7 +160,7 @@ describe('Auth Router', () => {
   };
 
   describe('Login Endpoint', () => {
-    test('Returns 200 OK on successful login', async () => {
+    test('Returns 200 OK on successful login', async done => {
       await request(server)
         .post('/api/auth/register')
         .send(userObject);
@@ -159,9 +169,10 @@ describe('Auth Router', () => {
         .post('/api/auth/login')
         .send(loginUserObject);
       expect(res.status).toBe(200);
+      done();
     });
 
-    test('Token is returned on successful login', async () => {
+    test('Token is returned on successful login', async done => {
       await request(server)
         .post('/api/auth/register')
         .send(userObject);
@@ -171,10 +182,12 @@ describe('Auth Router', () => {
         .send(loginUserObject);
 
       expect(res.status).toBe(200);
+
       expect(res.body.data.token).not.toBe(null || undefined);
+      done();
     });
 
-    test('Provided Email does not exist', async () => {
+    test('Provided Email does not exist', async done => {
       await request(server)
         .post('/api/auth/register')
         .send(userObject);
@@ -184,10 +197,12 @@ describe('Auth Router', () => {
         .send({ email: 'test@test.com', password: 'aVeryLongPassword' });
 
       expect(res.status).toBe(404);
+
       expect(res.body.message).toBe(`User with this email does not exists`);
+      done();
     });
 
-    test('Provided password is invalid', async () => {
+    test('Provided password is invalid', async done => {
       await request(server)
         .post('/api/auth/register')
         .send(userObject);
@@ -201,9 +216,10 @@ describe('Auth Router', () => {
 
       expect(res.status).toBe(401);
       expect(res.body.message).toBe('Invalid credentials');
+      done();
     });
 
-    test('Email is required', async () => {
+    test('Email is required', async done => {
       const userCopy = { ...userObject };
 
       delete userCopy.email;
@@ -213,9 +229,10 @@ describe('Auth Router', () => {
         .send(userCopy);
 
       expect(res.status).toBe(400);
+      done();
     });
 
-    test('Password is required', async () => {
+    test('Password is required', async done => {
       const userCopy = { ...loginUserObject };
 
       delete userCopy.password;
@@ -225,11 +242,12 @@ describe('Auth Router', () => {
         .send(userCopy);
 
       expect(res.status).toBe(400);
+      done();
     });
   });
 
   describe('Email Confirmation', () => {
-    test('Validation works', async () => {
+    test('Validation works', async done => {
       const userRes = await request(server)
         .post('/api/auth/register')
         .send(userObject);
@@ -240,11 +258,12 @@ describe('Auth Router', () => {
         .post('/api/auth/confirm_email')
         .send({ token });
       expect(res.status).toBe(200);
+      done();
     });
   });
 
   describe('Forgot Password', () => {
-    test('Get email sent to reset password if forgotten', async () => {
+    test('Get email sent to reset password if forgotten', async done => {
       await request(server)
         .post('/api/auth/register')
         .send(userObject);
@@ -255,17 +274,19 @@ describe('Auth Router', () => {
 
       expect(res.status).toBe(200);
       expect(res.body.message).toBe('Password reset link sent to your email');
+      done();
     });
 
-    test('Email is sent', async () => {
+    test('Email is sent', async done => {
       iwm.newMail(exampleMail);
 
       const lastMail = iwm.lastMail();
 
       expect(lastMail).not.toBe(null || undefined);
+      done();
     });
 
-    test('Will not get an email sent if wrong email', async () => {
+    test('Will not get an email sent if wrong email', async done => {
       await request(server)
         .post('/api/auth/register')
         .send(userObject);
@@ -275,19 +296,21 @@ describe('Auth Router', () => {
         .send({ email: 't.test@gmail.com' });
 
       expect(res.status).toBe(500);
+      done();
     });
   });
 
   describe('Reset password', () => {
-    test('Cannot reset password if not valid token', async () => {
+    test('Cannot reset password if not valid token', async done => {
       const res = await request(server)
         .post('/api/auth/reset_password/aaeu@ygdifgiert')
         .send({ password: 'test', confirmPassword: 'test' });
 
       expect(res.status).toBe(400);
       expect(res.body.message).toBe(`Invalid token or previously used token`);
+      done();
     });
-    test('User can reset password, testing if token is valid', async () => {
+    test('User can reset password, testing if token is valid', async done => {
       const newUser = await request(server)
         .post('/api/auth/register')
         .send(userObject);
@@ -315,11 +338,12 @@ describe('Auth Router', () => {
 
       expect(resLogin.status).toBe(200);
       expect(resLogin.body.message).toBe(`Welcome. You're logged in!`);
+      done();
     });
   });
 
   describe('viewProfile Endpoint', () => {
-    test('Returns 200 on success', async () => {
+    test('Returns 200 on success', async done => {
       // register the user
       await request(server)
         .post('/api/auth/register')
@@ -335,10 +359,11 @@ describe('Auth Router', () => {
       expect(token).not.toBe(null || undefined);
 
       // authorize token and get user profile
-      await request(server)
+      const response = await request(server)
         .get('/api/auth/view_profile')
-        .set('Authorization', `${token}`)
-        .expect(200);
+        .set('Authorization', `${token}`);
+      expect(response.status).toBe(200);
+      done();
     });
   });
 });
