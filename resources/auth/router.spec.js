@@ -3,6 +3,7 @@ const iwm = require('nodemailer-stub').interactsWithMail;
 
 const crypto = require('crypto');
 const generateToken = require('../../utils/generateToken');
+// const validateToken = require('../../utils/validateToken');
 const server = require('../../api/server');
 
 const model = require('./model');
@@ -240,12 +241,13 @@ describe('Auth Router', () => {
         .send(userObject);
 
       const { user } = userRes.body.data;
-      const token = generateToken(user, 'emailSecret');
-
+      const token = await generateToken(user, 'emailSecret');
+      // const validToken = await validateToken(token, 'emailSecret');
       // const res = await request(server)
       await request(server)
         .post('/api/auth/confirm_email')
         .send({ token })
+        // .send({ validToken })
         .expect(200);
 
       // expect(res.status).toBe(200);
