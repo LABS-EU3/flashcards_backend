@@ -15,8 +15,9 @@ beforeEach(async () => {
 });
 
 // Destroy knex instance after all tests are run to fix timeout in Travis build.
-afterAll(async () => {
+afterAll(async done => {
   await db.destroy();
+  done();
 });
 
 const userObject = {
