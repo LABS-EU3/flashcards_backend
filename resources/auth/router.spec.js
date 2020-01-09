@@ -8,6 +8,7 @@ const server = require('../../api/server');
 const model = require('./model');
 
 const db = require('../../data/dbConfig');
+const { EMAIL_SECRET } = require('../../config');
 
 beforeEach(async () => {
   await db.raw('TRUNCATE TABLE users, reset_password CASCADE');
@@ -234,12 +235,10 @@ describe('Auth Router', () => {
         .send(userObject);
 
       const { user } = userRes.body.data;
-      const token = generateToken(user, 'emailSecret');
-
+      const token = generateToken(user, EMAIL_SECRET);
       const res = await request(server)
         .post('/api/auth/confirm_email')
         .send({ token });
-
       expect(res.status).toBe(200);
     });
   });
@@ -316,6 +315,30 @@ describe('Auth Router', () => {
 
       expect(resLogin.status).toBe(200);
       expect(resLogin.body.message).toBe(`Welcome. You're logged in!`);
+    });
+  });
+
+  describe('viewProfile Endpoint', () => {
+    test('Returns 200 on success', async () => {
+      // register the user
+      await request(server)
+        .post('/api/auth/register')
+        .send(userObject);
+
+      // log the user in
+      const res = await request(server)
+        .post('/api/auth/login')
+        .send(loginUserObject);
+
+      const { token } = res.body.data;
+      expect(res.status).toBe(200);
+      expect(token).not.toBe(null || undefined);
+
+      // authorize token and get user profile
+      await request(server)
+        .get('/api/auth/view_profile')
+        .set('Authorization', `${token}`)
+        .expect(200);
     });
   });
 });

@@ -117,3 +117,17 @@ exports.confirmEmail = async (req, res) => {
     res.status(500).json({ message: `Failed to confirm user email` });
   }
 };
+
+exports.viewProfile = async (req, res) => {
+  try {
+    const userID = req.userId;
+    const user = await model.filter({ id: userID });
+    res.status(200).json({
+      'Full Name': user.full_name,
+      Email: user.email,
+      'Profile Picture': user.image_url,
+    });
+  } catch (error) {
+    res.status(500).json({ message: `Error loading profile ${error.message}` });
+  }
+};
