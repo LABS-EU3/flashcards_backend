@@ -120,7 +120,7 @@ exports.confirmEmail = async (req, res) => {
 
 exports.viewProfile = async (req, res) => {
   try {
-    const { subject } = req.decodedToken;
+    const { subject } = req.userAuthed;
     const user = await model.filter({ id: subject });
     res.status(200).json({
       fullName: user.full_name,

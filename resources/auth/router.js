@@ -18,7 +18,7 @@ const validate = require('../../utils/validate');
 const {
   checkUserExists,
   checkEmailExists,
-  validateToken,
+  validateEmailToken,
   validateResetToken,
 } = require('./middlewares');
 
@@ -40,7 +40,7 @@ authRouter.post(
   resetPassword
 );
 
-authRouter.post('/confirm_email', validateToken, confirmEmail);
+authRouter.post('/confirm_email', validateEmailToken, confirmEmail);
 
 authRouter.get('/view_profile', authorized, viewProfile);
 

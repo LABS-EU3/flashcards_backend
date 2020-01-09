@@ -21,7 +21,7 @@ exports.getDeck = async (req, res) => {
 
 exports.addDeck = async (req, res) => {
   const { name } = req.body;
-  const { subject } = req.decodedToken;
+  const { subject } = req.userAuthed;
   const newDeck = {
     name,
     user_id: subject,

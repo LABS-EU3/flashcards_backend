@@ -36,7 +36,7 @@ exports.validateResetToken = async (req, res, next) => {
   }
 };
 
-exports.validateToken = async (req, res, next) => {
+exports.validateEmailToken = async (req, res, next) => {
   try {
     const { token } = req.body;
     const decodedToken = validateToken(token, EMAIL_SECRET);

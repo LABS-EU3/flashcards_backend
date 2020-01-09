@@ -4,11 +4,11 @@ const { SECRET } = require('../../config');
 exports.authorized = (req, res, next) => {
   const token = req.headers.authorization;
   if (token) {
-    jwt.verify(token, SECRET, (err, decodedToken) => {
+    jwt.verify(token, SECRET, (err, userAuthed) => {
       if (err) {
         res.status(401).json({ status: 401, error: err.message });
       } else {
-        req.decodedToken = decodedToken;
+        req.userAuthed = userAuthed;
         next();
       }
     });
