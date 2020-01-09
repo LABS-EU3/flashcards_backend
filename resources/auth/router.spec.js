@@ -19,12 +19,6 @@ afterAll(async () => {
   await db.destroy();
 });
 
-// const USER = {
-//   full_name: 'testuser',
-//   email: 'test@gmail.com',
-//   password: 'test-pass',
-// };
-
 const userObject = {
   email: 'h.kakashi@gmail.com',
   password: 'aVeryLongPassword',
