@@ -41,7 +41,7 @@ describe('Decks API endpoints', () => {
       const response = await request
         .get('/api/decks')
         .set('Authorization', `${validToken}`);
-
+      expect(typeof response.body.data).toEqual('object');
       expect(response.body.data.length).toEqual(1);
     });
   });
@@ -57,12 +57,12 @@ describe('Decks API endpoints', () => {
       expect(response.status).toEqual(expectedStatusCode);
     });
 
-    it('should return JSON object with a list of one deck', async () => {
+    it('should return JSON object with deck information', async () => {
       const response = await request
         .get(`/api/decks/${DECK.id}`)
         .set('Authorization', `${validToken}`);
 
-      expect(response.body.data.length).toEqual(1);
+      expect(response.body.data.name).toEqual('my-deck');
     });
   });
 
