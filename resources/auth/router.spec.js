@@ -91,7 +91,7 @@ describe('Auth Router', () => {
         .post('/api/auth/register')
         .send(userCopy);
 
-      expect(res.status).toBe(200);
+      expect(res.status).toBe(400);
     });
 
     test('Password is required', async () => {
