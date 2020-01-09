@@ -18,7 +18,10 @@ before_script:
   - npx knex migrate:down --env=testing
   - npx knex migrate:latest --env=testing
 
-script: npm test
+script: 
+  - npm test
+  - bash build.sh || travis_terminate 1;
+  - bash deploy.sh || travis_terminate 1;
 
 notifications:
   email: true
