@@ -4,7 +4,9 @@
   "description": "Back end for the quick decks app.",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env DB_ENV=testing jest --coverage",
+    "test": "cross-env NODE_ENV=testing jest --watchAll --maxWorkers 1 --coverage",
+    "updateDevDB": "npx knex migrate:latest --env development && npx knex seed:run --env development",
+    "updateTestDB": "npx knex migrate:latest --env testing && npx knex seed:run --env testing",
     "start": "node index.js",
     "server": "nodemon index.js ",
     "lint": "eslint . --ext .js",
