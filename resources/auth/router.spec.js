@@ -242,11 +242,13 @@ describe('Auth Router', () => {
       const { user } = userRes.body.data;
       const token = generateToken(user, 'emailSecret');
 
-      const res = await request(server)
+      // const res = await request(server)
+      await request(server)
         .post('/api/auth/confirm_email')
-        .send({ token });
+        .send({ token })
+        .expect(200);
 
-      expect(res.status).toBe(200);
+      // expect(res.status).toBe(200);
     });
   });
 
