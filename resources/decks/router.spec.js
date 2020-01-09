@@ -23,6 +23,7 @@ beforeAll(async () => {
 
   validToken = generateToken(USER[0]);
   [DECK] = DECK;
+
 });
 
 describe('Decks API endpoints', () => {
