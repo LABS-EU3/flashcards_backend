@@ -1,6 +1,5 @@
-const jwt = require('jsonwebtoken');
 const validateToken = require('../../utils/validateToken');
-const { EMAIL_SECRET, SECRET } = require('../../config');
+const { EMAIL_SECRET } = require('../../config');
 const model = require('./model');
 
 // new addtions
@@ -54,24 +53,5 @@ exports.validateToken = async (req, res, next) => {
     }
   } catch (error) {
     res.status(400).json({ message: `Confirmation failed: ${error.message}!` });
-  }
-};
-
-exports.authorized = (req, res, next) => {
-  const token = req.headers.authorization;
-  if (token) {
-    jwt.verify(token, SECRET, (err, decodedToken) => {
-      if (err) {
-        res.status(401).json({ status: 401, error: err.message });
-      } else {
-        req.decodedToken = decodedToken;
-        next();
-      }
-    });
-  } else {
-    res.status(400).json({
-      status: 400,
-      error: 'Unauthenticated - please provide a valid token',
-    });
   }
 };

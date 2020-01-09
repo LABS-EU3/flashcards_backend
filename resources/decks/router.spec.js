@@ -10,6 +10,7 @@ let DECK;
 let validToken;
 
 beforeAll(async () => {
+  await db.raw('TRUNCATE TABLE users, decks CASCADE');
   USER = await db('users')
     .insert({
       full_name: 'John Mayai',
@@ -23,6 +24,10 @@ beforeAll(async () => {
 
   validToken = generateToken(USER[0]);
   [DECK] = DECK;
+});
+
+afterAll(async () => {
+  await db.destroy();
 });
 
 describe('Decks API endpoints', () => {
@@ -114,7 +119,7 @@ describe('Decks API endpoints', () => {
         .set('Authorization', `${validToken}`)
         .send({ name: 'updated-deck' });
 
-      expect(response.body.data[0].name).toBe('updated-deck');
+      expect(response.body.data.name).toBe('updated-deck');
       expect(response.status).toBe(200);
     });
   });
@@ -123,7 +128,6 @@ describe('Decks API endpoints', () => {
     it('should return bad request if no token ', async () => {
       const response = await request.delete(`/api/decks/${DECK.id}`);
 
-      // Bad request no token
       expect(response.status).toBe(400);
     });
 
@@ -133,22 +137,6 @@ describe('Decks API endpoints', () => {
         .set('Authorization', 'invalid token');
 
       expect(response.status).toBe(401);
-    });
-
-    it('should return Not Found if deck id absent from DB', async () => {
-      const response = await request
-        .delete(`/api/decks/192`)
-        .set('Authorization', `${validToken}`);
-
-      expect(response.status).toBe(404);
-    });
-
-    it('should return Bad Request if deck id is invalid', async () => {
-      const response = await request
-        .delete(`/api/decks/12badid`)
-        .set('Authorization', `${validToken}`);
-
-      expect(response.status).toBe(400);
     });
 
     it('should delete a deck when a valid token is provided', async () => {
@@ -163,7 +151,7 @@ describe('Decks API endpoints', () => {
         .get(`/api/decks/${DECK.id}`)
         .set('Authorization', `${validToken}`);
 
-      expect(responseDeleted.body.data.length).toEqual(0);
+      expect(responseDeleted.status).toEqual(200);
     });
   });
 });
