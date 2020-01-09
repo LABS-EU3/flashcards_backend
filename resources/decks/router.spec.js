@@ -67,14 +67,14 @@ describe('Decks API endpoints', () => {
   });
 
   describe('Add a deck', () => {
-    it('should return a bad request response if no token provided ', async () => {
+    it('should return bad request response if no token provided', async () => {
       const response = await request.post('/api/decks');
 
       // Bad request no token
       expect(response.status).toBe(400);
     });
 
-    it('should return unauthorized response if token is not valid', async () => {
+    it('should return unauthorized response if token is invalid', async () => {
       const response = await request
         .post('/api/decks')
         .set('Authorization', 'my name is john');
@@ -127,7 +127,7 @@ describe('Decks API endpoints', () => {
       expect(response.status).toBe(400);
     });
 
-    it('should return unauthorized response if token is not valid', async () => {
+    it('should return unauthorized response if token is invalid', async () => {
       const response = await request
         .delete(`/api/decks/${DECK.id}`)
         .set('Authorization', 'invalid token');
