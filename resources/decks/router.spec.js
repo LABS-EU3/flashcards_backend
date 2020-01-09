@@ -10,6 +10,9 @@ let DECK;
 let validToken;
 
 beforeAll(async done => {
+  await db.raw(
+    'TRUNCATE TABLE users, reset_password, decks, flashcards CASCADE'
+  );
   USER = await db('users')
     .insert({
       full_name: 'John Mayai',
@@ -17,12 +20,19 @@ beforeAll(async done => {
       password: 'passwordTest',
     })
     .returning('*');
+
   DECK = await db('decks')
     .insert({ name: 'my-deck', user_id: USER[0].id })
     .returning('*');
 
   validToken = generateToken(USER[0]);
   [DECK] = DECK;
+  done();
+});
+
+// Destroy knex instance after all tests are run to fix timeout in Travis build.
+afterAll(async done => {
+  await db.destroy();
   done();
 });
 
@@ -34,7 +44,6 @@ describe('Decks API endpoints', () => {
       const response = await request
         .get('/api/decks')
         .set('Authorization', `${validToken}`);
-
       expect(response.status).toEqual(expectedStatusCode);
       done();
     });
@@ -43,6 +52,7 @@ describe('Decks API endpoints', () => {
       const response = await request
         .get('/api/decks')
         .set('Authorization', `${validToken}`);
+
       expect(typeof response.body.data).toEqual('object');
       expect(response.body.data.length).toEqual(1);
       done();
