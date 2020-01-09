@@ -20,8 +20,6 @@ before_script:
 
 script: 
   - npm test
-  - bash build.sh || travis_terminate 1;
-  - bash deploy.sh || travis_terminate 1;
 
 notifications:
   email: true

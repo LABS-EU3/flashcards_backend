@@ -4,7 +4,7 @@
   "description": "Back end for the quick decks app.",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=testing jest --coverage --forceExit",
+    "test": "cross-env NODE_ENV=testing jest --coverage",
     "test-watcher": "cross-env NODE_ENV=testing jest --watchAll --coverage --forceExit",
     "updateDevDB": "npx knex migrate:latest --env development && npx knex seed:run --env development",
     "updateTestDB": "npx knex migrate:latest --env testing && npx knex seed:run --env testing",
