@@ -3,12 +3,12 @@ const iwm = require('nodemailer-stub').interactsWithMail;
 
 const crypto = require('crypto');
 const generateToken = require('../../utils/generateToken');
-// const validateToken = require('../../utils/validateToken');
 const server = require('../../api/server');
 
 const model = require('./model');
 
 const db = require('../../data/dbConfig');
+const { EMAIL_SECRET } = require('../../config');
 
 beforeEach(async () => {
   await db.raw('TRUNCATE TABLE users, reset_password CASCADE');
@@ -241,7 +241,7 @@ describe('Auth Router', () => {
         .send(userObject);
 
       const { user } = userRes.body.data;
-      const token = generateToken(user, 'emailSecret');
+      const token = generateToken(user, EMAIL_SECRET);
       const res = await request(server)
         .post('/api/auth/confirm_email')
         .send({ token });
