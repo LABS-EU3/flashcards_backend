@@ -10,7 +10,6 @@ let DECK;
 let validToken;
 
 beforeAll(async () => {
-  await db.raw('TRUNCATE TABLE users, decks CASCADE');
   USER = await db('users')
     .insert({
       full_name: 'John Mayai',
@@ -24,10 +23,6 @@ beforeAll(async () => {
 
   validToken = generateToken(USER[0]);
   [DECK] = DECK;
-});
-
-afterAll(async () => {
-  await db.destroy();
 });
 
 describe('Decks API endpoints', () => {
