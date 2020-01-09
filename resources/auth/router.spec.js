@@ -241,16 +241,11 @@ describe('Auth Router', () => {
         .send(userObject);
 
       const { user } = userRes.body.data;
-      const token = await generateToken(user, 'emailSecret');
-      // const validToken = await validateToken(token, 'emailSecret');
-      // const res = await request(server)
-      await request(server)
+      const token = generateToken(user, 'emailSecret');
+      const res = await request(server)
         .post('/api/auth/confirm_email')
-        .send({ token })
-        // .send({ validToken })
-        .expect(200);
-
-      // expect(res.status).toBe(200);
+        .send({ token });
+      expect(res.status).toBe(200);
     });
   });
 
