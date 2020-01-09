@@ -10,8 +10,9 @@ const model = require('./model');
 const db = require('../../data/dbConfig');
 const { EMAIL_SECRET } = require('../../config');
 
-beforeEach(async () => {
+beforeEach(async done => {
   await db.raw('TRUNCATE TABLE users CASCADE');
+  done();
 });
 
 // Destroy knex instance after all tests are run to fix timeout in Travis build.

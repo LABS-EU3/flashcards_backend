@@ -9,7 +9,7 @@ let USER;
 let DECK;
 let validToken;
 
-beforeAll(async () => {
+beforeAll(async done => {
   USER = await db('users')
     .insert({
       full_name: 'John Mayai',
@@ -23,6 +23,7 @@ beforeAll(async () => {
 
   validToken = generateToken(USER[0]);
   [DECK] = DECK;
+  done();
 });
 
 describe('Decks API endpoints', () => {
