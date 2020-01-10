@@ -12,6 +12,7 @@ const { EMAIL_SECRET } = require('../../config');
 
 beforeEach(async done => {
   await db.raw('TRUNCATE TABLE users CASCADE');
+  await db.raw('TRUNCATE TABLE deck_tags CASCADE');
   done();
 });
 

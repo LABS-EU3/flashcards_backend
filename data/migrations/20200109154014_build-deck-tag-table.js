@@ -17,7 +17,6 @@ exports.up = function(knex) {
       .inTable('tags')
       .onUpdate('CASCADE')
       .onDelete('CASCADE');
-    table.string('name').notNullable();
   });
 };
 

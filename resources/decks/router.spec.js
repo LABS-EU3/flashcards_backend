@@ -7,6 +7,7 @@ const request = supertest(server);
 
 let USER;
 let DECK;
+
 let validToken;
 
 beforeAll(async done => {
@@ -20,6 +21,11 @@ beforeAll(async done => {
   DECK = await db('decks')
     .insert({ name: 'my-deck', user_id: USER[0].id })
     .returning('*');
+
+  await db('deck_tags').insert({
+    tag_id: 1,
+    deck_id: DECK[0].id,
+  });
 
   validToken = generateToken(USER[0]);
   [DECK] = DECK;
@@ -66,7 +72,7 @@ describe('Decks API endpoints', () => {
         .get(`/api/decks/${DECK.id}`)
         .set('Authorization', `${validToken}`);
 
-      expect(response.body.data.name).toEqual('my-deck');
+      expect(response.body.data[0].deck_name).toEqual('my-deck');
       done();
     });
   });
@@ -93,7 +99,10 @@ describe('Decks API endpoints', () => {
       const response = await request
         .post('/api/decks')
         .set('Authorization', `${validToken}`)
-        .send({ name: 'new-deck' });
+        .send({
+          name: 'new-deck',
+          tagsArray: ['Physiotherapy', 'Veterinary Medicine', 'Youth Work'],
+        });
 
       expect(response.status).toBe(201);
       done();
@@ -124,7 +133,7 @@ describe('Decks API endpoints', () => {
         .set('Authorization', `${validToken}`)
         .send({ name: 'updated-deck' });
 
-      expect(response.body.data.name).toBe('updated-deck');
+      expect(response.body.data[0].deck_name).toBe('updated-deck');
       expect(response.status).toBe(200);
       done();
     });
