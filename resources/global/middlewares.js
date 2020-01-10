@@ -23,9 +23,9 @@ exports.authorized = (req, res, next) => {
 exports.checkId = (req, res, next) => {
   const { id } = req.params;
 
-  if (Number.isNaN(Number(id))) {
+  if (!Number.isNaN(Number(id))) {
+    next();
+  } else {
     res.status(400).json({ status: 400, messagee: 'Invalid ID' });
   }
-
-  next();
 };
