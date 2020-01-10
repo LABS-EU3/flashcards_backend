@@ -85,26 +85,52 @@ exports.remove = id => {
     .del();
 };
 
-exports.update = (data, id) => {
+exports.update = (name, id) => {
   return db('decks')
     .where({ id })
-    .update({ name: data });
+    .update({ name });
 };
 
-exports.addDeckTag = deckTag => {
-  return db('deck_tags').insert(deckTag);
-};
-
-exports.removeDeckTag = (tag, deckId) => {
+const getDeckTagById = id => {
   return db('deck_tags')
-    .where({ name: tag, deck_id: deckId })
+    .where({ id })
+    .first();
+};
+
+exports.addDeckTag = (tagId, deckId) => {
+  return db('deck_tags')
+    .insert({ deck_id: deckId, tag_id: tagId })
+    .then(id => {
+      getDeckTagById({ id: id[0] });
+    });
+};
+
+exports.removeDeckTag = (tagId, deckId) => {
+  return db('deck_tags')
+    .where({ deck_id: deckId, tag_id: tagId })
     .del();
 };
 
 exports.findTagByName = tag => {
-  return db('tags').where({ name: tag });
+  return db('tags')
+    .where({ name: tag })
+    .returning('*');
+};
+
+exports.findTagById = id => {
+  return db('tags')
+    .where({ id })
+    .returning('*');
+};
+
+exports.findDeckTag = (tagId, deckId) => {
+  return db('deck_tags')
+    .where({ deck_id: deckId, tag_id: tagId })
+    .returning('*');
 };
 
 exports.allTagsByDeck = deckId => {
-  return db('deck_tags').where({ deck_id: deckId });
+  return db('deck_tags')
+    .where({ deck_id: deckId })
+    .returning('*');
 };

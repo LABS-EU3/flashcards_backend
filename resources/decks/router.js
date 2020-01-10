@@ -8,15 +8,26 @@ const {
   getUsersDeck,
 } = require('./controller');
 
-const { deckExists } = require('./middlewares');
+const {
+  deckExists,
+  preventDuplicateTags,
+  tagsExists,
+} = require('./middlewares');
 
 const { authorized } = require('../global/middlewares');
 
-router.post('/', authorized, addDeck);
+router.post('/', authorized, tagsExists, addDeck);
 router.get('/', authorized, getAllDecks);
 router.get('/users/', authorized, getUsersDeck);
 router.get('/:id', authorized, getDeck);
-router.put('/:id', authorized, deckExists, updateDeck);
+router.put(
+  '/:id',
+  authorized,
+  deckExists,
+  tagsExists,
+  preventDuplicateTags,
+  updateDeck
+);
 router.delete('/:id', authorized, deckExists, deleteDeck);
 
 module.exports = router;

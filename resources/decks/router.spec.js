@@ -10,7 +10,7 @@ let DECK;
 
 let validToken;
 
-beforeAll(async done => {
+beforeEach(async done => {
   USER = await db('users')
     .insert({
       full_name: 'John Mayai',
@@ -26,9 +26,18 @@ beforeAll(async done => {
     tag_id: 1,
     deck_id: DECK[0].id,
   });
+  await db('deck_tags').insert({
+    tag_id: 2,
+    deck_id: DECK[0].id,
+  });
 
   validToken = generateToken(USER[0]);
   [DECK] = DECK;
+  done();
+});
+
+afterEach(async done => {
+  await db.raw('TRUNCATE TABLE users CASCADE');
   done();
 });
 
@@ -135,6 +144,32 @@ describe('Decks API endpoints', () => {
 
       expect(response.body.data[0].deck_name).toBe('updated-deck');
       expect(response.status).toBe(200);
+      done();
+    });
+
+    it('should update a deck with removing and adding an array', async done => {
+      const response = await request
+        .put(`/api/decks/${DECK.id}`)
+        .set('Authorization', `${validToken}`)
+        .send({
+          name: 'updated-deck2',
+          removeTagsArray: ['Accounting & Finance'],
+          addTagsArray: ['Computer Science', 'Counselling', 'Creative Writing'],
+        });
+      expect(response.body.data[0].tags.length).toBe(4);
+      expect(response.status).toBe(200);
+      done();
+    });
+
+    it(' error when trying to enter a tag that doesnt exists', async done => {
+      const response = await request
+        .put(`/api/decks/${DECK.id}`)
+        .set('Authorization', `${validToken}`)
+        .send({
+          name: 'updated-deck23',
+          addTagsArray: ['Test'],
+        });
+      expect(response.status).toBe(500);
       done();
     });
   });

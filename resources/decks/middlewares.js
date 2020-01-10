@@ -1,4 +1,4 @@
-const { findById, findDeckTagByName } = require('../decks/model');
+const { findById, findTagByName, findDeckTag } = require('../decks/model');
 
 exports.deckExists = async (req, res, next) => {
   const { id } = req.params;
@@ -13,33 +13,65 @@ exports.deckExists = async (req, res, next) => {
 };
 
 exports.tagsExists = async (req, res, next) => {
-  const { removeTagsArray, addTagsArray, id } = req.body;
+  const { removeTagsArray, addTagsArray } = req.body;
+  let error;
+  if (removeTagsArray) {
+    const results = await Promise.all(
+      removeTagsArray.map(async tag => {
+        const tagObject = await findTagByName(tag);
+        if (Object.getOwnPropertyNames(tagObject).length < 2) {
+          return 1;
+        }
+        return undefined;
+      })
+    );
+    error = results.find(result => result === 1);
+  }
+  console.log(error);
+  if (addTagsArray) {
+    const results = await Promise.all(
+      addTagsArray.map(async tag => {
+        const tagObject = await findTagByName(tag);
+        if (Object.getOwnPropertyNames(tagObject).length < 2) {
+          return 1;
+        }
+        return results;
+      })
+    );
+    error = results.find(result => result === 1);
+  }
+  console.log(error);
+  if (error === undefined) {
+    return next();
+  }
+  return res.status(400).json({
+    message: `One of your tags are not valid`,
+  });
+};
+
+// doesnt work
+exports.preventDuplicateTags = async (req, res, next) => {
+  const { addTagsArray } = req.body;
+  const { id } = req.params;
   try {
-    if (removeTagsArray && addTagsArray) {
-      await removeTagsArray.map(tag => {
-        return findDeckTagByName(tag, id);
-      });
-      await addTagsArray.map(tag => {
-        return findDeckTagByName(tag, id);
-      });
-      await next();
-    }
-    if (removeTagsArray || addTagsArray) {
-      if (removeTagsArray) {
-        await removeTagsArray.map(tag => {
-          return findDeckTagByName(tag, id);
+    if (addTagsArray) {
+      const foundTags = [];
+      Promise.all(
+        addTagsArray.map(tag => {
+          return findTagByName(tag).then(tagObject =>
+            foundTags.concat(findDeckTag(tagObject[0].id, id))
+          );
+        })
+      );
+      if (foundTags > 1) {
+        return res.status(500).json({
+          message: `${foundTags} already exists on deck id ${id}`,
         });
-        await next();
-      }
-      if (addTagsArray) {
-        await addTagsArray.map(tag => {
-          return findDeckTagByName(tag, id);
-        });
-        await next();
       }
     }
+    return next();
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       message: `One of your tags are not valid`,
     });
   }

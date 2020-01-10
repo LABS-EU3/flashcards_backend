@@ -1,5 +1,4 @@
 // Deck controller
-
 const Decks = require('./model');
 
 exports.getAllDecks = async (req, res) => {
@@ -25,7 +24,7 @@ exports.getDeck = async (req, res) => {
   }
 };
 
-exports.addDeck = async (req, res, done) => {
+exports.addDeck = async (req, res) => {
   const { name, tagsArray } = req.body;
   const { subject } = req.userAuthed;
   const newDeck = {
@@ -34,25 +33,27 @@ exports.addDeck = async (req, res, done) => {
   };
   try {
     const deck = await Decks.add(newDeck);
-    await tagsArray.map(async tag => {
-      let deckTag;
-      try {
-        const tagObject = await Decks.findTagByName(tag);
-        deckTag = Decks.addDeckTag({
-          tag_id: tagObject[0].id,
-          deck_id: deck[0].id,
-        });
-      } catch (error) {
-        res
-          .status(500)
-          .json({ status: 500, error: `Error adding tag: ${tag}` });
-      }
-      return deckTag;
-    });
-    res.status(201).json({ status: 201, data: deck });
+    await Promise.all(
+      tagsArray.map(async tag => {
+        let deckTag;
+        try {
+          const tagObject = await Decks.findTagByName(tag);
+          deckTag = Decks.addDeckTag(tagObject[0].id, deck[0].id);
+        } catch (error) {
+          // Needs a test
+          res
+            .status(500)
+            .json({ status: 500, error: `Error adding tag: ${tag}` });
+        }
+        return deckTag;
+      })
+    );
+    return res.status(201).json({ status: 201, data: deck });
   } catch (error) {
-    res.status(500).json({ status: 500, error: `Error adding deck: ${error}` });
-    done();
+    // Needs a test
+    return res
+      .status(500)
+      .json({ status: 500, error: `Error adding deck: ${error}` });
   }
 };
 
@@ -65,6 +66,7 @@ exports.deleteDeck = async (req, res) => {
       message: `Deck has been deleted ${id}`,
     });
   } catch (error) {
+    // Needs a test
     res.status(500).json({
       status: 500,
       error: `Error deleting deck: ${error.message}`,
@@ -76,29 +78,37 @@ exports.updateDeck = async (req, res) => {
   const { id } = req.params;
   const { name, removeTagsArray, addTagsArray } = req.body;
   try {
-    if (removeTagsArray) {
-      await removeTagsArray.map(tag => {
-        return Decks.removeDeckTag({
-          name: tag,
-          deck_id: id,
-        });
-      });
-    }
-    if (addTagsArray) {
-      await addTagsArray.map(tag => {
-        return Decks.addDeckTag({
-          name: tag,
-          deck_id: id,
-        });
-      });
+    if (addTagsArray || removeTagsArray) {
+      if (addTagsArray) {
+        await Promise.all(
+          addTagsArray.map(tag => {
+            return Decks.findTagByName(tag).then(tagObject =>
+              Decks.addDeckTag(tagObject[0].id, id)
+            );
+          })
+        );
+      }
+      if (removeTagsArray) {
+        await Promise.all(
+          removeTagsArray.map(tag => {
+            return Decks.findTagByName(tag).then(tagObject =>
+              Decks.removeDeckTag(tagObject[0].id, id)
+            );
+          })
+        );
+      }
+      await Decks.update(name, id);
+      const deck = await Decks.findById(id);
+      return res.status(200).json({ status: 200, data: deck });
     }
     await Decks.update(name, id);
-    const deck = await Decks.findById(Number(id));
-    res.status(200).json({ status: 200, data: deck });
-  } catch (error) {
-    res.status(500).json({
+    const deck = await Decks.findById(id);
+    // needs a test
+    return res.status(200).json({ status: 200, data: deck });
+  } catch (err) {
+    return res.status(500).json({
       status: 500,
-      error: `Error updating deck: ${error.message}`,
+      error: `Error updating deck: ${err.message}`,
     });
   }
 };
