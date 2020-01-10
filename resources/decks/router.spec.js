@@ -10,7 +10,11 @@ let DECK;
 
 let validToken;
 
-beforeEach(async done => {
+// beforeEach(async done => {
+beforeAll(async done => {
+  await db.raw(
+    'TRUNCATE TABLE users, reset_password, decks, flashcards CASCADE'
+  );
   USER = await db('users')
     .insert({
       full_name: 'John Mayai',
@@ -18,6 +22,7 @@ beforeEach(async done => {
       password: 'passwordTest',
     })
     .returning('*');
+
   DECK = await db('decks')
     .insert({ name: 'my-deck', user_id: USER[0].id })
     .returning('*');
@@ -36,8 +41,11 @@ beforeEach(async done => {
   done();
 });
 
-afterEach(async done => {
-  await db.raw('TRUNCATE TABLE users CASCADE');
+// afterEach(async done => {
+//   await db.raw('TRUNCATE TABLE users CASCADE');
+// Destroy knex instance after all tests are run to fix timeout in Travis build.
+afterAll(async done => {
+  await db.destroy();
   done();
 });
 
@@ -49,7 +57,6 @@ describe('Decks API endpoints', () => {
       const response = await request
         .get('/api/decks')
         .set('Authorization', `${validToken}`);
-
       expect(response.status).toEqual(expectedStatusCode);
       done();
     });
@@ -58,6 +65,7 @@ describe('Decks API endpoints', () => {
       const response = await request
         .get('/api/decks')
         .set('Authorization', `${validToken}`);
+
       expect(typeof response.body.data).toEqual('object');
       expect(response.body.data.length).toEqual(1);
       done();
@@ -104,7 +112,16 @@ describe('Decks API endpoints', () => {
       done();
     });
 
-    it('should add a deck when a valid token is provided', async done => {
+    it('returns bad request when deck name is not provided', async done => {
+      const response = await request
+        .post('/api/decks')
+        .set('Authorization', `${validToken}`);
+
+      expect(response.status).toBe(400);
+      done();
+    });
+
+    it('add a deck with a valid token and deck name', async done => {
       const response = await request
         .post('/api/decks')
         .set('Authorization', `${validToken}`)
@@ -133,6 +150,15 @@ describe('Decks API endpoints', () => {
         .set('Authorization', 'my name is john');
 
       expect(response.status).toBe(401);
+      done();
+    });
+
+    it('returns bad request when deck name is not provided', async done => {
+      const response = await request
+        .put(`/api/decks/${DECK.id}`)
+        .set('Authorization', `${validToken}`);
+
+      expect(response.status).toBe(400);
       done();
     });
 
@@ -198,12 +224,12 @@ describe('Decks API endpoints', () => {
 
       expect(response.status).toBe(200);
 
-      // Check deck is deleted
+      // Check deck is deleted - should give Not Found response
       const responseDeleted = await request
         .get(`/api/decks/${DECK.id}`)
         .set('Authorization', `${validToken}`);
 
-      expect(responseDeleted.status).toEqual(200);
+      expect(responseDeleted.status).toEqual(404);
       done();
     });
   });

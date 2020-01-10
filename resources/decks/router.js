@@ -5,29 +5,45 @@ const {
   getDeck,
   deleteDeck,
   updateDeck,
-  getUsersDeck,
+
 } = require('./controller');
 
-const {
-  deckExists,
-  preventDuplicateTags,
-  tagsExists,
-} = require('./middlewares');
+// const {
+//   deckExists,
+//   preventDuplicateTags,
+//   tagsExists,
+// } = require('./middlewares');
+const validate = require('../../utils/validate');
+const { deckSchema } = require('./schema');
 
-const { authorized } = require('../global/middlewares');
+const { deckExists } = require('./middlewares');
 
-router.post('/', authorized, tagsExists, addDeck);
+const { authorized, checkId } = require('../global/middlewares');
+
+// router.post('/', authorized, tagsExists, addDeck);
+// router.get('/', authorized, getAllDecks);
+// router.get('/users/', authorized, getUsersDeck);
+// router.get('/:id', authorized, getDeck);
+// router.put(
+//   '/:id',
+//   authorized,
+//   deckExists,
+//   tagsExists,
+//   preventDuplicateTags,
+//   updateDeck
+// );
+router.delete('/:id', authorized, deckExists, deleteDeck);
+router.post('/', authorized, validate(deckSchema), addDeck);
 router.get('/', authorized, getAllDecks);
-router.get('/users/', authorized, getUsersDeck);
-router.get('/:id', authorized, getDeck);
+router.get('/:id', authorized, checkId, deckExists, getDeck);
 router.put(
   '/:id',
   authorized,
+  validate(deckSchema),
+  checkId,
   deckExists,
-  tagsExists,
-  preventDuplicateTags,
   updateDeck
 );
-router.delete('/:id', authorized, deckExists, deleteDeck);
+router.delete('/:id', authorized, checkId, deckExists, deleteDeck);
 
 module.exports = router;

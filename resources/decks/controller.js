@@ -63,7 +63,7 @@ exports.deleteDeck = async (req, res) => {
     await Decks.remove(id);
     res.status(200).json({
       status: 200,
-      message: `Deck has been deleted ${id}`,
+      data: [{ message: 'Deck has been deleted', id }],
     });
   } catch (error) {
     // Needs a test
