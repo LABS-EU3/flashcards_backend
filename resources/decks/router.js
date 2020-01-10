@@ -7,11 +7,14 @@ const {
   updateDeck,
 } = require('./controller');
 
+const validate = require('../../utils/validate');
+const { deckSchema } = require('./schema');
+
 const { deckExists } = require('./middlewares');
 
 const { authorized } = require('../global/middlewares');
 
-router.post('/', authorized, addDeck);
+router.post('/', validate(deckSchema), authorized, addDeck);
 router.get('/', authorized, getAllDecks);
 router.get('/:id', authorized, getDeck);
 router.put('/:id', authorized, deckExists, updateDeck);
