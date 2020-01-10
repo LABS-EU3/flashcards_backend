@@ -17,7 +17,7 @@ const { authorized } = require('../global/middlewares');
 router.post('/', authorized, validate(deckSchema), addDeck);
 router.get('/', authorized, getAllDecks);
 router.get('/:id', authorized, getDeck);
-router.put('/:id', authorized, deckExists, updateDeck);
+router.put('/:id', authorized, validate(deckSchema), deckExists, updateDeck);
 router.delete('/:id', authorized, deckExists, deleteDeck);
 
 module.exports = router;
