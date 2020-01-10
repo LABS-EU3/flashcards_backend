@@ -105,4 +105,6 @@ dist
 .tern-port
 package-lock.json
 
-
+# Helper scripts
+*sh
+*swp

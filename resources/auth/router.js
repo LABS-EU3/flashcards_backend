@@ -20,8 +20,9 @@ const {
   checkEmailExists,
   validateToken,
   validateResetToken,
-  validateLogin,
 } = require('./middlewares');
+
+const { authorized } = require('../global/middlewares');
 
 const authRouter = express.Router();
 
@@ -41,6 +42,6 @@ authRouter.post(
 
 authRouter.post('/confirm_email', validateToken, confirmEmail);
 
-authRouter.get('/view_profile/', validateLogin, viewProfile);
+authRouter.get('/view_profile', authorized, viewProfile);
 
 module.exports = authRouter;
