@@ -2,6 +2,8 @@ const validateToken = require('../../utils/validateToken');
 const { EMAIL_SECRET } = require('../../config');
 const model = require('./model');
 
+// new addtions
+
 exports.checkUserExists = async (req, res, next) => {
   const { email } = req.body;
   const userExists = await model.filter({ email });

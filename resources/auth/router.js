@@ -6,6 +6,7 @@ const {
   forgotPassword,
   resetPassword,
   confirmEmail,
+  viewProfile,
 } = require('./controller');
 const {
   signUpSchema,
@@ -20,6 +21,8 @@ const {
   validateToken,
   validateResetToken,
 } = require('./middlewares');
+
+const { authorized } = require('../global/middlewares');
 
 const authRouter = express.Router();
 
@@ -38,5 +41,7 @@ authRouter.post(
 );
 
 authRouter.post('/confirm_email', validateToken, confirmEmail);
+
+authRouter.get('/view_profile', authorized, viewProfile);
 
 module.exports = authRouter;
