@@ -99,7 +99,17 @@ describe('Decks API endpoints', () => {
       done();
     });
 
-    it('should add a deck when a valid token is provided', async done => {
+    it('returns bad request when deck name is not provided', async done => {
+      const response = await request
+        .post('/api/decks')
+        .set('Authorization', `${validToken}`)
+        .send({ name: 'new-deck' });
+
+      expect(response.status).toBe(201);
+      done();
+    });
+
+    it('should add a deck when a valid token and deck name are provided', async done => {
       const response = await request
         .post('/api/decks')
         .set('Authorization', `${validToken}`)
