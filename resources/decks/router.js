@@ -12,12 +12,19 @@ const { deckSchema } = require('./schema');
 
 const { deckExists } = require('./middlewares');
 
-const { authorized } = require('../global/middlewares');
+const { authorized, checkId } = require('../global/middlewares');
 
 router.post('/', authorized, validate(deckSchema), addDeck);
 router.get('/', authorized, getAllDecks);
-router.get('/:id', authorized, getDeck);
-router.put('/:id', authorized, validate(deckSchema), deckExists, updateDeck);
-router.delete('/:id', authorized, deckExists, deleteDeck);
+router.get('/:id', authorized, checkId, deckExists, getDeck);
+router.put(
+  '/:id',
+  authorized,
+  validate(deckSchema),
+  checkId,
+  deckExists,
+  updateDeck
+);
+router.delete('/:id', authorized, checkId, deckExists, deleteDeck);
 
 module.exports = router;
