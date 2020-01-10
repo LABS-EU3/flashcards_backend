@@ -184,12 +184,12 @@ describe('Decks API endpoints', () => {
 
       expect(response.status).toBe(200);
 
-      // Check deck is deleted
+      // Check deck is deleted - should give Not Found response
       const responseDeleted = await request
         .get(`/api/decks/${DECK.id}`)
         .set('Authorization', `${validToken}`);
 
-      expect(responseDeleted.status).toEqual(200);
+      expect(responseDeleted.status).toEqual(404);
       done();
     });
   });
