@@ -14,7 +14,7 @@ const { deckExists } = require('./middlewares');
 
 const { authorized } = require('../global/middlewares');
 
-router.post('/', validate(deckSchema), authorized, addDeck);
+router.post('/', authorized, validate(deckSchema), addDeck);
 router.get('/', authorized, getAllDecks);
 router.get('/:id', authorized, getDeck);
 router.put('/:id', authorized, deckExists, updateDeck);
