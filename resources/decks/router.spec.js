@@ -103,9 +103,8 @@ describe('Decks API endpoints', () => {
       const response = await request
         .post('/api/decks')
         .set('Authorization', `${validToken}`)
-        .send({ name: 'new-deck' });
 
-      expect(response.status).toBe(201);
+      expect(response.status).toBe(400);
       done();
     });
 
@@ -137,6 +136,17 @@ describe('Decks API endpoints', () => {
       expect(response.status).toBe(401);
       done();
     });
+
+
+    it('returns bad request when deck name is not provided', async done => {
+      const response = await request
+        .put(`/api/decks/${DECK.id}`)
+        .set('Authorization', `${validToken}`)
+
+      expect(response.status).toBe(400);
+      done();
+    });
+
 
     it('should update a deck when a valid token is provided', async done => {
       const response = await request
