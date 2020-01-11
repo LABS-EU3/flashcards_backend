@@ -20,11 +20,8 @@ exports.fetchAllCardsByUser = async (req, res) => {
 };
 
 exports.fetchCardById = async (req, res) => {
-  const { id } = req.params;
-
   try {
-    const card = await getCardById(id);
-    res.status(200).json({ card });
+    res.status(200).json({ card: req.card });
   } catch (error) {
     res.status(500).json({
       message: `Failed to fetch flashcard because 
