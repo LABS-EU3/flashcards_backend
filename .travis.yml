@@ -7,18 +7,14 @@ node_js:
 install: npm install
 services:
   - postgresql
-addons:
-  chrome: stable
 cache:
   directories:
     - 'node_modules'
 before_script:
   - psql -c 'create database quickdecks_test;' -U postgres
   - psql -c "CREATE USER root WITH PASSWORD 'password';" -U postgres
-  - npx knex migrate:down --env=testing
-  - npx knex migrate:latest --env=testing
 
-script: 
+script:
   - npm test
 
 notifications:
