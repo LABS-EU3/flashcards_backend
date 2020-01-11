@@ -5,7 +5,7 @@ exports.getAll = () => {
 };
 
 exports.add = async deck => {
-  const newDeck = await db('decks')
+  const [newDeck] = await db('decks')
     .insert(deck)
     .returning('*');
   return newDeck;
