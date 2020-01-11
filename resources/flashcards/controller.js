@@ -8,22 +8,23 @@ const {
 
 exports.fetchAllCardsByUser = async (req, res) => {
   const { userId } = req.params;
+
   try {
     const cards = await getAllCardsByUser(userId);
-    res.status(200).json(cards);
+    res.status(200).json({ cards });
   } catch (error) {
     res.status(500).json({
-      message: `Failed to fetch all flashcards because 
-      ${error.message}`,
+      message: `Failed to fetch all flashcards, ${error.message}`,
     });
   }
 };
 
 exports.fetchCardById = async (req, res) => {
   const { id } = req.params;
+
   try {
     const card = await getCardById(id);
-    res.status(200).json(card);
+    res.status(200).json({ card });
   } catch (error) {
     res.status(500).json({
       message: `Failed to fetch flashcard because 
@@ -43,13 +44,10 @@ exports.makeCard = async (req, res) => {
   };
   try {
     const card = await createCard(cardInfo);
-    res
-      .status(201)
-      .json({ message: `Successfully created card with the id of ${card.id}` });
+    res.status(201).json({ card });
   } catch (error) {
     res.status(500).json({
-      message: `Failed to create flashcard because 
-      ${error.message}`,
+      message: `Failed to create flashcard ${error.message}`,
     });
   }
 };
@@ -65,13 +63,10 @@ exports.editCard = async (req, res) => {
   };
   try {
     const card = await updateCard(id, cardInfo);
-    res
-      .status(200)
-      .json({ message: `Successfully updated card with the id of ${card.id}` });
+    res.status(200).json({ card });
   } catch (error) {
     res.status(500).json({
-      message: `Failed to update flashcard because 
-      ${error.message}`,
+      message: `Failed to update flashcard, ${error.message}`,
     });
   }
 };
@@ -80,11 +75,10 @@ exports.deleteCard = async (req, res) => {
   const { id } = req.params;
   try {
     await removeCard(id);
-    res.status(200).json({ message: `Successfully delete card with id ${id}` });
+    res.status(204).end();
   } catch (error) {
     res.status(500).json({
-      message: `Failed to delete flashcard because 
-      ${error.message}`,
+      message: `Failed to delete, ${error.message}`,
     });
   }
 };
