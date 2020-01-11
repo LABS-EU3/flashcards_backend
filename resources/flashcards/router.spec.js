@@ -109,6 +109,18 @@ describe('Flashcards Router', () => {
       expect(res.body.card.question).toBe(flashcard.questionText);
       done();
     });
+
+    test('Check if flash card exists', async done => {
+      const res = await request(server)
+        .get(`/api/cards/100`)
+        .set('Authorization', authToken);
+
+      expect(res.status).toBe(404);
+      expect(res.body).toEqual({
+        message: 'Flashcard does not exist',
+      });
+      done();
+    });
   });
 
   describe('[PUT] /api/cards/:id', () => {
