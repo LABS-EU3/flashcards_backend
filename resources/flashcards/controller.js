@@ -1,6 +1,5 @@
 const {
   createCard,
-  getCardById,
   getAllCardsByUser,
   removeCard,
   updateCard,
