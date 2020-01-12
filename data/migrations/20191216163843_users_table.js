@@ -9,7 +9,6 @@ exports.up = function(knex) {
     table.string('full_name').notNullable();
     table.string('image_url');
     table.boolean('isConfirmed').defaultTo(false);
-    table.timestamp('createdon').defaultTo(knex.fn.now());
   });
 };
 
