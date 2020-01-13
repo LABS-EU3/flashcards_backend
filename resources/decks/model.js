@@ -69,3 +69,41 @@ exports.update = (data, id) => {
     .where({ id })
     .update(data, updateFields);
 };
+
+const getDeckTagById = id => {
+  return db('deck_tags')
+    .where({ id })
+    .first();
+};
+
+exports.addDeckTag = (tagId, deckId) => {
+  return db('deck_tags')
+    .insert({ deck_id: deckId, tag_id: tagId })
+    .then(id => {
+      getDeckTagById({ id: id[0] });
+    });
+};
+
+exports.removeDeckTag = (tagId, deckId) => {
+  return db('deck_tags')
+    .where({ deck_id: deckId, tag_id: tagId })
+    .del();
+};
+
+exports.findTagByName = tag => {
+  return db('tags').where({ name: tag });
+};
+
+exports.findTagById = id => {
+  return db('tags').where({ id });
+};
+
+exports.findDeckTag = (tagId, deckId) => {
+  return db('deck_tags')
+    .where({ deck_id: deckId, tag_id: tagId })
+    .first();
+};
+
+exports.allTagsByDeck = deckId => {
+  return db('deck_tags').where({ deck_id: deckId });
+};
