@@ -10,6 +10,16 @@ exports.getAllDecks = async (req, res) => {
   }
 };
 
+exports.getUsersDecks = async (req, res) => {
+  const { subject } = req.decodedToken;
+  try {
+    const decks = await Decks.getUserDecks(subject);
+    res.status(200).json({ data: decks });
+  } catch (error) {
+    res.status(500).json({ message: `Error getting deck: ${error.message}` });
+  }
+};
+
 exports.getDeck = async (req, res) => {
   const { id } = req.params;
   try {
