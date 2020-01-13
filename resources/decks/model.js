@@ -1,7 +1,26 @@
 const db = require('../../data/dbConfig.js');
 
 exports.getAll = () => {
-  return db('decks');
+  return db('deck_tags as dt')
+    .rightJoin('decks as d', 'd.id', 'dt.deck_id')
+    .leftJoin('tags as t', 't.id', 'dt.tag_id')
+    .select(
+      'dt.deck_id',
+      'd.user_id',
+      'd.name as deck_name',
+      'd.public',
+      'd.created_at',
+      'd.updated_at',
+      db.raw('ARRAY_AGG(t.name) as tags')
+    )
+    .groupBy(
+      'dt.deck_id',
+      'd.user_id',
+      'd.name',
+      'd.public',
+      'd.created_at',
+      'd.updated_at'
+    );
 };
 
 exports.add = async deck => {
