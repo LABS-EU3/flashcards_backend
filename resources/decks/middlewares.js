@@ -1,17 +1,4 @@
-const { findById, findTagById, findDeckTag } = require('../decks/model');
-
-exports.deckExists = async (req, res, next) => {
-  const { id } = req.params;
-  const deck = await findById(id);
-
-  if (deck) {
-    next();
-  } else {
-    res.status(404).json({
-      message: 'Deck ID does not exist',
-    });
-  }
-};
+const { findById, findTagById } = require('../decks/model');
 
 exports.deckExists = async (req, res, next) => {
   const { id } = req.params;
@@ -57,36 +44,6 @@ exports.tagsExists = async (req, res, next) => {
     return next();
   }
   return res.status(400).json({
-    message: `One of your tags are not valid`,
+    message: `One of your tags does not exists`,
   });
-};
-
-exports.preventDuplicateTags = async (req, res, next) => {
-  const { addTags } = req.body;
-  const { id } = req.params;
-  let hasTags;
-  try {
-    if (addTags) {
-      const results = await Promise.all(
-        addTags.map(async tag => {
-          const isExist = await findDeckTag(tag, id);
-          if (Object.getOwnPropertyNames(isExist).length > 2) {
-            return 1;
-          }
-          return undefined;
-        })
-      );
-      hasTags = results.find(result => result === 1);
-    }
-    if (hasTags === undefined) {
-      return next();
-    }
-    return res.status(500).json({
-      message: `One of your tags already exists`,
-    });
-  } catch (error) {
-    return res.status(500).json({
-      message: `One of your tags are not valid`,
-    });
-  }
 };

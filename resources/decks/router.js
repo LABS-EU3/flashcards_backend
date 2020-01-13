@@ -9,11 +9,7 @@ const {
 } = require('./controller');
 const validate = require('../../utils/validate');
 const { deckSchema } = require('./schema');
-const {
-  deckExists,
-  preventDuplicateTags,
-  tagsExists,
-} = require('./middlewares');
+const { deckExists, tagsExists } = require('./middlewares');
 const { checkId } = require('../global/middlewares');
 
 router.post('/', validate(deckSchema), tagsExists, addDeck);
@@ -25,7 +21,6 @@ router.put(
   checkId,
   deckExists,
   tagsExists,
-  preventDuplicateTags,
   updateDeck
 );
 router.delete('/:id', checkId, deckExists, deleteDeck);

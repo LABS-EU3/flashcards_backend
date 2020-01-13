@@ -96,12 +96,6 @@ exports.findTagById = id => {
     .first();
 };
 
-exports.findDeckTag = (tagId, deckId) => {
-  return db('deck_tags')
-    .where({ deck_id: deckId, tag_id: tagId })
-    .first();
-};
-
 exports.allTagsByDeck = deckId => {
   return db('deck_tags').where({ deck_id: deckId });
 };
