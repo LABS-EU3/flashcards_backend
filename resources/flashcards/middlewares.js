@@ -11,7 +11,7 @@ exports.cardExists = async (req, res, next) => {
     }
   }
 
-  res.status(404).json({
+  return res.status(404).json({
     message: 'Flashcard does not exist',
   });
 };

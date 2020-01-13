@@ -95,7 +95,7 @@ describe('Decks API endpoints', () => {
       done();
     });
 
-    test('add a deck when a valid token and deck name are provided', async done => {
+    test('201 when a valid token and deck name are provided', async done => {
       const response = await request(server)
         .post('/api/decks')
         .set('Authorization', authToken)
@@ -108,7 +108,7 @@ describe('Decks API endpoints', () => {
   });
 
   describe('[PUT] /api/decks/:id', () => {
-    test('should return unauthorized response if token not valid', async done => {
+    test('return unauthorized response if token not valid', async done => {
       const { body } = await request(server)
         .post('/api/decks/')
         .set('Authorization', authToken)

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 exports.seed = function(knex) {
   return knex('flashcards')
     .del()
