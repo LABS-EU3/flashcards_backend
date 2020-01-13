@@ -11,7 +11,7 @@ exports.getAll = () => {
       'd.public',
       'd.created_at',
       'd.updated_at',
-      db.raw('ARRAY_AGG(t.name) as tags')
+      db.raw('ARRAY_AGG( DISTINCT t.name) as tags')
     )
     .groupBy(
       'dt.deck_id',
@@ -31,8 +31,29 @@ exports.add = async deck => {
 };
 
 exports.findById = id => {
-  return db('decks')
-    .where({ id })
+  return db('deck_tags as dt')
+    .rightJoin('decks as d', 'd.id', 'dt.deck_id')
+    .leftJoin('tags as t', 't.id', 'dt.tag_id')
+    .leftJoin('flashcards as f', 'f.deck_id', 'dt.deck_id')
+    .select(
+      'dt.deck_id',
+      'd.user_id',
+      'd.name as deck_name',
+      'd.public',
+      'd.created_at',
+      'd.updated_at',
+      db.raw('array_to_json(ARRAY_AGG( DISTINCT t)) as tags'),
+      db.raw('array_to_json(ARRAY_AGG( DISTINCT f)) as flashcards')
+    )
+    .groupBy(
+      'dt.deck_id',
+      'd.user_id',
+      'd.name',
+      'd.public',
+      'd.created_at',
+      'd.updated_at'
+    )
+    .where({ 'd.user_id': id })
     .first();
 };
 
