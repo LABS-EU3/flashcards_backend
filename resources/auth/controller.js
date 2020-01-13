@@ -126,6 +126,8 @@ exports.viewProfile = async (req, res) => {
       fullName: user.full_name,
       email: user.email,
       imageUrl: user.image_url,
+      isConfirmed: user.isConfirmed,
+      createdOn: user.createdon
     });
   } catch (error) {
     res.status(500).json({ message: `Error loading profile ${error.message}` });
