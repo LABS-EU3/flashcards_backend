@@ -84,16 +84,10 @@ exports.addDeckTag = newDeckTag => {
     });
 };
 
-exports.removeDeckTag = (tagId, deckId) => {
+exports.removeDeckTag = deckTag => {
   return db('deck_tags')
-    .where({ deck_id: deckId, tag_id: tagId })
+    .where(deckTag)
     .del();
-};
-
-exports.findTagByName = tag => {
-  return db('tags')
-    .where({ name: tag })
-    .first();
 };
 
 exports.findTagById = id => {

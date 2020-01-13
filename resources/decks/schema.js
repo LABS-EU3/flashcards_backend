@@ -5,9 +5,9 @@ const deckSchema = joi.object({
     .string()
     .label('name')
     .required(),
-  removeTags: joi.array().items(joi.string()),
-  addTags: joi.array().items(joi.string()),
-  tags: joi.array().items(joi.string()),
+  removeTags: joi.array().items(joi.number().integer()),
+  addTags: joi.array().items(joi.number().integer()),
+  tags: joi.array().items(joi.number().integer()),
 });
 
 module.exports = {

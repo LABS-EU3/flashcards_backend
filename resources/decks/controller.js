@@ -59,10 +59,29 @@ exports.deleteDeck = async (req, res) => {
 
 exports.updateDeck = async (req, res) => {
   const { id } = req.params;
+  const { removeTags, addTags } = req.body;
   try {
-    await Decks.update(req.body, id);
+    if (addTags || removeTags) {
+      if (addTags) {
+        await Promise.all(
+          addTags.map(tag => {
+            const newDeckTag = { deck_id: id, tag_id: tag };
+            return Decks.addDeckTag(newDeckTag);
+          })
+        );
+      }
+      if (removeTags) {
+        await Promise.all(
+          removeTags.map(tag => {
+            const deckTag = { deck_id: id, tag_id: tag };
+            return Decks.removeDeckTag(deckTag);
+          })
+        );
+      }
+    }
+    await Decks.update({ name: req.body.name }, id);
     const deck = await Decks.findById(Number(id));
-    res.status(200).json({ deck });
+    res.status(200).json(deck);
   } catch (error) {
     res.status(500).json({
       message: `Error updating deck: ${error.message}`,
