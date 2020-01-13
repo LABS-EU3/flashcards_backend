@@ -4,14 +4,14 @@
   "description": "Back end for the quick decks app.",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=testing jest --coverage --detectOpenHandles --runInBand ",
-    "test-watcher": "cross-env NODE_ENV=testing jest --watchAll --coverage --forceExit",
-    "updateDevDB": "npx knex migrate:latest --env development && npx knex seed:run --env development",
-    "updateTestDB": "npx knex migrate:latest --env testing && npx knex seed:run --env testing",
+    "pretest": "npx knex migrate:rollback --env=testing && npx knex migrate:latest --env=testing",
+    "test": "cross-env NODE_ENV=testing jest --detectOpenHandles --forceExit --coverage --runInBand",
     "start": "node index.js",
     "server": "nodemon index.js ",
     "lint": "eslint . --ext .js",
-    "lint-fix": "eslint . --ext .js --fix"
+    "lint-fix": "eslint . --ext .js --fix",
+    "migrate-dev": "npx knex migrate:rollback && npx knex migrate:latest",
+    "seed": "npx knex seed:run"
   },
   "jest": {
     "testEnvironment": "node"

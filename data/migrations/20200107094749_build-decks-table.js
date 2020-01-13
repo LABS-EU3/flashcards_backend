@@ -7,7 +7,6 @@ exports.up = function(knex) {
       .notNullable()
       .references('id')
       .inTable('users')
-      .onUpdate('CASCADE')
       .onDelete('CASCADE');
     table.string('name').notNullable();
     table.boolean('public').defaultTo(false);

@@ -6,15 +6,14 @@ exports.authorized = (req, res, next) => {
   if (token) {
     jwt.verify(token, SECRET, (err, decodedToken) => {
       if (err) {
-        res.status(401).json({ status: 401, error: err.message });
+        res.status(401).json({ error: err.message });
       } else {
         req.decodedToken = decodedToken;
         next();
       }
     });
   } else {
-    res.status(400).json({
-      status: 400,
+    res.status(401).json({
       error: 'Unauthenticated - please provide a valid token',
     });
   }

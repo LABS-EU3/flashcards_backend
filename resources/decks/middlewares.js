@@ -1,4 +1,4 @@
-const { findById } = require('../decks/model');
+const { findById } = require('./model');
 
 exports.deckExists = async (req, res, next) => {
   const { id } = req.params;
@@ -8,7 +8,6 @@ exports.deckExists = async (req, res, next) => {
     next();
   } else {
     res.status(404).json({
-      status: 404,
       message: 'Deck ID does not exist',
     });
   }
