@@ -1,4 +1,4 @@
-const { findById, findTagByName, findDeckTag } = require('../decks/model');
+const { findById, findTagById, findDeckTag } = require('../decks/model');
 
 exports.deckExists = async (req, res, next) => {
   const { id } = req.params;
@@ -32,7 +32,7 @@ exports.tagsExists = async (req, res, next) => {
   if (removeTags) {
     const results = await Promise.all(
       removeTags.map(async tag => {
-        const tagObject = await findTagByName(tag);
+        const tagObject = await findTagById(tag);
         if (Object.getOwnPropertyNames(tagObject).length < 2) {
           return 1;
         }
@@ -44,7 +44,7 @@ exports.tagsExists = async (req, res, next) => {
   if (addTags) {
     const results = await Promise.all(
       addTags.map(async tag => {
-        const tagObject = await findTagByName(tag);
+        const tagObject = await findTagById(tag);
         if (Object.getOwnPropertyNames(tagObject).length < 2) {
           return 1;
         }
@@ -69,8 +69,7 @@ exports.preventDuplicateTags = async (req, res, next) => {
     if (addTags) {
       const results = await Promise.all(
         addTags.map(async tag => {
-          const tagObject = await findTagByName(tag);
-          const isExist = await findDeckTag(tagObject[0].id, id);
+          const isExist = await findDeckTag(tag, id);
           if (Object.getOwnPropertyNames(isExist).length > 2) {
             return 1;
           }

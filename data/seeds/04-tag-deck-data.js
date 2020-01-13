@@ -3,21 +3,21 @@ exports.seed = function(knex) {
     .del()
     .then(function() {
       return knex('deck_tags').insert([
-        { id: 1, deck_id: 1, tag_id: 1 },
-        { id: 2, deck_id: 1, tag_id: 2 },
-        { id: 3, deck_id: 2, tag_id: 3 },
-        { id: 4, deck_id: 2, tag_id: 4 },
-        { id: 5, deck_id: 2, tag_id: 5 },
-        { id: 6, deck_id: 3, tag_id: 6 },
-        { id: 7, deck_id: 3, tag_id: 7 },
-        { id: 8, deck_id: 4, tag_id: 8 },
-        { id: 9, deck_id: 4, tag_id: 9 },
-        { id: 10, deck_id: 5, tag_id: 10 },
-        { id: 11, deck_id: 5, tag_id: 11 },
-        { id: 12, deck_id: 6, tag_id: 12 },
-        { id: 13, deck_id: 6, tag_id: 13 },
-        { id: 14, deck_id: 7, tag_id: 14 },
-        { id: 15, deck_id: 7, tag_id: 15 },
+        { deck_id: 1, tag_id: 1 },
+        { deck_id: 1, tag_id: 2 },
+        { deck_id: 2, tag_id: 3 },
+        { deck_id: 2, tag_id: 4 },
+        { deck_id: 2, tag_id: 5 },
+        { deck_id: 3, tag_id: 6 },
+        { deck_id: 3, tag_id: 7 },
+        { deck_id: 4, tag_id: 8 },
+        { deck_id: 4, tag_id: 9 },
+        { deck_id: 5, tag_id: 10 },
+        { deck_id: 5, tag_id: 11 },
+        { deck_id: 6, tag_id: 12 },
+        { deck_id: 6, tag_id: 13 },
+        { deck_id: 7, tag_id: 14 },
+        { deck_id: 7, tag_id: 15 },
       ]);
     });
 };

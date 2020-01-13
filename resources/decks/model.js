@@ -76,9 +76,9 @@ const getDeckTagById = id => {
     .first();
 };
 
-exports.addDeckTag = (tagId, deckId) => {
+exports.addDeckTag = newDeckTag => {
   return db('deck_tags')
-    .insert({ deck_id: deckId, tag_id: tagId })
+    .insert(newDeckTag)
     .then(id => {
       getDeckTagById({ id: id[0] });
     });
@@ -91,11 +91,15 @@ exports.removeDeckTag = (tagId, deckId) => {
 };
 
 exports.findTagByName = tag => {
-  return db('tags').where({ name: tag });
+  return db('tags')
+    .where({ name: tag })
+    .first();
 };
 
 exports.findTagById = id => {
-  return db('tags').where({ id });
+  return db('tags')
+    .where({ id })
+    .first();
 };
 
 exports.findDeckTag = (tagId, deckId) => {

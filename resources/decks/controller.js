@@ -2,8 +2,12 @@
 const Decks = require('./model');
 
 exports.getAllDecks = async (req, res) => {
-  const decks = await Decks.getAll();
-  res.status(200).json({ decks });
+  try {
+    const decks = await Decks.getAll();
+    res.status(200).json({ data: decks });
+  } catch (error) {
+    res.status(500).json({ message: `Error getting deck: ${error.message}` });
+  }
 };
 
 exports.getDeck = async (req, res) => {
@@ -17,7 +21,7 @@ exports.getDeck = async (req, res) => {
 };
 
 exports.addDeck = async (req, res) => {
-  const { name } = req.body;
+  const { name, tags } = req.body;
   const { subject } = req.decodedToken;
   const newDeck = {
     name,
@@ -25,6 +29,16 @@ exports.addDeck = async (req, res) => {
   };
   try {
     const deck = await Decks.add(newDeck);
+    await Promise.all(
+      tags.map(async tag => {
+        try {
+          const newDeckTag = { deck_id: deck.id, tag_id: tag };
+          Decks.addDeckTag(newDeckTag);
+        } catch (error) {
+          res.status(500).json({ message: `Error adding tag: ${tag}` });
+        }
+      })
+    );
     res.status(201).json({ deck });
   } catch (error) {
     res.status(500).json({ message: `Error adding deck: ${error}` });
