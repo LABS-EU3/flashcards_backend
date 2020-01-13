@@ -14,7 +14,7 @@ const { cardExists } = require('./middlewares');
 const flashcardsRouter = express.Router();
 
 flashcardsRouter.post('/', validate(flashCardSchema), makeCard);
-flashcardsRouter.get('/users/:userId', fetchAllCardsByUser);
+flashcardsRouter.get('/', fetchAllCardsByUser);
 flashcardsRouter.get('/:id', cardExists, fetchCardById);
 flashcardsRouter.put('/:id', cardExists, validate(flashCardSchema), editCard);
 flashcardsRouter.delete('/:id', cardExists, deleteCard);

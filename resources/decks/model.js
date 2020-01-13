@@ -20,7 +20,8 @@ exports.getAll = () => {
       'd.public',
       'd.created_at',
       'd.updated_at'
-    );
+    )
+    .where({ 'd.public': true });
 };
 
 exports.getUserDecks = userId => {

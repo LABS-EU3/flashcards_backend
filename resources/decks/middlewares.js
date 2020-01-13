@@ -77,3 +77,21 @@ exports.preventDuplicateTags = async (req, res, next) => {
     });
   }
 };
+
+exports.userOwnsDeck = async (req, res, next) => {
+  const { subject } = req.decodedToken;
+  const { id } = req.params;
+  try {
+    const deck = await findById(id);
+    if (deck.user_id === subject) {
+      next();
+    }
+    return res.status(500).json({
+      message: `You do not own this deck to make changes to it`,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: `One of your tags are not valid`,
+    });
+  }
+};
