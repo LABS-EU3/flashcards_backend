@@ -30,10 +30,6 @@ exports.add = async deck => {
   return newDeck;
 };
 
-exports.findBy = filter => {
-  return db('decks').where(filter);
-};
-
 exports.findById = id => {
   return db('decks')
     .where({ id })
