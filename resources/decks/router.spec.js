@@ -16,6 +16,9 @@ beforeEach(async done => {
   await db.raw(
     'TRUNCATE TABLE users, reset_password, decks, flashcards CASCADE'
   );
+  await db.seed.run({
+    specific: '03-tags-data.js',
+  });
   const userRes = await request(server)
     .post('/api/auth/register')
     .send(userObject);
@@ -25,7 +28,6 @@ beforeEach(async done => {
   done();
 });
 
-// Destroy knex instance after all tests are run to fix timeout in Travis build.
 afterAll(async done => {
   await db.destroy();
   done();
@@ -37,20 +39,20 @@ describe('Decks API endpoints', () => {
       await request(server)
         .post('/api/decks')
         .set('Authorization', authToken)
-        .send({ name: 'Test-deck' });
+        .send({ name: 'Test-deck', tags: [1, 2, 3] });
 
       await request(server)
         .post('/api/decks')
         .set('Authorization', authToken)
-        .send({ name: 'new-deck' });
+        .send({ name: 'new-deck', tags: [1, 2, 3] });
 
       const response = await request(server)
         .get('/api/decks')
         .set('Authorization', authToken);
 
       expect(response.status).toBe(200);
-      expect(typeof response.body.decks).toEqual('object');
-      expect(response.body.decks).toHaveLength(2);
+      expect(typeof response.body).toEqual('object');
+      expect(response.body.data).toHaveLength(2);
       done();
     });
   });
@@ -60,13 +62,13 @@ describe('Decks API endpoints', () => {
       const { body } = await request(server)
         .post('/api/decks')
         .set('Authorization', authToken)
-        .send({ name: 'Test-deck' });
+        .send({ name: 'Test-deck', tags: [1, 2, 3] });
 
       const response = await request(server)
         .get(`/api/decks/${body.deck.id}`)
         .set('Authorization', authToken);
 
-      expect(response.body.deck.name).toEqual('Test-deck');
+      expect(response.body.deck.deck_name).toEqual('Test-deck');
       expect(response.body.deck.user_id).toEqual(user.id);
       done();
     });
@@ -77,7 +79,7 @@ describe('Decks API endpoints', () => {
       const { body } = await request(server)
         .post('/api/decks/')
         .set('Authorization', authToken)
-        .send({ name: 'Test-deck' });
+        .send({ name: 'Test-deck', tags: [1, 2, 3] });
 
       const response = await request(server)
         .post(`/api/decks/${body.deck.id}`)
@@ -99,7 +101,7 @@ describe('Decks API endpoints', () => {
       const response = await request(server)
         .post('/api/decks')
         .set('Authorization', authToken)
-        .send({ name: 'new-deck' });
+        .send({ name: 'new-deck', tags: [1, 2, 3] });
       expect(response.status).toBe(201);
       expect(response.body.deck.user_id).toBe(user.id);
       expect(response.body.deck.name).toBe('new-deck');
@@ -112,7 +114,7 @@ describe('Decks API endpoints', () => {
       const { body } = await request(server)
         .post('/api/decks/')
         .set('Authorization', authToken)
-        .send({ name: 'Test-deck' });
+        .send({ name: 'Test-deck', tags: [1, 2, 3] });
 
       const response = await request(server)
         .post(`/api/decks/${body.deck.id}`)
@@ -125,7 +127,7 @@ describe('Decks API endpoints', () => {
       const { body } = await request(server)
         .post('/api/decks/')
         .set('Authorization', authToken)
-        .send({ name: 'Test-deck' });
+        .send({ name: 'Test-deck', tags: [1, 2, 3] });
 
       const response = await request(server)
         .put(`/api/decks/${body.deck.id}`)
@@ -140,7 +142,7 @@ describe('Decks API endpoints', () => {
       const { body } = await request(server)
         .post('/api/decks/')
         .set('Authorization', authToken)
-        .send({ name: 'Test-deck' });
+        .send({ name: 'Test-deck', tags: [1, 2, 3] });
 
       const response = await request(server)
         .put(`/api/decks/${body.deck.id}`)
@@ -148,7 +150,7 @@ describe('Decks API endpoints', () => {
         .send({ name: 'updated-deck' });
 
       expect(response.status).toBe(200);
-      expect(response.body.deck.name).toBe('updated-deck');
+      expect(response.body.deck_name).toBe('updated-deck');
       done();
     });
   });
@@ -158,7 +160,7 @@ describe('Decks API endpoints', () => {
       const { body } = await request(server)
         .post('/api/decks/')
         .set('Authorization', authToken)
-        .send({ name: 'Test-deck' });
+        .send({ name: 'Test-deck', tags: [1, 2, 3] });
       const response = await request(server).delete(
         `/api/decks/${body.deck.id}`
       );
@@ -170,7 +172,7 @@ describe('Decks API endpoints', () => {
       const { body } = await request(server)
         .post('/api/decks/')
         .set('Authorization', authToken)
-        .send({ name: 'Test-deck' });
+        .send({ name: 'Test-deck', tags: [1, 2, 3] });
 
       const response = await request(server)
         .delete(`/api/decks/${body.deck.id}`)

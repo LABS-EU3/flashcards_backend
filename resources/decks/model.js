@@ -78,7 +78,7 @@ exports.findById = id => {
       'd.created_at',
       'd.updated_at'
     )
-    .where({ 'd.user_id': id })
+    .where({ 'dt.deck_id': id })
     .first();
 };
 
@@ -119,10 +119,6 @@ exports.findTagById = id => {
   return db('tags')
     .where({ id })
     .first();
-};
-
-exports.allTagsByDeck = deckId => {
-  return db('deck_tags').where({ deck_id: deckId });
 };
 
 exports.findDeckTag = (tagId, deckId) => {
