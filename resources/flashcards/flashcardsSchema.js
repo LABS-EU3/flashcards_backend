@@ -14,11 +14,6 @@ exports.flashCardSchema = joi.object({
     .integer()
     .label('Deck Id')
     .required(),
-  userId: joi
-    .number()
-    .integer()
-    .label('User Id')
-    .required(),
   imageUrl: joi
     .string()
     .allow('')
