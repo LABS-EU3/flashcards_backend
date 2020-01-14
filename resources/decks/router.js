@@ -2,20 +2,36 @@ const router = require('express').Router();
 
 const {
   addDeck,
-  getAllDecks,
+  getUsersDecks,
   getDeck,
   deleteDeck,
   updateDeck,
+  getAllDecks,
 } = require('./controller');
 const validate = require('../../utils/validate');
 const { deckSchema } = require('./schema');
-const { deckExists } = require('./middlewares');
+const {
+  deckExists,
+  tagsExists,
+  preventDuplicateTags,
+  userOwnsDeck,
+} = require('./middlewares');
 const { checkId } = require('../global/middlewares');
 
-router.post('/', validate(deckSchema), addDeck);
-router.get('/', getAllDecks);
+router.post('/', validate(deckSchema), tagsExists, addDeck);
+router.get('/', getUsersDecks);
+router.get('/public', getAllDecks);
 router.get('/:id', checkId, deckExists, getDeck);
-router.put('/:id', validate(deckSchema), checkId, deckExists, updateDeck);
-router.delete('/:id', checkId, deckExists, deleteDeck);
+router.put(
+  '/:id',
+  validate(deckSchema),
+  userOwnsDeck,
+  checkId,
+  deckExists,
+  tagsExists,
+  preventDuplicateTags,
+  updateDeck
+);
+router.delete('/:id', checkId, userOwnsDeck, deckExists, deleteDeck);
 
 module.exports = router;

@@ -6,10 +6,10 @@ const {
 } = require('./model');
 
 exports.fetchAllCardsByUser = async (req, res) => {
-  const { userId } = req.params;
+  const { subject } = req.decodedToken;
 
   try {
-    const cards = await getAllCardsByUser(userId);
+    const cards = await getAllCardsByUser(subject);
     res.status(200).json({ cards });
   } catch (error) {
     res.status(500).json({
@@ -30,10 +30,11 @@ exports.fetchCardById = async (req, res) => {
 };
 
 exports.makeCard = async (req, res) => {
-  const { deckId, userId, questionText, answerText, imageUrl } = req.body;
+  const { subject } = req.decodedToken;
+  const { deckId, questionText, answerText, imageUrl } = req.body;
   const cardInfo = {
     deck_id: deckId,
-    user_id: userId,
+    user_id: subject,
     question: questionText,
     answer: answerText,
     image_url: imageUrl,

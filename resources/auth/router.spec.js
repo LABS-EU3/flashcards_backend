@@ -41,10 +41,10 @@ const exampleMail = {
 describe('Auth Router', () => {
   describe('Register Endpoint', () => {
     test('Returns 201 on success', async done => {
-      await request(server)
+      const res = await request(server)
         .post('/api/auth/register')
-        .send(userObject)
-        .expect(201);
+        .send(userObject);
+      expect(res.status).toBe(201);
       done();
     });
 

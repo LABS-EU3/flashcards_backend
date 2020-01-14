@@ -10,6 +10,7 @@ const userObject = {
 };
 
 let authToken;
+// eslint-disable-next-line no-unused-vars
 let user;
 const flashcard = {
   deckId: null,
@@ -21,13 +22,16 @@ const flashcard = {
 
 beforeEach(async done => {
   await db.raw('TRUNCATE TABLE users, decks, flashcards CASCADE');
+  await db.seed.run({
+    specific: '03-tags-data.js',
+  });
   const userRes = await request(server)
     .post('/api/auth/register')
     .send(userObject);
 
   const deckRes = await request(server)
     .post('/api/decks')
-    .send({ name: 'Example Deck' })
+    .send({ name: 'Example Deck', tags: [1, 2, 3] })
     .set('Authorization', userRes.body.data.token);
 
   authToken = userRes.body.data.token;
@@ -69,7 +73,7 @@ describe('Flashcards Router', () => {
     });
   });
 
-  describe('[GET] /api/cards/users/:userId', () => {
+  describe('[GET] /api/cards', () => {
     test('Should get all cards created by user', async done => {
       await request(server)
         .post('/api/cards')
@@ -85,7 +89,7 @@ describe('Flashcards Router', () => {
         .set('Authorization', authToken);
 
       const res = await request(server)
-        .get(`/api/cards/users/${user.id}`)
+        .get(`/api/cards/`)
         .set('Authorization', authToken);
 
       expect(res.status).toBe(200);
@@ -178,7 +182,7 @@ describe('Flashcards Router', () => {
       expect(res.status).toBe(204);
 
       const cardsRes = await request(server)
-        .get(`/api/cards/users/${user.id}`)
+        .get(`/api/cards/`)
         .set('Authorization', authToken);
 
       expect(cardsRes.body.cards).toHaveLength(2);
