@@ -14,7 +14,6 @@ let authToken;
 let user;
 const flashcard = {
   deckId: null,
-  userId: null,
   questionText: 'When will AI takeover',
   answerText: 'What idk',
   imageUrl: 'https://robots.ieee.org/robots/cb2/Photos/SD/cb2-photo1-full.jpg',
@@ -36,7 +35,6 @@ beforeEach(async done => {
 
   authToken = userRes.body.data.token;
   flashcard.deckId = deckRes.body.deck.id;
-  flashcard.userId = userRes.body.data.user.id;
 
   user = userRes.body.data.user;
   done();
@@ -68,7 +66,6 @@ describe('Flashcards Router', () => {
       expect(res.status).toBe(201);
       expect(res.body.card.question).toBe(flashcard.questionText);
       expect(res.body.card.answer).toBe(flashcard.answerText);
-      expect(res.body.card.user_id).toBe(flashcard.userId);
       done();
     });
   });
