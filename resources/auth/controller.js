@@ -123,9 +123,7 @@ exports.viewProfile = async (req, res) => {
     const { subject } = req.decodedToken;
     const user = await model.filter({ id: subject });
     res.status(200).json({
-      fullName: user.full_name,
-      email: user.email,
-      imageUrl: user.image_url,
+      user,
     });
   } catch (error) {
     res.status(500).json({ message: `Error loading profile ${error.message}` });

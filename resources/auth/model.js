@@ -15,7 +15,7 @@ exports.createUser = user => {
 
 exports.filter = filter => {
   return db('users')
-    .select('id', 'full_name', 'email', 'image_url', 'isConfirmed')
+    .select('id', 'full_name', 'email', 'image_url', 'isConfirmed', 'createdon')
     .where(filter)
     .first();
 };
@@ -25,7 +25,7 @@ exports.filter = filter => {
 
 exports.findBy = param => {
   return db('users')
-    .select('id', 'full_name', 'email', 'password', 'isConfirmed')
+    .select('id', 'full_name', 'email', 'password', 'isConfirmed', 'createdon')
     .where(param)
     .first();
 };
