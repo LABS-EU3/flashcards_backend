@@ -90,6 +90,7 @@ exports.updateDeck = async (req, res) => {
       }
     }
     await Decks.update({ name: req.body.name }, id);
+    await Decks.deckUsed(id);
     const deck = await Decks.findById(Number(id));
     res.status(200).json(deck);
   } catch (error) {
