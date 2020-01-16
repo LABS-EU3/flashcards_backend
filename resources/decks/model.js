@@ -136,7 +136,7 @@ exports.deckAccessed = data => {
     db('recent_accesses')
       .where(data)
       // inserts a date with current time stamp
-      .update({ last_accessed: db.raw('NOW()::timestamp') })
+      .update({ accessed_time: db.raw('NOW()::timestamp') })
   );
 };
 
@@ -154,8 +154,16 @@ exports.removeAccessConnection = data => {
 
 exports.getUserLastAccessed = id => {
   return db('recent_accesses as ra')
-    .rightJoin('decks as d', 'd.id', 'ra.deck_id')
-    .select('d.*')
+    .innerJoin('decks as d', 'd.id', 'ra.deck_id')
+    .select(
+      'd.id as deck_id',
+      'd.user_id',
+      'd.name as deck_name',
+      'd.public',
+      'd.created_at',
+      'd.updated_at',
+      'ra.accessed_time'
+    )
     .where({ 'ra.user_id': id })
     .orderBy('ra.accessed_time', 'asc');
 };

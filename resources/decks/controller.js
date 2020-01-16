@@ -117,7 +117,7 @@ exports.accessDeck = async (req, res) => {
   try {
     const foundCxn = await Decks.findAccessConnection(accessCxnData);
     if (foundCxn) {
-      await Decks.deckAccessed(id);
+      await Decks.deckAccessed(accessCxnData);
       res.status(200).end();
     }
     await Decks.createAccessConnection(accessCxnData);
@@ -130,8 +130,9 @@ exports.accessDeck = async (req, res) => {
 };
 
 exports.recentlyAccessed = async (req, res) => {
+  const { subject } = req.decodedToken;
   try {
-    const decks = await Decks.getUserLastAccessed();
+    const decks = await Decks.getUserLastAccessed(subject);
     res.status(200).json({ data: decks });
   } catch (error) {
     res.status(500).json({
@@ -145,8 +146,8 @@ exports.removeAccessed = async (req, res) => {
   const { subject } = req.decodedToken;
   const accessCxnData = { user_id: subject, deck_id: id };
   try {
-    const decks = await Decks.removeAccessConnection(accessCxnData);
-    res.status(200).json({ data: decks });
+    await Decks.removeAccessConnection(accessCxnData);
+    res.status(204).end();
   } catch (error) {
     res.status(500).json({
       message: `Error removing access connection: ${error.message}`,

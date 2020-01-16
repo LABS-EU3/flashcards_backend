@@ -21,8 +21,10 @@ const {
 } = require('./middlewares');
 const { checkId } = require('../global/middlewares');
 
+router.get('/access', recentlyAccessed);
+router.put('/access/:id', deckExists, accessDeck);
+router.delete('/access/:id', deckExists, removeAccessed);
 router.post('/', validate(deckSchema), tagsExists, addDeck);
-router.get('/', getUsersDecks);
 router.get('/', getUsersDecks);
 router.get('/public', getAllDecks);
 router.get('/:id', checkId, deckExists, getDeck);
@@ -37,9 +39,5 @@ router.put(
   updateDeck
 );
 router.delete('/:id', checkId, userOwnsDeck, deckExists, deleteDeck);
-
-router.get('/access', recentlyAccessed);
-router.put('/access/:id', checkId, deckExists, accessDeck);
-router.delete('/access/:id', checkId, deckExists, removeAccessed);
 
 module.exports = router;
