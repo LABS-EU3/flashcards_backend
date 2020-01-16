@@ -5,7 +5,7 @@ exports.getAll = () => {
     .rightJoin('decks as d', 'd.id', 'dt.deck_id')
     .leftJoin('tags as t', 't.id', 'dt.tag_id')
     .select(
-      'dt.deck_id',
+      'd.id as deck_id',
       'd.user_id',
       'd.name as deck_name',
       'd.public',
@@ -14,7 +14,7 @@ exports.getAll = () => {
       db.raw('ARRAY_AGG( DISTINCT t.name) as tags')
     )
     .groupBy(
-      'dt.deck_id',
+      'd.id',
       'd.user_id',
       'd.name',
       'd.public',
@@ -29,7 +29,7 @@ exports.getUserDecks = userId => {
     .rightJoin('decks as d', 'd.id', 'dt.deck_id')
     .leftJoin('tags as t', 't.id', 'dt.tag_id')
     .select(
-      'dt.deck_id',
+      'd.id as deck_id',
       'd.user_id',
       'd.name as deck_name',
       'd.public',
@@ -38,7 +38,7 @@ exports.getUserDecks = userId => {
       db.raw('ARRAY_AGG( DISTINCT t.name) as tags')
     )
     .groupBy(
-      'dt.deck_id',
+      'd.id',
       'd.user_id',
       'd.name',
       'd.public',
@@ -61,7 +61,7 @@ exports.findById = id => {
     .leftJoin('tags as t', 't.id', 'dt.tag_id')
     .leftJoin('flashcards as f', 'f.deck_id', 'dt.deck_id')
     .select(
-      'dt.deck_id',
+      'd.id as deck_id',
       'd.user_id',
       'd.name as deck_name',
       'd.public',
@@ -71,7 +71,7 @@ exports.findById = id => {
       db.raw('array_to_json(ARRAY_AGG( DISTINCT f)) as flashcards')
     )
     .groupBy(
-      'dt.deck_id',
+      'd.id',
       'd.user_id',
       'd.name',
       'd.public',
