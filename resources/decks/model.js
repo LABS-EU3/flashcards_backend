@@ -78,7 +78,7 @@ exports.findById = id => {
       'd.created_at',
       'd.updated_at'
     )
-    .where({ 'dt.deck_id': id })
+    .where({ 'd.id': id })
     .first();
 };
 
