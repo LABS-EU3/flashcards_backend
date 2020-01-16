@@ -7,7 +7,9 @@ const {
   deleteDeck,
   updateDeck,
   getAllDecks,
-  deckAccessed,
+  accessDeck,
+  recentlyAccessed,
+  removeAccessed,
 } = require('./controller');
 const validate = require('../../utils/validate');
 const { deckSchema } = require('./schema');
@@ -21,6 +23,7 @@ const { checkId } = require('../global/middlewares');
 
 router.post('/', validate(deckSchema), tagsExists, addDeck);
 router.get('/', getUsersDecks);
+router.get('/', getUsersDecks);
 router.get('/public', getAllDecks);
 router.get('/:id', checkId, deckExists, getDeck);
 router.put(
@@ -33,7 +36,10 @@ router.put(
   preventDuplicateTags,
   updateDeck
 );
-router.put('/view/:id', userOwnsDeck, checkId, deckExists, deckAccessed);
 router.delete('/:id', checkId, userOwnsDeck, deckExists, deleteDeck);
+
+router.get('/access', recentlyAccessed);
+router.put('/access/:id', checkId, deckExists, accessDeck);
+router.delete('/access/:id', checkId, deckExists, removeAccessed);
 
 module.exports = router;

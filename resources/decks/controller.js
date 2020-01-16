@@ -2,9 +2,12 @@
 const Decks = require('./model');
 
 exports.getAllDecks = async (req, res) => {
+  const { subject } = req.decodedToken;
   try {
-    const decks = await Decks.getAll();
-    res.status(200).json({ data: decks });
+    const publicDecks = await Decks.getAll();
+    const usersDecks = await Decks.getUserDecks(subject);
+    const decks = [...publicDecks, ...usersDecks];
+    await res.status(200).json({ data: decks });
   } catch (error) {
     res.status(500).json({ message: `Error getting deck: ${error.message}` });
   }
@@ -51,6 +54,8 @@ exports.addDeck = async (req, res) => {
         })
       );
     }
+    const accessCxnData = { user_id: subject, deck_id: deck.id };
+    await Decks.createAccessConnection(accessCxnData);
     res.status(201).json({ deck });
   } catch (error) {
     res.status(500).json({ message: `Error adding deck: ${error}` });
@@ -70,6 +75,7 @@ exports.deleteDeck = async (req, res) => {
 };
 
 exports.updateDeck = async (req, res) => {
+  const { subject } = req.decodedToken;
   const { id } = req.params;
   const { removeTags, addTags } = req.body;
   try {
@@ -91,6 +97,8 @@ exports.updateDeck = async (req, res) => {
         );
       }
     }
+    const accessCxnData = { user_id: subject, deck_id: id };
+    await Decks.findAccessConnection(accessCxnData);
     await Decks.update({ name: req.body.name }, id);
     await Decks.deckUsed(id);
     const deck = await Decks.findById(Number(id));
@@ -102,14 +110,46 @@ exports.updateDeck = async (req, res) => {
   }
 };
 
-exports.deckAccessed = async (req, res) => {
+exports.accessDeck = async (req, res) => {
   const { id } = req.params;
+  const { subject } = req.decodedToken;
+  const accessCxnData = { user_id: subject, deck_id: id };
   try {
-    await Decks.deckUsed(id);
-    res.status(200).end();
+    const foundCxn = await Decks.findAccessConnection(accessCxnData);
+    if (foundCxn) {
+      await Decks.deckAccessed(id);
+      res.status(200).end();
+    }
+    await Decks.createAccessConnection(accessCxnData);
+    res.status(201).end();
   } catch (error) {
     res.status(500).json({
-      message: `Error updating deck acessing: ${error.message}`,
+      message: `Error updating deck access connection: ${error.message}`,
+    });
+  }
+};
+
+exports.recentlyAccessed = async (req, res) => {
+  try {
+    const decks = await Decks.getUserLastAccessed();
+    res.status(200).json({ data: decks });
+  } catch (error) {
+    res.status(500).json({
+      message: `Error getting accessed deck: ${error.message}`,
+    });
+  }
+};
+
+exports.removeAccessed = async (req, res) => {
+  const { id } = req.params;
+  const { subject } = req.decodedToken;
+  const accessCxnData = { user_id: subject, deck_id: id };
+  try {
+    const decks = await Decks.removeAccessConnection(accessCxnData);
+    res.status(200).json({ data: decks });
+  } catch (error) {
+    res.status(500).json({
+      message: `Error removing access connection: ${error.message}`,
     });
   }
 };

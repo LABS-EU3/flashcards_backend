@@ -11,7 +11,6 @@ exports.getAll = () => {
       'd.public',
       'd.created_at',
       'd.updated_at',
-      'd.last_used',
       db.raw('ARRAY_AGG( DISTINCT t.name) as tags')
     )
     .groupBy(
@@ -20,7 +19,6 @@ exports.getAll = () => {
       'd.name',
       'd.public',
       'd.created_at',
-      'd.last_used',
       'd.updated_at'
     )
     .where({ 'd.public': true });
@@ -37,7 +35,6 @@ exports.getUserDecks = userId => {
       'd.public',
       'd.created_at',
       'd.updated_at',
-      'd.last_used',
       db.raw('ARRAY_AGG( DISTINCT t.name) as tags')
     )
     .groupBy(
@@ -46,7 +43,6 @@ exports.getUserDecks = userId => {
       'd.name',
       'd.public',
       'd.created_at',
-      'd.last_used',
       'd.updated_at'
     )
     .where({ 'd.user_id': userId });
@@ -71,7 +67,6 @@ exports.findById = id => {
       'd.public',
       'd.created_at',
       'd.updated_at',
-      'd.last_used',
       db.raw('array_to_json(ARRAY_AGG( DISTINCT t)) as tags'),
       db.raw('array_to_json(ARRAY_AGG( DISTINCT f)) as flashcards')
     )
@@ -81,8 +76,7 @@ exports.findById = id => {
       'd.name',
       'd.public',
       'd.created_at',
-      'd.updated_at',
-      'd.last_used'
+      'd.updated_at'
     )
     .where({ 'd.id': id })
     .first();
@@ -133,11 +127,35 @@ exports.findDeckTag = (tagId, deckId) => {
     .first();
 };
 
-exports.deckUsed = id => {
+exports.createAccessConnection = data => {
+  return db('recent_accesses').insert(data);
+};
+
+exports.deckAccessed = data => {
   return (
-    db('decks')
-      .where({ id })
+    db('recent_accesses')
+      .where(data)
       // inserts a date with current time stamp
-      .update({ last_used: db.raw('NOW()::timestamp') })
+      .update({ last_accessed: db.raw('NOW()::timestamp') })
   );
+};
+
+exports.findAccessConnection = data => {
+  return db('recent_accesses')
+    .where(data)
+    .first();
+};
+
+exports.removeAccessConnection = data => {
+  return db('recent_accesses')
+    .where(data)
+    .del();
+};
+
+exports.getUserLastAccessed = id => {
+  return db('recent_accesses as ra')
+    .rightJoin('decks as d', 'd.id', 'ra.deck_id')
+    .select('d.*')
+    .where({ 'ra.user_id': id })
+    .orderBy('ra.accessed_time', 'asc');
 };

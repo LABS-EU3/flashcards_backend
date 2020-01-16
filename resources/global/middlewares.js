@@ -25,6 +25,6 @@ exports.checkId = (req, res, next) => {
   if (!Number.isNaN(Number(id))) {
     next();
   } else {
-    res.status(400).json({ status: 400, messagee: 'Invalid ID' });
+    res.status(400).json({ message: 'Invalid ID' });
   }
 };
