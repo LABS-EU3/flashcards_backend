@@ -83,7 +83,9 @@ Request Error ( **400 - Bad Request** || **404 - Not Found** || **403 - Unauthor
 | [GET /api/decks/:id](#get-apidecksId)                          | View one deck          |
 | [PUT /api/decks/:id](#put-apidecksId)                          | Edit deck              |
 | [DELETE /api/decks/:id](#delete-apidecksId)                    | Delete deck            |
-| [PUT /api/decks/view/:id](#put-apidecksviewId)                 | Show decks last viewed |
+| [GET /api/decks/access/](#put-apidecksaccess)                  | 10 decks last accessed |
+| [PUT /api/decks/access/:id](#put-apidecksaccessId)             | Update deck access time|
+| [DELETE /api/decks/access/:id](#put-apidecksaccessId)          | Remove accessed entry  |
 | -------------------------------------------------------------- | ---------------------- |
 | [POST /api/cards](#post-apicard)                               | Create Flashcard       |
 | [GET /api/cards](#get-apicardalluserId)                        | All flashcards of User |
@@ -229,7 +231,7 @@ Response body:
 
 #### POST /api/decks
 
-_**Description**: Creates a flashcard in a deck._.
+_**Description**: Creates a deck._.
 
 Request body:
 
@@ -252,15 +254,14 @@ Response body:
     "name": "New Decks",
     "public": false,
     "created_at": "2020-01-13T17:10:54.290Z",
-    "updated_at": "2020-01-13T17:10:54.290Z",
-    "last_used": "2020-01-13T17:10:54.290Z"
+    "updated_at": "2020-01-13T17:10:54.290Z"
   }
 }
 ```
 
 #### GET /api/decks
 
-_**Description**: Retrieves all flashcards made by a specific User._.
+_**Description**: Retrieves all decks made by a specific User._.
 
 Request body:
 
@@ -280,7 +281,6 @@ Response body:
       "public": false,
       "created_at": "2020-01-13T15:51:07.998Z",
       "updated_at": "2020-01-13T15:51:07.998Z",
-      "last_used": "2020-01-13T17:10:54.290Z",
       "tags": [
         "Aeronautical & Manufacturing Engineering",
         "Agriculture & Forestry",
@@ -297,7 +297,6 @@ Response body:
       "public": false,
       "created_at": "2020-01-13T17:10:54.290Z",
       "updated_at": "2020-01-13T17:10:54.290Z",
-      "last_used": "2020-01-13T17:10:54.290Z",
       "tags": [
         "Accounting & Finance",
         "Aeronautical & Manufacturing Engineering",
@@ -311,7 +310,7 @@ Response body:
 
 #### GET /api/decks/public
 
-_**Description**: Retrieves a specific card by the card's id._.
+_**Description**: Get users private decks and all public decks_.
 
 Request body:
 
@@ -331,7 +330,6 @@ Response body:
       "public": true,
       "created_at": "2020-01-13T15:49:59.080Z",
       "updated_at": "2020-01-13T15:49:59.080Z",
-      "last_used": "2020-01-13T17:10:54.290Z",
       "tags": [
         "Accounting & Finance",
         "Aeronautical & Manufacturing Engineering"
@@ -344,7 +342,6 @@ Response body:
       "public": true,
       "created_at": "2020-01-13T15:49:59.080Z",
       "updated_at": "2020-01-13T15:49:59.080Z",
-      "last_used": "2020-01-13T17:10:54.290Z",
       "tags": ["Anthropology", "Archaeology"]
     },
     {
@@ -354,7 +351,6 @@ Response body:
       "public": true,
       "created_at": "2020-01-13T15:49:59.080Z",
       "updated_at": "2020-01-13T15:49:59.080Z",
-      "last_used": "2020-01-13T17:10:54.290Z",
       "tags": ["Architecture", "Art & Design"]
     },
     {
@@ -364,7 +360,6 @@ Response body:
       "public": true,
       "created_at": "2020-01-13T15:49:59.080Z",
       "updated_at": "2020-01-13T15:49:59.080Z",
-      "last_used": "2020-01-13T17:10:54.290Z",
       "tags": ["Aural & Oral Sciences", "Biological Sciences"]
     },
     {
@@ -374,7 +369,6 @@ Response body:
       "public": true,
       "created_at": "2020-01-13T15:49:59.080Z",
       "updated_at": "2020-01-13T15:49:59.080Z",
-      "last_used": "2020-01-13T17:10:54.290Z",
       "tags": ["Building", "Business & Management Studies"]
     }
   ]
@@ -383,7 +377,7 @@ Response body:
 
 #### GET /api/decks/:id
 
-_**Description**: Edit a flashcard by flashcard Id._.
+_**Description**: Edit a deck by deck Id._.
 
 Request body:
 
@@ -401,8 +395,7 @@ Response body:
     "deck_name": "Famous Personalities",
     "public": true,
     "created_at": "2020-01-13T15:49:59.080Z",
-    "updated_at": "2020-01-13T15:49:59.080Z",
-    "last_used": "2020-01-13T17:10:54.290Z",
+    "updated_at": "2020-01-13T15:49:59.080Z"
     "tags": [
       {
         "id": 12,
@@ -441,7 +434,7 @@ Response body:
 
 #### PUT /api/decks/:id
 
-_**Description**: Delete a flashcard._.
+_**Description**: Edit a deck._.
 
 Request body:
 
@@ -463,7 +456,6 @@ Response body:
   "public": true,
   "created_at": "2020-01-13T15:49:59.080Z",
   "updated_at": "2020-01-13T15:49:59.080Z",
-  "last_used": "2020-01-13T17:10:54.290Z",
   "tags": [
     {
       "id": 1,
@@ -513,7 +505,7 @@ Response body:
 
 #### DELETE /api/decks/:id
 
-_**Description**: Delete a flashcard._.
+_**Description**: Delete a deck._.
 
 Request body:
 
@@ -527,9 +519,62 @@ Response body:
 {}
 ```
 
-#### PUT /api/decks/view/:id
+#### GET /api/decks/access/
 
-_**Description**: Delete a flashcard._.
+_**Description**: Get users last accessed decks._.
+
+Request body:
+
+```json
+{}
+```
+
+Response body:
+
+```json
+{
+  "data": [
+    {
+      "deck_id": 5,
+      "user_id": 5,
+      "deck_name": "Basic General Knowledge",
+      "public": true,
+      "created_at": "2020-01-16T19:12:08.774Z",
+      "updated_at": "2020-01-16T19:12:08.774Z",
+      "accessed_time": "2020-01-16T19:34:09.450Z"
+    },
+    {
+      "deck_id": 5,
+      "user_id": 5,
+      "deck_name": "Basic General Knowledge",
+      "public": true,
+      "created_at": "2020-01-16T19:12:08.774Z",
+      "updated_at": "2020-01-16T19:12:08.774Z",
+      "accessed_time": "2020-01-16T19:34:09.483Z"
+    }
+  ]
+}
+```
+
+#### PUT /api/decks/access/:id
+
+_**Description**: Update access time on a users deck._.
+
+Request body:
+
+```json
+{}
+```
+
+Response body:
+
+```json
+{}
+```
+
+#### DELETE /api/decks/access/:id
+
+_**Description**: Delete access connection from user to deck._.
 
 Request body:
 
