@@ -252,7 +252,8 @@ Response body:
     "name": "New Decks",
     "public": false,
     "created_at": "2020-01-13T17:10:54.290Z",
-    "updated_at": "2020-01-13T17:10:54.290Z"
+    "updated_at": "2020-01-13T17:10:54.290Z",
+    "last_used": "2020-01-13T17:10:54.290Z"
   }
 }
 ```
@@ -279,6 +280,7 @@ Response body:
       "public": false,
       "created_at": "2020-01-13T15:51:07.998Z",
       "updated_at": "2020-01-13T15:51:07.998Z",
+      "last_used": "2020-01-13T17:10:54.290Z",
       "tags": [
         "Aeronautical & Manufacturing Engineering",
         "Agriculture & Forestry",
@@ -295,6 +297,7 @@ Response body:
       "public": false,
       "created_at": "2020-01-13T17:10:54.290Z",
       "updated_at": "2020-01-13T17:10:54.290Z",
+      "last_used": "2020-01-13T17:10:54.290Z",
       "tags": [
         "Accounting & Finance",
         "Aeronautical & Manufacturing Engineering",
@@ -328,6 +331,7 @@ Response body:
       "public": true,
       "created_at": "2020-01-13T15:49:59.080Z",
       "updated_at": "2020-01-13T15:49:59.080Z",
+      "last_used": "2020-01-13T17:10:54.290Z",
       "tags": [
         "Accounting & Finance",
         "Aeronautical & Manufacturing Engineering"
@@ -340,6 +344,7 @@ Response body:
       "public": true,
       "created_at": "2020-01-13T15:49:59.080Z",
       "updated_at": "2020-01-13T15:49:59.080Z",
+      "last_used": "2020-01-13T17:10:54.290Z",
       "tags": ["Anthropology", "Archaeology"]
     },
     {
@@ -349,6 +354,7 @@ Response body:
       "public": true,
       "created_at": "2020-01-13T15:49:59.080Z",
       "updated_at": "2020-01-13T15:49:59.080Z",
+      "last_used": "2020-01-13T17:10:54.290Z",
       "tags": ["Architecture", "Art & Design"]
     },
     {
@@ -358,6 +364,7 @@ Response body:
       "public": true,
       "created_at": "2020-01-13T15:49:59.080Z",
       "updated_at": "2020-01-13T15:49:59.080Z",
+      "last_used": "2020-01-13T17:10:54.290Z",
       "tags": ["Aural & Oral Sciences", "Biological Sciences"]
     },
     {
@@ -367,6 +374,7 @@ Response body:
       "public": true,
       "created_at": "2020-01-13T15:49:59.080Z",
       "updated_at": "2020-01-13T15:49:59.080Z",
+      "last_used": "2020-01-13T17:10:54.290Z",
       "tags": ["Building", "Business & Management Studies"]
     }
   ]
@@ -394,6 +402,7 @@ Response body:
     "public": true,
     "created_at": "2020-01-13T15:49:59.080Z",
     "updated_at": "2020-01-13T15:49:59.080Z",
+    "last_used": "2020-01-13T17:10:54.290Z",
     "tags": [
       {
         "id": 12,
@@ -448,56 +457,57 @@ Response body:
 
 ```json
 {
-    "deck_id": 6,
-    "user_id": 6,
-    "deck_name": "New Decks",
-    "public": true,
-    "created_at": "2020-01-13T15:49:59.080Z",
-    "updated_at": "2020-01-13T15:49:59.080Z",
-    "tags": [
-        {
-            "id": 1,
-            "name": "Accounting & Finance"
-        },
-        {
-            "id": 2,
-            "name": "Aeronautical & Manufacturing Engineering"
-        },
-        {
-            "id": 3,
-            "name": "Agriculture & Forestry"
-        },
-        {
-            "id": 4,
-            "name": "American Studies"
-        },
-        {
-            "id": 12,
-            "name": "Building"
-        }
-    ],
-    "flashcards": [
-        {
-            "id": 11,
-            "deck_id": 6,
-            "user_id": 6,
-            "question": "Who is the father of Geometry?",
-            "answer": "Euclid",
-            "image_url": null,
-            "created_at": "2020-01-13T10:49:59.086613-05:00",
-            "updated_at": "2020-01-13T10:49:59.086613-05:00"
-        },
-        {
-            "id": 12,
-            "deck_id": 6,
-            "user_id": 6,
-            "question": "The Indian to beat the computers in mathematical wizardry is",
-            "answer": "Shakunthala Devi",
-            "image_url": null,
-            "created_at": "2020-01-13T10:49:59.086613-05:00",
-            "updated_at": "2020-01-13T10:49:59.086613-05:00"
-        }
-    ]
+  "deck_id": 6,
+  "user_id": 6,
+  "deck_name": "New Decks",
+  "public": true,
+  "created_at": "2020-01-13T15:49:59.080Z",
+  "updated_at": "2020-01-13T15:49:59.080Z",
+  "last_used": "2020-01-13T17:10:54.290Z",
+  "tags": [
+    {
+      "id": 1,
+      "name": "Accounting & Finance"
+    },
+    {
+      "id": 2,
+      "name": "Aeronautical & Manufacturing Engineering"
+    },
+    {
+      "id": 3,
+      "name": "Agriculture & Forestry"
+    },
+    {
+      "id": 4,
+      "name": "American Studies"
+    },
+    {
+      "id": 12,
+      "name": "Building"
+    }
+  ],
+  "flashcards": [
+    {
+      "id": 11,
+      "deck_id": 6,
+      "user_id": 6,
+      "question": "Who is the father of Geometry?",
+      "answer": "Euclid",
+      "image_url": null,
+      "created_at": "2020-01-13T10:49:59.086613-05:00",
+      "updated_at": "2020-01-13T10:49:59.086613-05:00"
+    },
+    {
+      "id": 12,
+      "deck_id": 6,
+      "user_id": 6,
+      "question": "The Indian to beat the computers in mathematical wizardry is",
+      "answer": "Shakunthala Devi",
+      "image_url": null,
+      "created_at": "2020-01-13T10:49:59.086613-05:00",
+      "updated_at": "2020-01-13T10:49:59.086613-05:00"
+    }
+  ]
 }
 ```
 
@@ -516,6 +526,7 @@ Response body:
 ```json
 {}
 ```
+
 #### PUT /api/decks/view/:id
 
 _**Description**: Delete a flashcard._.
