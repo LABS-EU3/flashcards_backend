@@ -83,6 +83,7 @@ Request Error ( **400 - Bad Request** || **404 - Not Found** || **403 - Unauthor
 | [GET /api/decks/:id](#get-apidecksId)                          | View one deck          |
 | [PUT /api/decks/:id](#put-apidecksId)                          | Edit deck              |
 | [DELETE /api/decks/:id](#delete-apidecksId)                    | Delete deck            |
+| [PUT /api/decks/view/:id](#put-apidecksviewId)                 | Show decks last viewed |
 | -------------------------------------------------------------- | ---------------------- |
 | [POST /api/cards](#post-apicard)                               | Create Flashcard       |
 | [GET /api/cards](#get-apicardalluserId)                        | All flashcards of User |
@@ -501,6 +502,21 @@ Response body:
 ```
 
 #### DELETE /api/decks/:id
+
+_**Description**: Delete a flashcard._.
+
+Request body:
+
+```json
+{}
+```
+
+Response body:
+
+```json
+{}
+```
+#### PUT /api/decks/view/:id
 
 _**Description**: Delete a flashcard._.
 

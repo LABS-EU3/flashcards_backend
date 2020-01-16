@@ -98,3 +98,15 @@ exports.updateDeck = async (req, res) => {
     });
   }
 };
+
+exports.deckAccessed = async (req, res) => {
+  const { id } = req.params;
+  try {
+    await Decks.deckUsed(id);
+    res.status(200).end();
+  } catch (error) {
+    res.status(500).json({
+      message: `Error updating deck acessing: ${error.message}`,
+    });
+  }
+};

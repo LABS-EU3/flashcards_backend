@@ -11,6 +11,7 @@ exports.getAll = () => {
       'd.public',
       'd.created_at',
       'd.updated_at',
+      'd.last_used',
       db.raw('ARRAY_AGG( DISTINCT t.name) as tags')
     )
     .groupBy(
@@ -19,6 +20,7 @@ exports.getAll = () => {
       'd.name',
       'd.public',
       'd.created_at',
+      'd.last_used',
       'd.updated_at'
     )
     .where({ 'd.public': true });
@@ -35,6 +37,7 @@ exports.getUserDecks = userId => {
       'd.public',
       'd.created_at',
       'd.updated_at',
+      'd.last_used',
       db.raw('ARRAY_AGG( DISTINCT t.name) as tags')
     )
     .groupBy(
@@ -43,6 +46,7 @@ exports.getUserDecks = userId => {
       'd.name',
       'd.public',
       'd.created_at',
+      'd.last_used',
       'd.updated_at'
     )
     .where({ 'd.user_id': userId });
@@ -67,6 +71,7 @@ exports.findById = id => {
       'd.public',
       'd.created_at',
       'd.updated_at',
+      'd.last_used',
       db.raw('array_to_json(ARRAY_AGG( DISTINCT t)) as tags'),
       db.raw('array_to_json(ARRAY_AGG( DISTINCT f)) as flashcards')
     )
@@ -76,7 +81,8 @@ exports.findById = id => {
       'd.name',
       'd.public',
       'd.created_at',
-      'd.updated_at'
+      'd.updated_at',
+      'd.last_used'
     )
     .where({ 'dt.deck_id': id })
     .first();
@@ -125,4 +131,10 @@ exports.findDeckTag = (tagId, deckId) => {
   return db('deck_tags')
     .where({ deck_id: deckId, tag_id: tagId })
     .first();
+};
+
+exports.deckUsed = id => {
+  return db('decks')
+    .where({ id })
+    .update({ last_used: db.raw('NOW()::timestamp') });
 };

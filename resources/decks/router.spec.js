@@ -189,4 +189,29 @@ describe('Decks API endpoints', () => {
       done();
     });
   });
+
+  describe('[PUT] /api/decks/view/:id', () => {
+    test('return 200 with correct id', async done => {
+      const { body } = await request(server)
+        .post('/api/decks/')
+        .set('Authorization', authToken)
+        .send({ name: 'Test-deck', tags: [1, 2, 3] });
+      const response = await request(server)
+        .put(`/api/decks/view/${body.deck.id}`)
+        .set('Authorization', authToken);
+      expect(response.status).toBe(200);
+      done();
+    });
+    test('return bad with no token', async done => {
+      const { body } = await request(server)
+        .post('/api/decks/')
+        .set('Authorization', authToken)
+        .send({ name: 'Test-deck', tags: [1, 2, 3] });
+      const response = await request(server).put(
+        `/api/decks/view/${body.deck.id}`
+      );
+      expect(response.status).toBe(401);
+      done();
+    });
+  });
 });

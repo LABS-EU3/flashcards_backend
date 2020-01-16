@@ -7,6 +7,7 @@ const {
   deleteDeck,
   updateDeck,
   getAllDecks,
+  deckAccessed,
 } = require('./controller');
 const validate = require('../../utils/validate');
 const { deckSchema } = require('./schema');
@@ -32,6 +33,7 @@ router.put(
   preventDuplicateTags,
   updateDeck
 );
+router.put('/view/:id', userOwnsDeck, checkId, deckExists, deckAccessed);
 router.delete('/:id', checkId, userOwnsDeck, deckExists, deleteDeck);
 
 module.exports = router;
