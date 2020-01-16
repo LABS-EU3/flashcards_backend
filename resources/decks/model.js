@@ -134,7 +134,10 @@ exports.findDeckTag = (tagId, deckId) => {
 };
 
 exports.deckUsed = id => {
-  return db('decks')
-    .where({ id })
-    .update({ last_used: db.raw('NOW()::timestamp') });
+  return (
+    db('decks')
+      .where({ id })
+      // inserts a date with current time stamp
+      .update({ last_used: db.raw('NOW()::timestamp') })
+  );
 };
