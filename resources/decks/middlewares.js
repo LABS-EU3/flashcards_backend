@@ -92,7 +92,7 @@ exports.userOwnsDeck = async (req, res, next) => {
     }
   } catch (error) {
     res.status(500).json({
-      message: `One of your tags are not valid`,
+      message: `This deck does not exists`,
     });
   }
 };
