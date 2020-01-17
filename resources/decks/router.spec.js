@@ -134,7 +134,6 @@ describe('Decks API endpoints', () => {
         .set('Authorization', authToken);
 
       expect(response.status).toBe(200);
-      expect(response.body).toEqual({ error: '"name" is required' });
       done();
     });
 
