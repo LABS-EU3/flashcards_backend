@@ -9,7 +9,7 @@ const {
   getAllDecks,
 } = require('./controller');
 const validate = require('../../utils/validate');
-const { deckSchema } = require('./schema');
+const { deckSchema, editDeckSchema } = require('./schema');
 const {
   deckExists,
   tagsExists,
@@ -24,7 +24,7 @@ router.get('/public', getAllDecks);
 router.get('/:id', checkId, deckExists, getDeck);
 router.put(
   '/:id',
-  validate(deckSchema),
+  validate(editDeckSchema),
   userOwnsDeck,
   checkId,
   deckExists,

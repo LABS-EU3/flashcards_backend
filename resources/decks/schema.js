@@ -5,6 +5,11 @@ const deckSchema = joi.object({
     .string()
     .label('name')
     .required(),
+  tags: joi.array().items(joi.number().integer()),
+});
+
+const editDeckSchema = joi.object({
+  name: joi.string().label('name'),
   removeTags: joi.array().items(joi.number().integer()),
   addTags: joi.array().items(joi.number().integer()),
   tags: joi.array().items(joi.number().integer()),
@@ -12,4 +17,5 @@ const deckSchema = joi.object({
 
 module.exports = {
   deckSchema,
+  editDeckSchema,
 };

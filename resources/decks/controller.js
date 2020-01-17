@@ -71,7 +71,7 @@ exports.deleteDeck = async (req, res) => {
 
 exports.updateDeck = async (req, res) => {
   const { id } = req.params;
-  const { removeTags, addTags } = req.body;
+  const { removeTags, addTags, name } = req.body;
   try {
     if (addTags || removeTags) {
       if (addTags) {
@@ -91,7 +91,9 @@ exports.updateDeck = async (req, res) => {
         );
       }
     }
-    await Decks.update({ name: req.body.name }, id);
+    if (name) {
+      await Decks.update({ name: req.body.name }, id);
+    }
     const deck = await Decks.findById(Number(id));
     res.status(200).json(deck);
   } catch (error) {
