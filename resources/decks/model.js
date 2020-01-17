@@ -59,7 +59,7 @@ exports.findById = id => {
   return db('deck_tags as dt')
     .rightJoin('decks as d', 'd.id', 'dt.deck_id')
     .leftJoin('tags as t', 't.id', 'dt.tag_id')
-    .leftJoin('flashcards as f', 'f.deck_id', 'dt.deck_id')
+    .leftJoin('flashcards as f', 'f.deck_id', 'd.id')
     .select(
       'd.id as deck_id',
       'd.user_id',
