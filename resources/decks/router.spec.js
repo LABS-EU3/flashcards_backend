@@ -271,4 +271,27 @@ describe('Decks API endpoints', () => {
       done();
     });
   });
+
+  describe('[GET] /api/decks/favorite/', () => {
+    test('return 200 with correct id', async done => {
+      await request(server)
+        .post('/api/decks/')
+        .set('Authorization', authToken)
+        .send({ name: 'Test-deck', tags: [1, 2, 3] });
+      const response = await request(server)
+        .get(`/api/decks/favorite/`)
+        .set('Authorization', authToken);
+      expect(response.status).toBe(200);
+      done();
+    });
+    test('return bad with no token', async done => {
+      await request(server)
+        .post('/api/decks/')
+        .set('Authorization', authToken)
+        .send({ name: 'Test-deck', tags: [1, 2, 3] });
+      const response = await request(server).get(`/api/decks/favorite/`);
+      expect(response.status).toBe(401);
+      done();
+    });
+  });
 });
