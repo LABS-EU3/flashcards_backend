@@ -3,6 +3,7 @@ const {
   getAllCardsByUser,
   removeCard,
   updateCard,
+  flashcardOfTheDay,
 } = require('./model');
 
 exports.fetchAllCardsByUser = async (req, res) => {
@@ -76,6 +77,19 @@ exports.deleteCard = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       message: `Failed to delete, ${error.message}`,
+    });
+  }
+};
+
+exports.fetchCardOfTheDay = async (req, res) => {
+  const { subject } = req.decodedToken;
+
+  try {
+    const card = await flashcardOfTheDay(subject);
+    res.status(200).json({ card });
+  } catch (error) {
+    res.status(500).json({
+      message: `Failed to fetch a random card: ${error.message}`,
     });
   }
 };

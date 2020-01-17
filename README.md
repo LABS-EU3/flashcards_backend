@@ -83,12 +83,14 @@ Request Error ( **400 - Bad Request** || **404 - Not Found** || **403 - Unauthor
 | [GET /api/decks/:id](#get-apidecksId)                          | View one deck          |
 | [PUT /api/decks/:id](#put-apidecksId)                          | Edit deck              |
 | [DELETE /api/decks/:id](#delete-apidecksId)                    | Delete deck            |
+| [GET /api/decks/favorite](#get-apideckstag)                    | Get most used tags     |
 | -------------------------------------------------------------- | ---------------------- |
-| [POST /api/cards](#post-apicard)                               | Create Flashcard       |
-| [GET /api/cards](#get-apicardalluserId)                        | All flashcards of User |
-| [GET /api/cards/:id](#get-apicardId)                           | View one flashcard     |
-| [PUT /api/cards/:id](#put-apicardId)                           | Edit flashcard         |
-| [DELETE /api/cards/:id](#delete-apicardId)                     | Delete flashcard       |
+| [POST /api/cards](#post-apicards)                              | Create Flashcard       |
+| [GET /api/cards](#get-apicards)                                | All flashcards of User |
+| [GET /api/cards/:id](#get-apicardsId)                          | View one flashcard     |
+| [PUT /api/cards/:id](#put-apicardsId)                          | Edit flashcard         |
+| [DELETE /api/cards/:id](#delete-apicardsId)                    | Delete flashcard       |
+| [GET /api/cards/COTD](#get-apicardsCOTD)                       | Get card of the Day    |
 
 #### GET /
 
@@ -530,26 +532,26 @@ Response body:
 
 ```json
 [
-    {
-        "name": "Accounting & Finance",
-        "value_occurrence": "3"
-    },
-    {
-        "name": "Aeronautical & Manufacturing Engineering",
-        "value_occurrence": "2"
-    },
-    {
-        "name": "Agriculture & Forestry",
-        "value_occurrence": "1"
-    },
-    {
-        "name": "American Studies",
-        "value_occurrence": "1"
-    },
-    {
-        "name": null,
-        "value_occurrence": "0"
-    }
+  {
+    "name": "Accounting & Finance",
+    "value_occurrence": "3"
+  },
+  {
+    "name": "Aeronautical & Manufacturing Engineering",
+    "value_occurrence": "2"
+  },
+  {
+    "name": "Agriculture & Forestry",
+    "value_occurrence": "1"
+  },
+  {
+    "name": "American Studies",
+    "value_occurrence": "1"
+  },
+  {
+    "name": null,
+    "value_occurrence": "0"
+  }
 ]
 ```
 
@@ -688,10 +690,37 @@ Request body:
 Response body:
 
 ```json
+{}
+```
+
+#### GET /api/cards/COTD
+
+_**Description**: Delete a flashcard._.
+
+Request body:
+
+```json
+{}
+```
+
+Response body:
+
+```json
 {
-  "message": "Successfully delete card with id 1"
+  "id": 3,
+  "deck_id": 1,
+  "user_id": 1,
+  "question": "here is my question answer me",
+  "answer": "here is my answer question me",
+  "image_url": null,
+  "created_at": "2020-01-08T10:45:05.269Z",
+  "updated_at": "2020-01-08T10:45:05.269Z"
 }
 ```
+
+## The Tag Data We Used
+
+Please go to data > seeds > 03-tags-data.js to view the tags we used
 
 ## Technologies
 
