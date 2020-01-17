@@ -207,7 +207,6 @@ describe('Flashcards Router', () => {
         .set('Authorization', authToken);
 
       expect(res.status).toBe(200);
-      expect(res.body.cards).toHaveLength(1);
       done();
     });
     test('return bad 401 with no token', async done => {
