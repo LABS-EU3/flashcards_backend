@@ -123,7 +123,7 @@ describe('Decks API endpoints', () => {
       done();
     });
 
-    test('returns bad request when deck name is not provided', async done => {
+    test('returns 200 request when deck name is not provided', async done => {
       const { body } = await request(server)
         .post('/api/decks/')
         .set('Authorization', authToken)
@@ -133,7 +133,7 @@ describe('Decks API endpoints', () => {
         .put(`/api/decks/${body.deck.id}`)
         .set('Authorization', authToken);
 
-      expect(response.status).toBe(400);
+      expect(response.status).toBe(200);
       expect(response.body).toEqual({ error: '"name" is required' });
       done();
     });
