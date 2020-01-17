@@ -135,6 +135,47 @@ exports.favoriteDeckTag = userId => {
     .count('t.name', { as: 'value_occurrence' })
     .groupBy('t.name')
     .orderBy('value_occurrence', 'desc')
-    .where({ 'd.user_id': userId })
+    .where({ 'd.user_id': userId });
+};
+
+exports.createAccessConnection = data => {
+  return db('recent_accesses').insert(data);
+};
+
+exports.deckAccessed = data => {
+  return (
+    db('recent_accesses')
+      .where(data)
+      // inserts a date with current time stamp
+      .update({ accessed_time: db.raw('NOW()::timestamp') })
+  );
+};
+
+exports.findAccessConnection = data => {
+  return db('recent_accesses')
+    .where(data)
+    .first();
+};
+
+exports.removeAccessConnection = data => {
+  return db('recent_accesses')
+    .where(data)
+    .del();
+};
+
+exports.getUserLastAccessed = id => {
+  return db('recent_accesses as ra')
+    .innerJoin('decks as d', 'd.id', 'ra.deck_id')
+    .select(
+      'd.id as deck_id',
+      'd.user_id',
+      'd.name as deck_name',
+      'd.public',
+      'd.created_at',
+      'd.updated_at',
+      'ra.accessed_time'
+    )
+    .where({ 'ra.user_id': id })
+    .orderBy('ra.accessed_time', 'asc')
     .limit(10);
 };

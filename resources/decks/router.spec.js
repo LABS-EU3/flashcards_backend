@@ -188,4 +188,87 @@ describe('Decks API endpoints', () => {
       done();
     });
   });
+
+  describe('[PUT] /api/decks/access/:id', () => {
+    test('return 200 with correct id', async done => {
+      const { body } = await request(server)
+        .post('/api/decks/')
+        .set('Authorization', authToken)
+        .send({ name: 'Test-deck', tags: [1, 2, 3] });
+      const response = await request(server)
+        .put(`/api/decks/access/${body.deck.id}`)
+        .set('Authorization', authToken);
+      expect(response.status).toBe(200);
+      done();
+    });
+    test('return bad with no token', async done => {
+      const { body } = await request(server)
+        .post('/api/decks/')
+        .set('Authorization', authToken)
+        .send({ name: 'Test-deck', tags: [1, 2, 3] });
+      const response = await request(server).put(
+        `/api/decks/access/${body.deck.id}`
+      );
+      expect(response.status).toBe(401);
+      done();
+    });
+  });
+
+  describe('[DELETE] /api/decks/access/:id', () => {
+    test('return 204 with correct id', async done => {
+      const { body } = await request(server)
+        .post('/api/decks/')
+        .set('Authorization', authToken)
+        .send({ name: 'Test-deck', tags: [1, 2, 3] });
+      await request(server)
+        .put(`/api/decks/access/${body.deck.id}`)
+        .set('Authorization', authToken);
+
+      const response = await request(server)
+        .delete(`/api/decks/access/${body.deck.id}`)
+        .set('Authorization', authToken);
+      expect(response.status).toBe(204);
+      done();
+    });
+    test('return 401 with no token', async done => {
+      const { body } = await request(server)
+        .post('/api/decks/')
+        .set('Authorization', authToken)
+        .send({ name: 'Test-deck', tags: [1, 2, 3] });
+      await request(server).put(`/api/decks/access/${body.deck.id}`);
+
+      const response = await request(server).delete(`/api/decks/access/500`);
+      expect(response.status).toBe(401);
+      done();
+    });
+  });
+
+  describe('[GET] /api/decks/access/', () => {
+    test('return 200 with correct id', async done => {
+      const { body } = await request(server)
+        .post('/api/decks/')
+        .set('Authorization', authToken)
+        .send({ name: 'Test-deck', tags: [1, 2, 3] });
+      await request(server)
+        .put(`/api/decks/access/${body.deck.id}`)
+        .set('Authorization', authToken);
+      const response = await request(server)
+        .get(`/api/decks/access/`)
+        .set('Authorization', authToken);
+      expect(response.status).toBe(200);
+      done();
+    });
+    test('return bad with no token', async done => {
+      const { body } = await request(server)
+        .post('/api/decks/')
+        .set('Authorization', authToken)
+        .send({ name: 'Test-deck', tags: [1, 2, 3] });
+      await request(server)
+        .put(`/api/decks/access/${body.deck.id}`)
+        .set('Authorization', authToken);
+      const response = await request(server).get(`/api/decks/access/`);
+      expect(response.status).toBe(401);
+      done();
+    });
+  });
 });
