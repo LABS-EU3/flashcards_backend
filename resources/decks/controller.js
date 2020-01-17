@@ -102,3 +102,15 @@ exports.updateDeck = async (req, res) => {
     });
   }
 };
+
+exports.getFavoriteTags = async (req, res) => {
+  const { subject } = req.decodedToken;
+  try {
+    const tags = await Decks.favoriteDeckTag(subject);
+    res.status(200).json(tags);
+  } catch (error) {
+    res.status(500).json({
+      message: `Error fetching tags: ${error.message}`,
+    });
+  }
+};

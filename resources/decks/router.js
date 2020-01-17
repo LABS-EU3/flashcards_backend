@@ -7,6 +7,7 @@ const {
   deleteDeck,
   updateDeck,
   getAllDecks,
+  getFavoriteTags,
 } = require('./controller');
 const validate = require('../../utils/validate');
 const { deckSchema, editDeckSchema } = require('./schema');
@@ -20,6 +21,7 @@ const { checkId } = require('../global/middlewares');
 
 router.post('/', validate(deckSchema), tagsExists, addDeck);
 router.get('/', getUsersDecks);
+router.get('/favorite', getFavoriteTags);
 router.get('/public', getAllDecks);
 router.get('/:id', checkId, deckExists, getDeck);
 router.put(

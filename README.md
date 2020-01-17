@@ -447,56 +447,56 @@ Response body:
 
 ```json
 {
-    "deck_id": 6,
-    "user_id": 6,
-    "deck_name": "New Decks",
-    "public": true,
-    "created_at": "2020-01-13T15:49:59.080Z",
-    "updated_at": "2020-01-13T15:49:59.080Z",
-    "tags": [
-        {
-            "id": 1,
-            "name": "Accounting & Finance"
-        },
-        {
-            "id": 2,
-            "name": "Aeronautical & Manufacturing Engineering"
-        },
-        {
-            "id": 3,
-            "name": "Agriculture & Forestry"
-        },
-        {
-            "id": 4,
-            "name": "American Studies"
-        },
-        {
-            "id": 12,
-            "name": "Building"
-        }
-    ],
-    "flashcards": [
-        {
-            "id": 11,
-            "deck_id": 6,
-            "user_id": 6,
-            "question": "Who is the father of Geometry?",
-            "answer": "Euclid",
-            "image_url": null,
-            "created_at": "2020-01-13T10:49:59.086613-05:00",
-            "updated_at": "2020-01-13T10:49:59.086613-05:00"
-        },
-        {
-            "id": 12,
-            "deck_id": 6,
-            "user_id": 6,
-            "question": "The Indian to beat the computers in mathematical wizardry is",
-            "answer": "Shakunthala Devi",
-            "image_url": null,
-            "created_at": "2020-01-13T10:49:59.086613-05:00",
-            "updated_at": "2020-01-13T10:49:59.086613-05:00"
-        }
-    ]
+  "deck_id": 6,
+  "user_id": 6,
+  "deck_name": "New Decks",
+  "public": true,
+  "created_at": "2020-01-13T15:49:59.080Z",
+  "updated_at": "2020-01-13T15:49:59.080Z",
+  "tags": [
+    {
+      "id": 1,
+      "name": "Accounting & Finance"
+    },
+    {
+      "id": 2,
+      "name": "Aeronautical & Manufacturing Engineering"
+    },
+    {
+      "id": 3,
+      "name": "Agriculture & Forestry"
+    },
+    {
+      "id": 4,
+      "name": "American Studies"
+    },
+    {
+      "id": 12,
+      "name": "Building"
+    }
+  ],
+  "flashcards": [
+    {
+      "id": 11,
+      "deck_id": 6,
+      "user_id": 6,
+      "question": "Who is the father of Geometry?",
+      "answer": "Euclid",
+      "image_url": null,
+      "created_at": "2020-01-13T10:49:59.086613-05:00",
+      "updated_at": "2020-01-13T10:49:59.086613-05:00"
+    },
+    {
+      "id": 12,
+      "deck_id": 6,
+      "user_id": 6,
+      "question": "The Indian to beat the computers in mathematical wizardry is",
+      "answer": "Shakunthala Devi",
+      "image_url": null,
+      "created_at": "2020-01-13T10:49:59.086613-05:00",
+      "updated_at": "2020-01-13T10:49:59.086613-05:00"
+    }
+  ]
 }
 ```
 
@@ -514,6 +514,43 @@ Response body:
 
 ```json
 {}
+```
+
+#### GET /api/decks/favorite
+
+_**Description**: Get favorite tags._.
+
+Request body:
+
+```json
+{}
+```
+
+Response body:
+
+```json
+[
+    {
+        "name": "Accounting & Finance",
+        "value_occurrence": "3"
+    },
+    {
+        "name": "Aeronautical & Manufacturing Engineering",
+        "value_occurrence": "2"
+    },
+    {
+        "name": "Agriculture & Forestry",
+        "value_occurrence": "1"
+    },
+    {
+        "name": "American Studies",
+        "value_occurrence": "1"
+    },
+    {
+        "name": null,
+        "value_occurrence": "0"
+    }
+]
 ```
 
 ## Flashcards

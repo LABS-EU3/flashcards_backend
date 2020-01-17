@@ -126,3 +126,15 @@ exports.findDeckTag = (tagId, deckId) => {
     .where({ deck_id: deckId, tag_id: tagId })
     .first();
 };
+
+exports.favoriteDeckTag = userId => {
+  return db('deck_tags as dt')
+    .rightJoin('decks as d', 'd.id', 'dt.deck_id')
+    .leftJoin('tags as t', 't.id', 'dt.tag_id')
+    .select('t.name')
+    .count('t.name', { as: 'value_occurrence' })
+    .groupBy('t.name')
+    .orderBy('value_occurrence', 'desc')
+    .where({ 'd.user_id': userId })
+    .limit(10);
+};
