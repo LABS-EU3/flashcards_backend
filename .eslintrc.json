@@ -15,7 +15,9 @@
   },
   "rules": {
     "prettier/prettier": "error",
-    "max-len": ["error", 80]
+    "max-len": ["error", 80],
+    "no-console": 0,
+    "func-names": 0
   },
   "plugins": ["prettier", "jest"]
 }

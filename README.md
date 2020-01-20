@@ -76,6 +76,19 @@ Request Error ( **400 - Bad Request** || **404 - Not Found** || **403 - Unauthor
 | [POST /api/auth/confirm_email](#post-apiauthconfirm_email)     | Confirm Email for User |
 | [POST /api/auth/forgot_password](#post-apiauthforgot_password) | Request reset token    |
 | [POST /api/auth/reset_password](#post-apiauthreset_password)   | Reset password         |
+| -------------------------------------------------------------- | ---------------------- |
+| [POST /api/decks](#post-apidecks)                              | Create deck            |
+| [GET /api/decks](#get-apidecks)                                | All decks of User      |
+| [GET /api/decks/public](#get-apideckspublic)                   | all public decks       |
+| [GET /api/decks/:id](#get-apidecksId)                          | View one deck          |
+| [PUT /api/decks/:id](#put-apidecksId)                          | Edit deck              |
+| [DELETE /api/decks/:id](#delete-apidecksId)                    | Delete deck            |
+| -------------------------------------------------------------- | ---------------------- |
+| [POST /api/cards](#post-apicard)                               | Create Flashcard       |
+| [GET /api/cards](#get-apicardalluserId)                        | All flashcards of User |
+| [GET /api/cards/:id](#get-apicardId)                           | View one flashcard     |
+| [PUT /api/cards/:id](#put-apicardId)                           | Edit flashcard         |
+| [DELETE /api/cards/:id](#delete-apicardId)                     | Delete flashcard       |
 
 #### GET /
 
@@ -208,6 +221,438 @@ Response body:
 ```json
 {
   "message": "Password reset successfully."
+}
+```
+
+## Decks
+
+#### POST /api/decks
+
+_**Description**: Creates a flashcard in a deck._.
+
+Request body:
+
+```json
+{
+  "name": "New Decks",
+  "tags": [1, 2, 3, 4]
+}
+```
+
+Required: name: string, tags: [int],
+
+Response body:
+
+```json
+{
+  "deck": {
+    "id": 9,
+    "user_id": 8,
+    "name": "New Decks",
+    "public": false,
+    "created_at": "2020-01-13T17:10:54.290Z",
+    "updated_at": "2020-01-13T17:10:54.290Z"
+  }
+}
+```
+
+#### GET /api/decks
+
+_**Description**: Retrieves all flashcards made by a specific User._.
+
+Request body:
+
+```json
+{}
+```
+
+Response body:
+
+```json
+{
+  "data": [
+    {
+      "deck_id": 8,
+      "user_id": 8,
+      "deck_name": "nasdaasdsad",
+      "public": false,
+      "created_at": "2020-01-13T15:51:07.998Z",
+      "updated_at": "2020-01-13T15:51:07.998Z",
+      "tags": [
+        "Aeronautical & Manufacturing Engineering",
+        "Agriculture & Forestry",
+        "Building",
+        "Counselling",
+        "Film Making",
+        "Hospitality"
+      ]
+    },
+    {
+      "deck_id": 9,
+      "user_id": 8,
+      "deck_name": "New Decks",
+      "public": false,
+      "created_at": "2020-01-13T17:10:54.290Z",
+      "updated_at": "2020-01-13T17:10:54.290Z",
+      "tags": [
+        "Accounting & Finance",
+        "Aeronautical & Manufacturing Engineering",
+        "Agriculture & Forestry",
+        "American Studies"
+      ]
+    }
+  ]
+}
+```
+
+#### GET /api/decks/public
+
+_**Description**: Retrieves a specific card by the card's id._.
+
+Request body:
+
+```json
+{}
+```
+
+Response body:
+
+```json
+{
+  "data": [
+    {
+      "deck_id": 1,
+      "user_id": 1,
+      "deck_name": "Statistical Learning",
+      "public": true,
+      "created_at": "2020-01-13T15:49:59.080Z",
+      "updated_at": "2020-01-13T15:49:59.080Z",
+      "tags": [
+        "Accounting & Finance",
+        "Aeronautical & Manufacturing Engineering"
+      ]
+    },
+    {
+      "deck_id": 3,
+      "user_id": 3,
+      "deck_name": "Technology ",
+      "public": true,
+      "created_at": "2020-01-13T15:49:59.080Z",
+      "updated_at": "2020-01-13T15:49:59.080Z",
+      "tags": ["Anthropology", "Archaeology"]
+    },
+    {
+      "deck_id": 4,
+      "user_id": 4,
+      "deck_name": "Biology ",
+      "public": true,
+      "created_at": "2020-01-13T15:49:59.080Z",
+      "updated_at": "2020-01-13T15:49:59.080Z",
+      "tags": ["Architecture", "Art & Design"]
+    },
+    {
+      "deck_id": 5,
+      "user_id": 5,
+      "deck_name": "Basic General Knowledge",
+      "public": true,
+      "created_at": "2020-01-13T15:49:59.080Z",
+      "updated_at": "2020-01-13T15:49:59.080Z",
+      "tags": ["Aural & Oral Sciences", "Biological Sciences"]
+    },
+    {
+      "deck_id": 6,
+      "user_id": 6,
+      "deck_name": "Famous Personalities",
+      "public": true,
+      "created_at": "2020-01-13T15:49:59.080Z",
+      "updated_at": "2020-01-13T15:49:59.080Z",
+      "tags": ["Building", "Business & Management Studies"]
+    }
+  ]
+}
+```
+
+#### GET /api/decks/:id
+
+_**Description**: Edit a flashcard by flashcard Id._.
+
+Request body:
+
+```json
+{}
+```
+
+Response body:
+
+```json
+{
+  "deck": {
+    "deck_id": 6,
+    "user_id": 6,
+    "deck_name": "Famous Personalities",
+    "public": true,
+    "created_at": "2020-01-13T15:49:59.080Z",
+    "updated_at": "2020-01-13T15:49:59.080Z",
+    "tags": [
+      {
+        "id": 12,
+        "name": "Building"
+      },
+      {
+        "id": 13,
+        "name": "Business & Management Studies"
+      }
+    ],
+    "flashcards": [
+      {
+        "id": 11,
+        "deck_id": 6,
+        "user_id": 6,
+        "question": "Who is the father of Geometry?",
+        "answer": "Euclid",
+        "image_url": null,
+        "created_at": "2020-01-13T10:49:59.086613-05:00",
+        "updated_at": "2020-01-13T10:49:59.086613-05:00"
+      },
+      {
+        "id": 12,
+        "deck_id": 6,
+        "user_id": 6,
+        "question": "The Indian to beat the computers in mathematical wizardry is",
+        "answer": "Shakunthala Devi",
+        "image_url": null,
+        "created_at": "2020-01-13T10:49:59.086613-05:00",
+        "updated_at": "2020-01-13T10:49:59.086613-05:00"
+      }
+    ]
+  }
+}
+```
+
+#### PUT /api/decks/:id
+
+_**Description**: Delete a flashcard._.
+
+Request body:
+
+```json
+{
+  "name": "New Decks",
+  "addTags": [1, 2, 3, 4],
+  "removeTags": [13]
+}
+```
+
+Response body:
+
+```json
+{
+    "deck_id": 6,
+    "user_id": 6,
+    "deck_name": "New Decks",
+    "public": true,
+    "created_at": "2020-01-13T15:49:59.080Z",
+    "updated_at": "2020-01-13T15:49:59.080Z",
+    "tags": [
+        {
+            "id": 1,
+            "name": "Accounting & Finance"
+        },
+        {
+            "id": 2,
+            "name": "Aeronautical & Manufacturing Engineering"
+        },
+        {
+            "id": 3,
+            "name": "Agriculture & Forestry"
+        },
+        {
+            "id": 4,
+            "name": "American Studies"
+        },
+        {
+            "id": 12,
+            "name": "Building"
+        }
+    ],
+    "flashcards": [
+        {
+            "id": 11,
+            "deck_id": 6,
+            "user_id": 6,
+            "question": "Who is the father of Geometry?",
+            "answer": "Euclid",
+            "image_url": null,
+            "created_at": "2020-01-13T10:49:59.086613-05:00",
+            "updated_at": "2020-01-13T10:49:59.086613-05:00"
+        },
+        {
+            "id": 12,
+            "deck_id": 6,
+            "user_id": 6,
+            "question": "The Indian to beat the computers in mathematical wizardry is",
+            "answer": "Shakunthala Devi",
+            "image_url": null,
+            "created_at": "2020-01-13T10:49:59.086613-05:00",
+            "updated_at": "2020-01-13T10:49:59.086613-05:00"
+        }
+    ]
+}
+```
+
+#### DELETE /api/decks/:id
+
+_**Description**: Delete a flashcard._.
+
+Request body:
+
+```json
+{}
+```
+
+Response body:
+
+```json
+{}
+```
+
+## Flashcards
+
+#### POST /api/cards/
+
+_**Description**: Creates a flashcard in a deck._.
+
+Request body:
+
+```json
+{
+  "deckId": 1,
+  "questionText": "How do I create a flashcard",
+  "answerText": "Post to /api/card",
+  "imageUrl": "www.realurl.com"
+}
+```
+
+Required: deckId: int, userId: int, questionText: String, answertText: String
+
+Response body:
+
+```json
+{
+  "message": "`Successfully created card with the id of 1"
+}
+```
+
+#### GET /api/cards/
+
+_**Description**: Retrieves all flashcards made by a specific User._.
+
+Request body:
+
+```json
+{}
+```
+
+Response body:
+
+```json
+[
+  {
+    "id": 2,
+    "deck_id": 1,
+    "user_id": 1,
+    "question": "here is my question answer me",
+    "answer": "here is my answer question me",
+    "image_url": null,
+    "created_at": "2020-01-08T10:44:38.761Z",
+    "updated_at": "2020-01-08T10:44:38.761Z"
+  },
+  {
+    "id": 3,
+    "deck_id": 1,
+    "user_id": 1,
+    "question": "here is my question answer me",
+    "answer": "here is my answer question me",
+    "image_url": null,
+    "created_at": "2020-01-08T10:45:05.269Z",
+    "updated_at": "2020-01-08T10:45:05.269Z"
+  },
+  {
+    "id": 5,
+    "deck_id": 1,
+    "user_id": 1,
+    "question": "here is my question answer me",
+    "answer": "here is my answer question me",
+    "image_url": null,
+    "created_at": "2020-01-08T11:34:52.174Z",
+    "updated_at": "2020-01-08T11:34:52.174Z"
+  }
+]
+```
+
+#### GET /api/cards/:id
+
+_**Description**: Retrieves a specific card by the card's id._.
+
+Request body:
+
+```json
+{}
+```
+
+Response body:
+
+```json
+{
+  "id": 3,
+  "deck_id": 1,
+  "user_id": 1,
+  "question": "here is my question answer me",
+  "answer": "here is my answer question me",
+  "image_url": null,
+  "created_at": "2020-01-08T10:45:05.269Z",
+  "updated_at": "2020-01-08T10:45:05.269Z"
+}
+```
+
+#### PUT /api/cards/:id
+
+_**Description**: Edit a flashcard by flashcard Id._.
+
+Request body:
+
+```json
+{
+  "deck_id": 1,
+  "question": "different question",
+  "answer": "different question",
+  "image_url": "www.gify.com/image"
+}
+```
+
+Response body:
+
+```json
+{
+  "message": "Successfully updated card with the id of id"
+}
+```
+
+#### DELETE /api/cards/:id
+
+_**Description**: Delete a flashcard._.
+
+Request body:
+
+```json
+{}
+```
+
+Response body:
+
+```json
+{
+  "message": "Successfully delete card with id 1"
 }
 ```
 
