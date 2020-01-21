@@ -1,5 +1,5 @@
 exports.up = function(knex) {
-  return knex.schema.table('flascards', table => {
+  return knex.schema.table('flashcards', table => {
     table.string('image_url_answer');
   });
 };
