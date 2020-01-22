@@ -1,4 +1,5 @@
 const express = require('express');
+const { GOOGLE_FRONTEND_REDIRCT } = require('../../config/index');
 
 const {
   signup,
@@ -58,7 +59,7 @@ authRouter.get(
 authRouter.get(
   '/google/callback',
   googlePassport.Passport.authenticate('google', {
-    failureRedirect: 'https://site.quickdecksapp.com/',
+    failureRedirect: `${GOOGLE_FRONTEND_REDIRCT}`,
   }),
   authGoogle
 );

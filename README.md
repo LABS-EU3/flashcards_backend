@@ -76,6 +76,8 @@ Request Error ( **400 - Bad Request** || **404 - Not Found** || **403 - Unauthor
 | [POST /api/auth/confirm_email](#post-apiauthconfirm_email)     | Confirm Email for User |
 | [POST /api/auth/forgot_password](#post-apiauthforgot_password) | Request reset token    |
 | [POST /api/auth/reset_password](#post-apiauthreset_password)   | Reset password         |
+| [GET /api/auth/google/](#get-apiauthgoogle)                    | Redirect to google auth|
+| [POST /api/auth/google/:token](#post-apiauthgoogleToken)       | Confirms auth & login  |
 | -------------------------------------------------------------- | ---------------------- |
 | [POST /api/decks](#post-apidecks)                              | Create deck            |
 | [GET /api/decks](#get-apidecks)                                | All decks of User      |
@@ -94,6 +96,7 @@ Request Error ( **400 - Bad Request** || **404 - Not Found** || **403 - Unauthor
 | [PUT /api/cards/:id](#put-apicardsId)                          | Edit flashcard         |
 | [DELETE /api/cards/:id](#delete-apicardsId)                    | Delete flashcard       |
 | [GET /api/cards/COTD](#get-apicardsCOTD)                       | Get card of the Day    |
+
 
 #### GET /
 
@@ -226,6 +229,47 @@ Response body:
 ```json
 {
   "message": "Password reset successfully."
+}
+```
+
+#### GET /api/auth/google
+
+_**Description**: Redirects user to google auth, user will signin or cannot and will be redirected back to the landing page._.
+
+Request body:
+
+```json
+{}
+```
+
+Response body:
+
+```json
+{}
+```
+
+#### POST /api/auth/google/:token
+
+_**Description**: User will be verified in the data based as created and will be sent a token with userID._.
+
+Request body:
+
+```json
+{}
+```
+
+Response body:
+
+```json
+{
+  "token": "aTokenYouShouldNotBotherDecryprting.eyJzdWJqZWN0IjADfe3KLo98IjoiTWFhcnVmIERhdWRhIiwiaWF0IjoxNTc2NzYzNzA0LCJleHAiOjE1NzY4NTAxMDR9.jsihrtPG37mKBHp3xvjrQ-UselessRjSMr5YlPovG5A",
+  "user": {
+    "id": 1,
+    "full_name": "Anna",
+    "email": "anna@xyz.com",
+    "image_url": null,
+    "isConfirmed": false
+  }
 }
 ```
 

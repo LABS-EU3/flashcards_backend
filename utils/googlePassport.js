@@ -4,11 +4,6 @@ const passport = require('passport');
 const bcrypt = require('bcrypt');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const { findBy, createUser } = require('../resources/auth/model');
-const {
-  GOOGLE_CLIENT_ID,
-  GOOGLE_CLIENT_SECRET,
-  GOOGLE_BACKEND_BASEURL,
-} = require('../config/index');
 
 passport.serializeUser(function(user, done) {
   done(null, user);
@@ -21,9 +16,9 @@ passport.deserializeUser(function(obj, done) {
 passport.use(
   new GoogleStrategy(
     {
-      clientID: GOOGLE_CLIENT_ID,
-      clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: `${GOOGLE_BACKEND_BASEURL}auth/google/callback`,
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: `${process.env.GOOGLE_BACKEND_BASEURL}auth/google/callback`,
     },
     function(accessToken, refreshToken, profile, done) {
       const googleEmail = profile.emails[0].value;

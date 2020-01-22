@@ -135,9 +135,9 @@ exports.authGoogle = async (req, res) => {
   try {
     const { user } = req._passport.session;
     const token = await generateToken(user);
-    res.redirect(`${GOOGLE_FRONTEND_REDIRCT}${token}`);
+    res.status(200).redirect(`${GOOGLE_FRONTEND_REDIRCT}${token}`);
   } catch (error) {
-    res.json({
+    res.status(401).json({
       message: `Error authenticating via google ${error.message}`,
     });
   }
@@ -154,6 +154,6 @@ exports.completeGoogleAuth = async (req, res) => {
       data: { token, user: foundUser },
     });
   } catch (error) {
-    res.status(500).json({ message: `Failed to complete authorization` });
+    res.status(401).json({ message: `Failed to complete authorization` });
   }
 };
