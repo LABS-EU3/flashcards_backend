@@ -19,7 +19,7 @@ exports.up = function(knex) {
       .notNullable()
       .references('id')
       .inTable('decks');
-    table.int('rating').notNullable();
+    table.integer('rating').notNullable();
   });
 };
 
