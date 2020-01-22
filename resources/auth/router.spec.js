@@ -385,7 +385,7 @@ describe('Auth Router', () => {
       expect(res.status).toBe(200);
       expect(token).not.toBe(null || undefined);
 
-      // authorize token and store user image url
+      // authorize token, send image url and store user image url
       const response = await request(server)
         .post('/api/auth/store_imgUrl')
         .set('Authorization', `${token}`)
