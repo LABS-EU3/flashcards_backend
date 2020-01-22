@@ -55,9 +55,14 @@ const resetPasswordSchema = joi.object({
     .valid(joi.ref('password')),
 });
 
+const storeImgUrlSchema = joi.object({
+  imageUrl: joi.string().required(),
+});
+
 module.exports = {
   signUpSchema,
   loginSchema,
   forgotPasswordSchema,
   resetPasswordSchema,
+  storeImgUrlSchema,
 };
