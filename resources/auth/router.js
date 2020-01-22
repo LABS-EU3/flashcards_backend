@@ -7,6 +7,7 @@ const {
   resetPassword,
   confirmEmail,
   viewProfile,
+  storeImgUrl,
 } = require('./controller');
 const {
   signUpSchema,
@@ -43,5 +44,7 @@ authRouter.post(
 authRouter.post('/confirm_email', validateToken, confirmEmail);
 
 authRouter.get('/view_profile', authorized, viewProfile);
+
+authRouter.get('/store_imgUrl', storeImgUrl);
 
 module.exports = authRouter;
