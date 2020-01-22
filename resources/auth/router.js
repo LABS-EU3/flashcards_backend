@@ -47,7 +47,7 @@ authRouter.post('/confirm_email', validateToken, confirmEmail);
 authRouter.get('/view_profile', authorized, viewProfile);
 
 authRouter.post(
-  '/forgot_password',
+  '/update_password',
   authorized,
   validate(updatePasswordSchema),
   updatePassword
