@@ -129,54 +129,24 @@ exports.viewProfile = async (req, res) => {
   }
 };
 
-exports.login = async (req, res) => {
-  try {
-    const {
-      user,
-      body: { password },
-    } = req;
-
-    /* 1st is user submitted password. 2nd is hashed stored password */
-    const isPasswordValid = bcrypt.compareSync(password, user.password);
-    if (isPasswordValid) {
-      delete user.password;
-      const token = generateToken(user);
-
-      res.status(200).json({
-        message: `Welcome. You're logged in!`,
-        data: { token, user },
-      });
-    } else {
-      res.status(401).json({ message: 'Invalid credentials' });
-    }
-  } catch (error) {
-    res.status(500).json({ message: `Failed to log user in` });
-  }
-};
-
 exports.updatePassword = async (req, res) => {
   try {
-    const { oldPassword, newPassword, confirmPassword } = req.body;
-    const { user } = req;
+    const { oldPassword, newPassword } = req.body;
+    const { subject } = req.decodedToken;
+
+    const user = await model.findBy({ id: subject });
 
     const isOldPasswordValid = bcrypt.compareSync(oldPassword, user.password);
 
-    if (isOldPasswordValid) {
-      delete user.password;
-      const token = generateToken(user);
-
-      res.status(200).json({
-        message: `Welcome. You're logged in!`,
-        data: { token, user },
-      });
-    } else {
-      res.status(401).json({ message: 'Invalid credentials' });
+    if (!isOldPasswordValid) {
+      res.status(304).json({ message: 'Old password is invalid' });
     }
 
+    const hashedPassword = bcrypt.hashSync(newPassword, 10);
 
-
+    await model.changePassword(subject, hashedPassword);
+    res.status(200).json({ message: 'Password successfully updated' });
   } catch (error) {
-    res.status(500).json({ message: `Failed to log user in` });
+    res.status(500).json({ message: error.message });
   }
 };
-
