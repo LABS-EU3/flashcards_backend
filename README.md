@@ -76,6 +76,7 @@ Request Error ( **400 - Bad Request** || **404 - Not Found** || **403 - Unauthor
 | [POST /api/auth/confirm_email](#post-apiauthconfirm_email)     | Confirm Email for User |
 | [POST /api/auth/forgot_password](#post-apiauthforgot_password) | Request reset token    |
 | [POST /api/auth/reset_password](#post-apiauthreset_password)   | Reset password         |
+| [POST /api/auth/update_password] 				 | Update password	  |
 | -------------------------------------------------------------- | ---------------------- |
 | [POST /api/decks](#post-apidecks)                              | Create deck            |
 | [GET /api/decks](#get-apidecks)                                | All decks of User      |
@@ -226,6 +227,28 @@ Response body:
 ```json
 {
   "message": "Password reset successfully."
+}
+```
+
+#### POST /api/auth/update_Password
+
+_**Description**: updates a user's password._.
+
+Request body:
+
+```json
+{
+	"oldPassword": "my old password",
+	"newPassword": "my new password",
+	"confirmPassword": "matches my new password"
+}
+```
+
+Response body:
+
+```json
+{
+  "message": "Password updated successfully"
 }
 ```
 

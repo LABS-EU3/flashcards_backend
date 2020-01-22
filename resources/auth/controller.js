@@ -65,7 +65,6 @@ exports.login = async (req, res) => {
     res.status(500).json({ message: `Failed to log user in` });
   }
 };
-
 exports.forgotPassword = async (req, res) => {
   try {
     const passwordResetToken = crypto.randomBytes(20).toString('hex');
@@ -127,5 +126,28 @@ exports.viewProfile = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ message: `Error loading profile ${error.message}` });
+  }
+};
+
+exports.updatePassword = async (req, res) => {
+  try {
+    const { oldPassword, newPassword } = req.body;
+    const { subject } = req.decodedToken;
+
+    const user = await model.findBy({ id: subject });
+
+    const isOldPasswordValid = bcrypt.compareSync(oldPassword, user.password);
+
+    if (!isOldPasswordValid) {
+      res.status(400).json({ message: 'Old password is invalid' });
+      res.end();
+    }
+
+    const hashedPassword = bcrypt.hashSync(newPassword, 10);
+
+    await model.changePassword(subject, hashedPassword);
+    res.status(200).json({ message: 'Password successfully updated' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
