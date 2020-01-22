@@ -7,6 +7,8 @@ const {
   resetPassword,
   confirmEmail,
   viewProfile,
+  authGoogle,
+  completeGoogleAuth,
 } = require('./controller');
 const {
   signUpSchema,
@@ -23,6 +25,8 @@ const {
 } = require('./middlewares');
 
 const { authorized } = require('../global/middlewares');
+
+const googlePassport = require('../../utils/googlePassport');
 
 const authRouter = express.Router();
 
@@ -43,5 +47,22 @@ authRouter.post(
 authRouter.post('/confirm_email', validateToken, confirmEmail);
 
 authRouter.get('/view_profile', authorized, viewProfile);
+
+authRouter.get(
+  '/google',
+  googlePassport.Passport.authenticate('google', {
+    scope: ['openid email profile'],
+  })
+);
+
+authRouter.get(
+  '/google/callback',
+  googlePassport.Passport.authenticate('google', {
+    failureRedirect: 'https://site.quickdecksapp.com/',
+  }),
+  authGoogle
+);
+
+authRouter.post('/google/:token', completeGoogleAuth);
 
 module.exports = authRouter;
