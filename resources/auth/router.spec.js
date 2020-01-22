@@ -368,4 +368,30 @@ describe('Auth Router', () => {
       done();
     });
   });
+
+  describe('Store Profile Image Endpoint', () => {
+    test('Returns 200 on success', async done => {
+      // register the user
+      await request(server)
+        .post('/api/auth/register')
+        .send(userObject);
+
+      // log the user in
+      const res = await request(server)
+        .post('/api/auth/login')
+        .send(loginUserObject);
+
+      const { token } = res.body.data;
+      expect(res.status).toBe(200);
+      expect(token).not.toBe(null || undefined);
+
+      // authorize token and store user image url
+      const response = await request(server)
+        .post('/api/auth/store_imgUrl')
+        .set('Authorization', `${token}`)
+        .send({ imageUrl: 'this-is-a-test' });
+      expect(response.status).toBe(200);
+      done();
+    });
+  });
 });
