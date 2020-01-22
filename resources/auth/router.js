@@ -7,12 +7,14 @@ const {
   resetPassword,
   confirmEmail,
   viewProfile,
+  updatePassword,
 } = require('./controller');
 const {
   signUpSchema,
   loginSchema,
   forgotPasswordSchema,
   resetPasswordSchema,
+  updatePasswordSchema,
 } = require('./authSchema');
 const validate = require('../../utils/validate');
 const {
@@ -43,5 +45,12 @@ authRouter.post(
 authRouter.post('/confirm_email', validateToken, confirmEmail);
 
 authRouter.get('/view_profile', authorized, viewProfile);
+
+authRouter.post(
+  '/forgot_password',
+  authorized,
+  validate(updatePasswordSchema),
+  updatePassword
+);
 
 module.exports = authRouter;
