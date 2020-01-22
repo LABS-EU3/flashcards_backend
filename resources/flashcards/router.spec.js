@@ -16,7 +16,10 @@ const flashcard = {
   deckId: null,
   questionText: 'When will AI takeover',
   answerText: 'What idk',
-  imageUrl: 'https://robots.ieee.org/robots/cb2/Photos/SD/cb2-photo1-full.jpg',
+  imageUrlQuestion:
+    'https://robots.ieee.org/robots/cb2/Photos/SD/cb2-photo1-full.jpg',
+  imageUrlAnswer:
+    'https://robots.ieee.org/robots/cb2/Photos/SD/cb2-photo1-full.jpg',
 };
 
 beforeEach(async done => {
@@ -52,6 +55,7 @@ describe('Flashcards Router', () => {
         .post('/api/cards')
         .send({})
         .set('Authorization', authToken);
+
       expect(res.status).toBe(400);
       expect(res.body).toEqual({ error: '"Question Text" is required' });
       done();

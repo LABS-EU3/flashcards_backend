@@ -14,8 +14,12 @@ exports.flashCardSchema = joi.object({
     .integer()
     .label('Deck Id')
     .required(),
-  imageUrl: joi
+  imageUrlQuestion: joi
     .string()
     .allow('')
-    .label('Image URL'),
+    .label('Image URL Question'),
+  imageUrlAnswer: joi
+    .string()
+    .allow('')
+    .label('Image URL Answer'),
 });

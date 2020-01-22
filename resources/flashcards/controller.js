@@ -32,13 +32,20 @@ exports.fetchCardById = async (req, res) => {
 
 exports.makeCard = async (req, res) => {
   const { subject } = req.decodedToken;
-  const { deckId, questionText, answerText, imageUrl } = req.body;
+  const {
+    deckId,
+    questionText,
+    answerText,
+    imageUrlQuestion,
+    imageUrlAnswer,
+  } = req.body;
   const cardInfo = {
     deck_id: deckId,
     user_id: subject,
     question: questionText,
     answer: answerText,
-    image_url: imageUrl,
+    image_url_question: imageUrlQuestion,
+    image_url_answer: imageUrlAnswer,
   };
   try {
     const card = await createCard(cardInfo);
