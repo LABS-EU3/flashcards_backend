@@ -56,10 +56,7 @@ const resetPasswordSchema = joi.object({
 });
 
 const updatePasswordSchema = joi.object({
-  oldPassword: joi
-    .string()
-    .pattern(/^[a-zA-Z0-9]{3,30}$/)
-    .required(),
+  oldPassword: joi.string().required(),
 
   newPassword: joi
     .string()
