@@ -1,5 +1,5 @@
 exports.up = function(knex) {
-  return knex.schema.createTable('rating', table => {
+  return knex.schema.createTable('sessions', table => {
     table.increments();
     table
       .integer('user_id')
