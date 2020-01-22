@@ -5,10 +5,7 @@ exports.up = function(knex) {
       .integer('user_id')
       .references('id')
       .inTable('users');
-    table
-      .integer('score')
-      .references('id')
-      .inTable('users');
+    table.integer('score');
   });
 };
 
