@@ -11,8 +11,8 @@ exports.up = function(knex) {
       .integer('deck_id')
       .unsigned()
       .notNullable()
-      .references('full_name')
-      .inTable('users');
+      .references('id')
+      .inTable('decks');
     table.boolean('isComplete').defaultTo(false);
     table.integer('stopped_index');
   });
