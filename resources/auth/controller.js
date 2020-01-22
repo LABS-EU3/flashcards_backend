@@ -129,3 +129,17 @@ exports.viewProfile = async (req, res) => {
     res.status(500).json({ message: `Error loading profile ${error.message}` });
   }
 };
+
+exports.storeImgUrl = async (req, res) => {
+  try {
+    // const { id } = req;
+    // const { secure_url } = req.photos.info;
+    await model.updateImageUrl(6, 'yet another Test123');
+    res.status(200).json({
+      // id: id,
+      // imgUrl: secure_url,
+    });
+  } catch (error) {
+    res.status(500).json({ message: `Error storing image ${error.message}` });
+  }
+};
