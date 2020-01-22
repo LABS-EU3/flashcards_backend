@@ -45,6 +45,6 @@ authRouter.post('/confirm_email', validateToken, confirmEmail);
 
 authRouter.get('/view_profile', authorized, viewProfile);
 
-authRouter.get('/store_imgUrl', storeImgUrl);
+authRouter.post('/store_imgUrl', authorized, storeImgUrl);
 
 module.exports = authRouter;
