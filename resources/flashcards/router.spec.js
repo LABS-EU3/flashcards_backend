@@ -186,4 +186,47 @@ describe('Flashcards Router', () => {
       done();
     });
   });
+
+  describe('[GET] /api/cards/COTD', () => {
+    test('Should get random card', async done => {
+      await request(server)
+        .post('/api/cards')
+        .send(flashcard)
+        .set('Authorization', authToken);
+      await request(server)
+        .post('/api/cards')
+        .send({
+          ...flashcard,
+          questionText: 'Plants receive their nutrients from the?',
+          answerText: 'sun',
+        })
+        .set('Authorization', authToken);
+
+      const res = await request(server)
+        .get(`/api/cards/COTD`)
+        .set('Authorization', authToken);
+
+      expect(res.status).toBe(200);
+      done();
+    });
+    test('return bad 401 with no token', async done => {
+      await request(server)
+        .post('/api/cards')
+        .send(flashcard)
+        .set('Authorization', authToken);
+      await request(server)
+        .post('/api/cards')
+        .send({
+          ...flashcard,
+          questionText: 'Plants receive their nutrients from the?',
+          answerText: 'sun',
+        })
+        .set('Authorization', authToken);
+
+      const res = await request(server).get(`/api/cards/COTD`);
+      expect(res.status).toBe(401);
+
+      done();
+    });
+  });
 });

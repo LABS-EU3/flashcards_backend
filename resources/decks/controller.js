@@ -77,7 +77,7 @@ exports.deleteDeck = async (req, res) => {
 exports.updateDeck = async (req, res) => {
   const { subject } = req.decodedToken;
   const { id } = req.params;
-  const { removeTags, addTags } = req.body;
+  const { removeTags, addTags, name } = req.body;
   try {
     if (addTags || removeTags) {
       if (addTags) {
@@ -97,9 +97,11 @@ exports.updateDeck = async (req, res) => {
         );
       }
     }
+    if (name) {
+      await Decks.update({ name: req.body.name }, id);
+    }
     const accessCxnData = { user_id: subject, deck_id: id };
     await Decks.findAccessConnection(accessCxnData);
-    await Decks.update({ name: req.body.name }, id);
     const deck = await Decks.findById(Number(id));
     res.status(200).json(deck);
   } catch (error) {
@@ -150,6 +152,18 @@ exports.removeAccessed = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       message: `Error removing access connection: ${error.message}`,
+    });
+  }
+};
+
+exports.getFavoriteTags = async (req, res) => {
+  const { subject } = req.decodedToken;
+  try {
+    const tags = await Decks.favoriteDeckTag(subject);
+    res.status(200).json(tags);
+  } catch (error) {
+    res.status(500).json({
+      message: `Error fetching tags: ${error.message}`,
     });
   }
 };

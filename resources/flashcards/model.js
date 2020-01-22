@@ -34,3 +34,10 @@ exports.updateCard = (id, card) => {
     .update(card)
     .then(() => getCardById(id));
 };
+
+exports.flashcardOfTheDay = userId => {
+  return db('flashcards')
+    .where({ user_id: userId })
+    .orderByRaw('random()')
+    .limit(1);
+};

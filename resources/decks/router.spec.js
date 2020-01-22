@@ -123,7 +123,7 @@ describe('Decks API endpoints', () => {
       done();
     });
 
-    test('returns bad request when deck name is not provided', async done => {
+    test('returns 200 request when deck name is not provided', async done => {
       const { body } = await request(server)
         .post('/api/decks/')
         .set('Authorization', authToken)
@@ -133,8 +133,7 @@ describe('Decks API endpoints', () => {
         .put(`/api/decks/${body.deck.id}`)
         .set('Authorization', authToken);
 
-      expect(response.status).toBe(400);
-      expect(response.body).toEqual({ error: '"name" is required' });
+      expect(response.status).toBe(200);
       done();
     });
 
@@ -268,6 +267,29 @@ describe('Decks API endpoints', () => {
         .put(`/api/decks/access/${body.deck.id}`)
         .set('Authorization', authToken);
       const response = await request(server).get(`/api/decks/access/`);
+      expect(response.status).toBe(401);
+      done();
+    });
+  });
+
+  describe('[GET] /api/decks/favorite/', () => {
+    test('return 200 with correct id', async done => {
+      await request(server)
+        .post('/api/decks/')
+        .set('Authorization', authToken)
+        .send({ name: 'Test-deck', tags: [1, 2, 3] });
+      const response = await request(server)
+        .get(`/api/decks/favorite/`)
+        .set('Authorization', authToken);
+      expect(response.status).toBe(200);
+      done();
+    });
+    test('return bad with no token', async done => {
+      await request(server)
+        .post('/api/decks/')
+        .set('Authorization', authToken)
+        .send({ name: 'Test-deck', tags: [1, 2, 3] });
+      const response = await request(server).get(`/api/decks/favorite/`);
       expect(response.status).toBe(401);
       done();
     });
