@@ -14,6 +14,7 @@ const {
   loginSchema,
   forgotPasswordSchema,
   resetPasswordSchema,
+  storeImgUrlSchema,
 } = require('./authSchema');
 const validate = require('../../utils/validate');
 const {
@@ -45,6 +46,11 @@ authRouter.post('/confirm_email', validateToken, confirmEmail);
 
 authRouter.get('/view_profile', authorized, viewProfile);
 
-authRouter.post('/store_imgUrl', authorized, storeImgUrl);
+authRouter.post(
+  '/store_imgUrl',
+  authorized,
+  validate(storeImgUrlSchema),
+  storeImgUrl
+);
 
 module.exports = authRouter;
