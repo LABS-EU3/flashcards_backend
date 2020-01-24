@@ -438,9 +438,10 @@ Response body:
         "user_id": 6,
         "question": "Who is the father of Geometry?",
         "answer": "Euclid",
-        "image_url": null,
+        "image_url_question": null,
         "created_at": "2020-01-13T10:49:59.086613-05:00",
-        "updated_at": "2020-01-13T10:49:59.086613-05:00"
+        "updated_at": "2020-01-13T10:49:59.086613-05:00",
+        "image_url_answer": null
       },
       {
         "id": 12,
@@ -448,9 +449,10 @@ Response body:
         "user_id": 6,
         "question": "The Indian to beat the computers in mathematical wizardry is",
         "answer": "Shakunthala Devi",
-        "image_url": null,
+        "image_url_question": null,
         "created_at": "2020-01-13T10:49:59.086613-05:00",
-        "updated_at": "2020-01-13T10:49:59.086613-05:00"
+        "updated_at": "2020-01-13T10:49:59.086613-05:00",
+        "image_url_answer": null
       }
     ]
   }
@@ -510,9 +512,10 @@ Response body:
       "user_id": 6,
       "question": "Who is the father of Geometry?",
       "answer": "Euclid",
-      "image_url": null,
+      "image_url_question": null,
       "created_at": "2020-01-13T10:49:59.086613-05:00",
-      "updated_at": "2020-01-13T10:49:59.086613-05:00"
+      "updated_at": "2020-01-13T10:49:59.086613-05:00",
+      "image_url_answer": null
     },
     {
       "id": 12,
@@ -520,9 +523,10 @@ Response body:
       "user_id": 6,
       "question": "The Indian to beat the computers in mathematical wizardry is",
       "answer": "Shakunthala Devi",
-      "image_url": null,
+      "image_url_question": null,
       "created_at": "2020-01-13T10:49:59.086613-05:00",
-      "updated_at": "2020-01-13T10:49:59.086613-05:00"
+      "updated_at": "2020-01-13T10:49:59.086613-05:00",
+      "image_url_answer": null
     }
   ]
 }
@@ -660,10 +664,11 @@ Request body:
 
 ```json
 {
-  "deckId": 1,
+  "deckId": 2,
   "questionText": "How do I create a flashcard",
   "answerText": "Post to /api/card",
-  "imageUrl": "www.realurl.com"
+  "imageUrlQuestion": "www.realurl.com",
+  "imageUrlAnswer": "www.google.com"
 }
 ```
 
@@ -673,7 +678,15 @@ Response body:
 
 ```json
 {
-  "message": "`Successfully created card with the id of 1"
+   "id": 20,
+   "deck_id": 2,
+   "user_id": 2,
+   "question": "How do I create a flashcard",
+   "answer": "Post to /api/card",
+   "image_url_question": "www.realurl.com",
+   "created_at": "2020-01-22T13:47:57.348Z",
+   "updated_at": "2020-01-22T13:47:57.348Z",
+   "image_url_answer": "www.google.com"
 }
 ```
 
@@ -697,9 +710,10 @@ Response body:
     "user_id": 1,
     "question": "here is my question answer me",
     "answer": "here is my answer question me",
-    "image_url": null,
+    "image_url_question": null,
     "created_at": "2020-01-08T10:44:38.761Z",
-    "updated_at": "2020-01-08T10:44:38.761Z"
+    "updated_at": "2020-01-08T10:44:38.761Z",
+    "image_url_answer": null
   },
   {
     "id": 3,
@@ -707,9 +721,10 @@ Response body:
     "user_id": 1,
     "question": "here is my question answer me",
     "answer": "here is my answer question me",
-    "image_url": null,
+    "image_url_question": null,
     "created_at": "2020-01-08T10:45:05.269Z",
-    "updated_at": "2020-01-08T10:45:05.269Z"
+    "updated_at": "2020-01-08T10:45:05.269Z",
+    "image_url_answer": null
   },
   {
     "id": 5,
@@ -717,9 +732,10 @@ Response body:
     "user_id": 1,
     "question": "here is my question answer me",
     "answer": "here is my answer question me",
-    "image_url": null,
+    "image_url_question": null,
     "created_at": "2020-01-08T11:34:52.174Z",
-    "updated_at": "2020-01-08T11:34:52.174Z"
+    "updated_at": "2020-01-08T11:34:52.174Z",
+    "image_url_answer": null
   }
 ]
 ```
@@ -743,9 +759,10 @@ Response body:
   "user_id": 1,
   "question": "here is my question answer me",
   "answer": "here is my answer question me",
-  "image_url": null,
+  "image_url_question": null,
   "created_at": "2020-01-08T10:45:05.269Z",
-  "updated_at": "2020-01-08T10:45:05.269Z"
+  "updated_at": "2020-01-08T10:45:05.269Z",
+  "image_url_answer": null
 }
 ```
 
@@ -757,10 +774,11 @@ Request body:
 
 ```json
 {
-  "deck_id": 1,
-  "question": "different question",
-  "answer": "different question",
-  "image_url": "www.gify.com/image"
+  "deckId": 2,
+  "questionText": "updated question",
+  "answerText": "updated question",
+  "imageUrlQuestion": "www.gify.com/image",
+  "imageUrlAnswer": "www.google.com"
 }
 ```
 
@@ -768,7 +786,15 @@ Response body:
 
 ```json
 {
-  "message": "Successfully updated card with the id of id"
+   "id": 17,
+   "deck_id": 2,
+   "user_id": 2,
+   "question": "updated question",
+   "answer": "updated question",
+   "image_url_question": "www.gify.com/image",
+   "created_at": "2020-01-22T13:14:26.879Z",
+   "updated_at": "2020-01-22T13:14:26.879Z",
+   "image_url_answer": "www.google.com"
 }
 ```
 
@@ -807,9 +833,10 @@ Response body:
   "user_id": 1,
   "question": "here is my question answer me",
   "answer": "here is my answer question me",
-  "image_url": null,
+  "image_url_question": null,
   "created_at": "2020-01-08T10:45:05.269Z",
-  "updated_at": "2020-01-08T10:45:05.269Z"
+  "updated_at": "2020-01-08T10:45:05.269Z",
+  "image_url_answer": null
 }
 ```
 
