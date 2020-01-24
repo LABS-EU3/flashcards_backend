@@ -344,6 +344,39 @@ describe('Auth Router', () => {
     });
   });
 
+  describe('[GET] /google/', () => {
+    test('Unable to redirect google accout unconfirmed', async done => {
+      const res = await request(server).get('/api/auth/google/');
+      expect(res.status).toBe(302);
+      done();
+    });
+  });
+
+  describe('[POST] /google/:token', () => {
+    test('Returns 200 on success', async done => {
+      await request(server)
+        .post('/api/auth/register')
+        .send(userObject);
+
+      const res = await request(server)
+        .post('/api/auth/login')
+        .send(loginUserObject);
+
+      const { token } = res.body.data;
+
+      const response = await request(server).post(`/api/auth/google/${token}`);
+
+      expect(response.status).toBe(200);
+      done();
+    });
+    test('return 401 user not authorized', async done => {
+      const response = await request(server).post(`/api/auth/google/1`);
+
+      expect(response.status).toBe(401);
+      done();
+    });
+  });
+
   describe('viewProfile Endpoint', () => {
     test('Returns 200 on success', async done => {
       // register the user

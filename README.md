@@ -68,33 +68,35 @@ Request Error ( **400 - Bad Request** || **404 - Not Found** || **403 - Unauthor
 
 ### API Endpoints
 
-| ENDPOINT                                                       | DESCRIPTION            |
-| -------------------------------------------------------------- | ---------------------- |
-| [GET /](#get)                                                  | Base URL               |
-| [POST /api/auth/register](#post-apiauthregister)               | Register new User      |
-| [POST /api/auth/login](#post-apiauthlogin)                     | Login for User         |
-| [POST /api/auth/confirm_email](#post-apiauthconfirm_email)     | Confirm Email for User |
-| [POST /api/auth/forgot_password](#post-apiauthforgot_password) | Request reset token    |
-| [POST /api/auth/reset_password](#post-apiauthreset_password)   | Reset password         |
-| [POST /api/auth/update_password] 				 | Update password	  |
-| -------------------------------------------------------------- | ---------------------- |
-| [POST /api/decks](#post-apidecks)                              | Create deck            |
-| [GET /api/decks](#get-apidecks)                                | All decks of User      |
-| [GET /api/decks/public](#get-apideckspublic)                   | all public decks       |
-| [GET /api/decks/:id](#get-apidecksId)                          | View one deck          |
-| [PUT /api/decks/:id](#put-apidecksId)                          | Edit deck              |
-| [DELETE /api/decks/:id](#delete-apidecksId)                    | Delete deck            |
-| [GET /api/decks/favorite](#get-apideckstag)                    | Get most used tags     |
-| [GET /api/decks/access/](#put-apidecksaccess)                  | 10 decks last accessed |
-| [PUT /api/decks/access/:id](#put-apidecksaccessId)             | Update deck access time|
-| [DELETE /api/decks/access/:id](#put-apidecksaccessId)          | Remove accessed entry  |
-| -------------------------------------------------------------- | ---------------------- |
-| [POST /api/cards](#post-apicards)                              | Create Flashcard       |
-| [GET /api/cards](#get-apicards)                                | All flashcards of User |
-| [GET /api/cards/:id](#get-apicardsId)                          | View one flashcard     |
-| [PUT /api/cards/:id](#put-apicardsId)                          | Edit flashcard         |
-| [DELETE /api/cards/:id](#delete-apicardsId)                    | Delete flashcard       |
-| [GET /api/cards/COTD](#get-apicardsCOTD)                       | Get card of the Day    |
+| ENDPOINT                                                       | DESCRIPTION             |
+| -------------------------------------------------------------- | ----------------------- |
+| [GET /](#get)                                                  | Base URL                |
+| [POST /api/auth/register](#post-apiauthregister)               | Register new User       |
+| [POST /api/auth/login](#post-apiauthlogin)                     | Login for User          |
+| [POST /api/auth/confirm_email](#post-apiauthconfirm_email)     | Confirm Email for User  |
+| [POST /api/auth/forgot_password](#post-apiauthforgot_password) | Request reset token     |
+| [POST /api/auth/reset_password](#post-apiauthreset_password)   | Reset password          |
+| [GET /api/auth/google/](#get-apiauthgoogle)                    | Redirect to google auth |
+| [POST /api/auth/google/:token](#post-apiauthgoogleToken)       | Confirms auth & login   |
+| [POST /api/auth/update_password](#post-apiauthupdate_password) | Update password         |
+| -------------------------------------------------------------- | ----------------------  |
+| [POST /api/decks](#post-apidecks)                              | Create deck             |
+| [GET /api/decks](#get-apidecks)                                | All decks of User       |
+| [GET /api/decks/public](#get-apideckspublic)                   | all public decks        |
+| [GET /api/decks/:id](#get-apidecksId)                          | View one deck           |
+| [PUT /api/decks/:id](#put-apidecksId)                          | Edit deck               |
+| [DELETE /api/decks/:id](#delete-apidecksId)                    | Delete deck             |
+| [GET /api/decks/favorite](#get-apideckstag)                    | Get most used tags      |
+| [GET /api/decks/access/](#put-apidecksaccess)                  | 10 decks last accessed  |
+| [PUT /api/decks/access/:id](#put-apidecksaccessId)             | Update deck access time |
+| [DELETE /api/decks/access/:id](#put-apidecksaccessId)          | Remove accessed entry   |
+| -------------------------------------------------------------- | ----------------------  |
+| [POST /api/cards](#post-apicards)                              | Create Flashcard        |
+| [GET /api/cards](#get-apicards)                                | All flashcards of User  |
+| [GET /api/cards/:id](#get-apicardsId)                          | View one flashcard      |
+| [PUT /api/cards/:id](#put-apicardsId)                          | Edit flashcard          |
+| [DELETE /api/cards/:id](#delete-apicardsId)                    | Delete flashcard        |
+| [GET /api/cards/COTD](#get-apicardsCOTD)                       | Get card of the Day     |
 
 #### GET /
 
@@ -230,6 +232,45 @@ Response body:
 }
 ```
 
+#### GET /api/auth/google
+
+_**Description**: Redirects user to google auth, user will signin or cannot and will be redirected back to the landing page._.
+
+Request body:
+
+```json
+{}
+```
+
+Response body:
+
+```json
+{}
+```
+
+#### POST /api/auth/google/:token
+
+_**Description**: User will be verified in the data based as created and will be sent a token with userID._.
+
+Request body:
+
+```json
+{}
+```
+
+```json
+{
+  "token": "aTokenYouShouldNotBotherDecryprting.eyJzdWJqZWN0IjADfe3KLo98IjoiTWFhcnVmIERhdWRhIiwiaWF0IjoxNTc2NzYzNzA0LCJleHAiOjE1NzY4NTAxMDR9.jsihrtPG37mKBHp3xvjrQ-UselessRjSMr5YlPovG5A",
+  "user": {
+    "id": 1,
+    "full_name": "Anna",
+    "email": "anna@xyz.com",
+    "image_url": null,
+    "isConfirmed": false
+  }
+}
+```
+
 #### POST /api/auth/update_Password
 
 _**Description**: updates a user's password._.
@@ -238,13 +279,10 @@ Request body:
 
 ```json
 {
-	"oldPassword": "my old password",
-	"newPassword": "my new password",
-	"confirmPassword": "matches my new password"
+  "newPassword": "my new password",
+  "confirmPassword": "matches my new password"
 }
 ```
-
-Response body:
 
 ```json
 {
@@ -678,15 +716,15 @@ Response body:
 
 ```json
 {
-   "id": 20,
-   "deck_id": 2,
-   "user_id": 2,
-   "question": "How do I create a flashcard",
-   "answer": "Post to /api/card",
-   "image_url_question": "www.realurl.com",
-   "created_at": "2020-01-22T13:47:57.348Z",
-   "updated_at": "2020-01-22T13:47:57.348Z",
-   "image_url_answer": "www.google.com"
+  "id": 20,
+  "deck_id": 2,
+  "user_id": 2,
+  "question": "How do I create a flashcard",
+  "answer": "Post to /api/card",
+  "image_url_question": "www.realurl.com",
+  "created_at": "2020-01-22T13:47:57.348Z",
+  "updated_at": "2020-01-22T13:47:57.348Z",
+  "image_url_answer": "www.google.com"
 }
 ```
 
@@ -786,15 +824,15 @@ Response body:
 
 ```json
 {
-   "id": 17,
-   "deck_id": 2,
-   "user_id": 2,
-   "question": "updated question",
-   "answer": "updated question",
-   "image_url_question": "www.gify.com/image",
-   "created_at": "2020-01-22T13:14:26.879Z",
-   "updated_at": "2020-01-22T13:14:26.879Z",
-   "image_url_answer": "www.google.com"
+  "id": 17,
+  "deck_id": 2,
+  "user_id": 2,
+  "question": "updated question",
+  "answer": "updated question",
+  "image_url_question": "www.gify.com/image",
+  "created_at": "2020-01-22T13:14:26.879Z",
+  "updated_at": "2020-01-22T13:14:26.879Z",
+  "image_url_answer": "www.google.com"
 }
 ```
 

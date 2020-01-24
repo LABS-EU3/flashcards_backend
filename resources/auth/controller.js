@@ -1,10 +1,11 @@
+/* eslint-disable no-underscore-dangle */
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
-
+const jwt = require('jsonwebtoken');
 const model = require('./model');
 const generateToken = require('../../utils/generateToken');
 const { welcomeText } = require('../../utils/constants');
-const { EMAIL_SECRET } = require('../../config');
+const { EMAIL_SECRET, GOOGLE_FRONTEND_REDIRCT } = require('../../config');
 const emailTemplate = require('../../templates/confirmEmail');
 const resetPasswordTemplate = require('../../templates/forgotPassword');
 const sendEmail = require('../../utils/sendEmail');
@@ -129,6 +130,32 @@ exports.viewProfile = async (req, res) => {
   }
 };
 
+exports.authGoogle = async (req, res) => {
+  try {
+    const { user } = req._passport.session;
+    const token = await generateToken(user);
+    res.status(200).redirect(`${GOOGLE_FRONTEND_REDIRCT}${token}`);
+  } catch (error) {
+    res.status(401).json({
+      message: `Error authenticating via google ${error.message}`,
+    });
+  }
+};
+
+exports.completeGoogleAuth = async (req, res) => {
+  try {
+    const { token } = req.params;
+    const decodedToken = jwt.decode(token);
+    const userId = decodedToken.subject;
+    const foundUser = await model.filter({ id: userId });
+    res.status(200).json({
+      message: `Welcome. You're logged in!`,
+      data: { token, user: foundUser },
+    });
+  } catch (error) {
+    res.status(401).json({ message: `Failed to complete authorization` });
+  }
+};
 exports.updatePassword = async (req, res) => {
   try {
     const { oldPassword, newPassword } = req.body;
@@ -141,12 +168,12 @@ exports.updatePassword = async (req, res) => {
     if (!isOldPasswordValid) {
       res.status(400).json({ message: 'Old password is invalid' });
       res.end();
+    } else {
+      const hashedPassword = bcrypt.hashSync(newPassword, 10);
+
+      await model.changePassword(subject, hashedPassword);
+      res.status(200).json({ message: 'Password successfully updated' });
     }
-
-    const hashedPassword = bcrypt.hashSync(newPassword, 10);
-
-    await model.changePassword(subject, hashedPassword);
-    res.status(200).json({ message: 'Password successfully updated' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
