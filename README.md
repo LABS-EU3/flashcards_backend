@@ -68,40 +68,35 @@ Request Error ( **400 - Bad Request** || **404 - Not Found** || **403 - Unauthor
 
 ### API Endpoints
 
-| ENDPOINT                                                       | DESCRIPTION            |
-| -------------------------------------------------------------- | ---------------------- |
-| [GET /](#get)                                                  | Base URL               |
-| [POST /api/auth/register](#post-apiauthregister)               | Register new User      |
-| [POST /api/auth/login](#post-apiauthlogin)                     | Login for User         |
-| [POST /api/auth/confirm_email](#post-apiauthconfirm_email)     | Confirm Email for User |
-| [POST /api/auth/forgot_password](#post-apiauthforgot_password) | Request reset token    |
-| [POST /api/auth/reset_password](#post-apiauthreset_password)   | Reset password         |
-
-<<<<<<< HEAD
-| [GET /api/auth/google/](#get-apiauthgoogle) | Redirect to google auth|
-| [POST /api/auth/google/:token](#post-apiauthgoogleToken) | Confirms auth & login |
-=======
-| [POST /api/auth/update_password] | Update password |
-
-> > > > > > > ac1eeb315b67afb8514c0e09a15e7d8e14a7eab2
-> > > > > > > | -------------------------------------------------------------- | ---------------------- |
-> > > > > > > | [POST /api/decks](#post-apidecks) | Create deck |
-> > > > > > > | [GET /api/decks](#get-apidecks) | All decks of User |
-> > > > > > > | [GET /api/decks/public](#get-apideckspublic) | all public decks |
-> > > > > > > | [GET /api/decks/:id](#get-apidecksId) | View one deck |
-> > > > > > > | [PUT /api/decks/:id](#put-apidecksId) | Edit deck |
-> > > > > > > | [DELETE /api/decks/:id](#delete-apidecksId) | Delete deck |
-> > > > > > > | [GET /api/decks/favorite](#get-apideckstag) | Get most used tags |
-> > > > > > > | [GET /api/decks/access/](#put-apidecksaccess) | 10 decks last accessed |
-> > > > > > > | [PUT /api/decks/access/:id](#put-apidecksaccessId) | Update deck access time|
-> > > > > > > | [DELETE /api/decks/access/:id](#put-apidecksaccessId) | Remove accessed entry |
-> > > > > > > | -------------------------------------------------------------- | ---------------------- |
-> > > > > > > | [POST /api/cards](#post-apicards) | Create Flashcard |
-> > > > > > > | [GET /api/cards](#get-apicards) | All flashcards of User |
-> > > > > > > | [GET /api/cards/:id](#get-apicardsId) | View one flashcard |
-> > > > > > > | [PUT /api/cards/:id](#put-apicardsId) | Edit flashcard |
-> > > > > > > | [DELETE /api/cards/:id](#delete-apicardsId) | Delete flashcard |
-> > > > > > > | [GET /api/cards/COTD](#get-apicardsCOTD) | Get card of the Day |
+| ENDPOINT                                                       | DESCRIPTION             |
+| -------------------------------------------------------------- | ----------------------- |
+| [GET /](#get)                                                  | Base URL                |
+| [POST /api/auth/register](#post-apiauthregister)               | Register new User       |
+| [POST /api/auth/login](#post-apiauthlogin)                     | Login for User          |
+| [POST /api/auth/confirm_email](#post-apiauthconfirm_email)     | Confirm Email for User  |
+| [POST /api/auth/forgot_password](#post-apiauthforgot_password) | Request reset token     |
+| [POST /api/auth/reset_password](#post-apiauthreset_password)   | Reset password          |
+| [GET /api/auth/google/](#get-apiauthgoogle)                    | Redirect to google auth |
+| [POST /api/auth/google/:token](#post-apiauthgoogleToken)       | Confirms auth & login   |
+| [POST /api/auth/update_password](#post-apiauthupdate_password) | Update password         |
+| -------------------------------------------------------------- | ----------------------  |
+| [POST /api/decks](#post-apidecks)                              | Create deck             |
+| [GET /api/decks](#get-apidecks)                                | All decks of User       |
+| [GET /api/decks/public](#get-apideckspublic)                   | all public decks        |
+| [GET /api/decks/:id](#get-apidecksId)                          | View one deck           |
+| [PUT /api/decks/:id](#put-apidecksId)                          | Edit deck               |
+| [DELETE /api/decks/:id](#delete-apidecksId)                    | Delete deck             |
+| [GET /api/decks/favorite](#get-apideckstag)                    | Get most used tags      |
+| [GET /api/decks/access/](#put-apidecksaccess)                  | 10 decks last accessed  |
+| [PUT /api/decks/access/:id](#put-apidecksaccessId)             | Update deck access time |
+| [DELETE /api/decks/access/:id](#put-apidecksaccessId)          | Remove accessed entry   |
+| -------------------------------------------------------------- | ----------------------  |
+| [POST /api/cards](#post-apicards)                              | Create Flashcard        |
+| [GET /api/cards](#get-apicards)                                | All flashcards of User  |
+| [GET /api/cards/:id](#get-apicardsId)                          | View one flashcard      |
+| [PUT /api/cards/:id](#put-apicardsId)                          | Edit flashcard          |
+| [DELETE /api/cards/:id](#delete-apicardsId)                    | Delete flashcard        |
+| [GET /api/cards/COTD](#get-apicardsCOTD)                       | Get card of the Day     |
 
 #### GET /
 
