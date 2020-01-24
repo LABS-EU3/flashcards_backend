@@ -35,30 +35,28 @@ describe('Users route', () => {
     test('Returns 200 on success', async done => {
       let res;
       res = await request(server)
-        .set('Authorization', authToken)
-        .delete('/api/users/1');
+        .delete(`/api/users/${user.id}`)
+        .set('Authorization', authToken);
 
       expect(res.status).toBe(200);
 
       res = await request(server)
         .post('/api/auth/login')
-        .set('Authorization', authToken)
         .send({
           email: userObject.email,
           password: userObject.pasword,
         });
 
       // deleted user no longer exists
-      expect(res.status).toBe(404);
+      expect(res.status).toBe(400);
 
       done();
     });
 
     test('Returns 403 forbidden', async done => {
-      let res;
-      res = await request(server)
-        .set('Authorization', authToken)
-        .delete('/api/users/888');
+      const res = await request(server)
+        .delete('/api/users/888')
+        .set('Authorization', authToken);
 
       expect(res.status).toBe(403);
 
