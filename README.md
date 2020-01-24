@@ -76,27 +76,32 @@ Request Error ( **400 - Bad Request** || **404 - Not Found** || **403 - Unauthor
 | [POST /api/auth/confirm_email](#post-apiauthconfirm_email)     | Confirm Email for User |
 | [POST /api/auth/forgot_password](#post-apiauthforgot_password) | Request reset token    |
 | [POST /api/auth/reset_password](#post-apiauthreset_password)   | Reset password         |
-| [GET /api/auth/google/](#get-apiauthgoogle)                    | Redirect to google auth|
-| [POST /api/auth/google/:token](#post-apiauthgoogleToken)       | Confirms auth & login  |
-| -------------------------------------------------------------- | ---------------------- |
-| [POST /api/decks](#post-apidecks)                              | Create deck            |
-| [GET /api/decks](#get-apidecks)                                | All decks of User      |
-| [GET /api/decks/public](#get-apideckspublic)                   | all public decks       |
-| [GET /api/decks/:id](#get-apidecksId)                          | View one deck          |
-| [PUT /api/decks/:id](#put-apidecksId)                          | Edit deck              |
-| [DELETE /api/decks/:id](#delete-apidecksId)                    | Delete deck            |
-| [GET /api/decks/favorite](#get-apideckstag)                    | Get most used tags     |
-| [GET /api/decks/access/](#put-apidecksaccess)                  | 10 decks last accessed |
-| [PUT /api/decks/access/:id](#put-apidecksaccessId)             | Update deck access time|
-| [DELETE /api/decks/access/:id](#put-apidecksaccessId)          | Remove accessed entry  |
-| -------------------------------------------------------------- | ---------------------- |
-| [POST /api/cards](#post-apicards)                              | Create Flashcard       |
-| [GET /api/cards](#get-apicards)                                | All flashcards of User |
-| [GET /api/cards/:id](#get-apicardsId)                          | View one flashcard     |
-| [PUT /api/cards/:id](#put-apicardsId)                          | Edit flashcard         |
-| [DELETE /api/cards/:id](#delete-apicardsId)                    | Delete flashcard       |
-| [GET /api/cards/COTD](#get-apicardsCOTD)                       | Get card of the Day    |
 
+<<<<<<< HEAD
+| [GET /api/auth/google/](#get-apiauthgoogle) | Redirect to google auth|
+| [POST /api/auth/google/:token](#post-apiauthgoogleToken) | Confirms auth & login |
+=======
+| [POST /api/auth/update_password] | Update password |
+
+> > > > > > > ac1eeb315b67afb8514c0e09a15e7d8e14a7eab2
+> > > > > > > | -------------------------------------------------------------- | ---------------------- |
+> > > > > > > | [POST /api/decks](#post-apidecks) | Create deck |
+> > > > > > > | [GET /api/decks](#get-apidecks) | All decks of User |
+> > > > > > > | [GET /api/decks/public](#get-apideckspublic) | all public decks |
+> > > > > > > | [GET /api/decks/:id](#get-apidecksId) | View one deck |
+> > > > > > > | [PUT /api/decks/:id](#put-apidecksId) | Edit deck |
+> > > > > > > | [DELETE /api/decks/:id](#delete-apidecksId) | Delete deck |
+> > > > > > > | [GET /api/decks/favorite](#get-apideckstag) | Get most used tags |
+> > > > > > > | [GET /api/decks/access/](#put-apidecksaccess) | 10 decks last accessed |
+> > > > > > > | [PUT /api/decks/access/:id](#put-apidecksaccessId) | Update deck access time|
+> > > > > > > | [DELETE /api/decks/access/:id](#put-apidecksaccessId) | Remove accessed entry |
+> > > > > > > | -------------------------------------------------------------- | ---------------------- |
+> > > > > > > | [POST /api/cards](#post-apicards) | Create Flashcard |
+> > > > > > > | [GET /api/cards](#get-apicards) | All flashcards of User |
+> > > > > > > | [GET /api/cards/:id](#get-apicardsId) | View one flashcard |
+> > > > > > > | [PUT /api/cards/:id](#put-apicardsId) | Edit flashcard |
+> > > > > > > | [DELETE /api/cards/:id](#delete-apicardsId) | Delete flashcard |
+> > > > > > > | [GET /api/cards/COTD](#get-apicardsCOTD) | Get card of the Day |
 
 #### GET /
 
@@ -258,8 +263,6 @@ Request body:
 {}
 ```
 
-Response body:
-
 ```json
 {
   "token": "aTokenYouShouldNotBotherDecryprting.eyJzdWJqZWN0IjADfe3KLo98IjoiTWFhcnVmIERhdWRhIiwiaWF0IjoxNTc2NzYzNzA0LCJleHAiOjE1NzY4NTAxMDR9.jsihrtPG37mKBHp3xvjrQ-UselessRjSMr5YlPovG5A",
@@ -270,6 +273,25 @@ Response body:
     "image_url": null,
     "isConfirmed": false
   }
+}
+```
+
+#### POST /api/auth/update_Password
+
+_**Description**: updates a user's password._.
+
+Request body:
+
+```json
+{
+  "newPassword": "my new password",
+  "confirmPassword": "matches my new password"
+}
+```
+
+```json
+{
+  "message": "Password updated successfully"
 }
 ```
 
@@ -459,9 +481,10 @@ Response body:
         "user_id": 6,
         "question": "Who is the father of Geometry?",
         "answer": "Euclid",
-        "image_url": null,
+        "image_url_question": null,
         "created_at": "2020-01-13T10:49:59.086613-05:00",
-        "updated_at": "2020-01-13T10:49:59.086613-05:00"
+        "updated_at": "2020-01-13T10:49:59.086613-05:00",
+        "image_url_answer": null
       },
       {
         "id": 12,
@@ -469,9 +492,10 @@ Response body:
         "user_id": 6,
         "question": "The Indian to beat the computers in mathematical wizardry is",
         "answer": "Shakunthala Devi",
-        "image_url": null,
+        "image_url_question": null,
         "created_at": "2020-01-13T10:49:59.086613-05:00",
-        "updated_at": "2020-01-13T10:49:59.086613-05:00"
+        "updated_at": "2020-01-13T10:49:59.086613-05:00",
+        "image_url_answer": null
       }
     ]
   }
@@ -531,9 +555,10 @@ Response body:
       "user_id": 6,
       "question": "Who is the father of Geometry?",
       "answer": "Euclid",
-      "image_url": null,
+      "image_url_question": null,
       "created_at": "2020-01-13T10:49:59.086613-05:00",
-      "updated_at": "2020-01-13T10:49:59.086613-05:00"
+      "updated_at": "2020-01-13T10:49:59.086613-05:00",
+      "image_url_answer": null
     },
     {
       "id": 12,
@@ -541,9 +566,10 @@ Response body:
       "user_id": 6,
       "question": "The Indian to beat the computers in mathematical wizardry is",
       "answer": "Shakunthala Devi",
-      "image_url": null,
+      "image_url_question": null,
       "created_at": "2020-01-13T10:49:59.086613-05:00",
-      "updated_at": "2020-01-13T10:49:59.086613-05:00"
+      "updated_at": "2020-01-13T10:49:59.086613-05:00",
+      "image_url_answer": null
     }
   ]
 }
@@ -681,10 +707,11 @@ Request body:
 
 ```json
 {
-  "deckId": 1,
+  "deckId": 2,
   "questionText": "How do I create a flashcard",
   "answerText": "Post to /api/card",
-  "imageUrl": "www.realurl.com"
+  "imageUrlQuestion": "www.realurl.com",
+  "imageUrlAnswer": "www.google.com"
 }
 ```
 
@@ -694,7 +721,15 @@ Response body:
 
 ```json
 {
-  "message": "`Successfully created card with the id of 1"
+  "id": 20,
+  "deck_id": 2,
+  "user_id": 2,
+  "question": "How do I create a flashcard",
+  "answer": "Post to /api/card",
+  "image_url_question": "www.realurl.com",
+  "created_at": "2020-01-22T13:47:57.348Z",
+  "updated_at": "2020-01-22T13:47:57.348Z",
+  "image_url_answer": "www.google.com"
 }
 ```
 
@@ -718,9 +753,10 @@ Response body:
     "user_id": 1,
     "question": "here is my question answer me",
     "answer": "here is my answer question me",
-    "image_url": null,
+    "image_url_question": null,
     "created_at": "2020-01-08T10:44:38.761Z",
-    "updated_at": "2020-01-08T10:44:38.761Z"
+    "updated_at": "2020-01-08T10:44:38.761Z",
+    "image_url_answer": null
   },
   {
     "id": 3,
@@ -728,9 +764,10 @@ Response body:
     "user_id": 1,
     "question": "here is my question answer me",
     "answer": "here is my answer question me",
-    "image_url": null,
+    "image_url_question": null,
     "created_at": "2020-01-08T10:45:05.269Z",
-    "updated_at": "2020-01-08T10:45:05.269Z"
+    "updated_at": "2020-01-08T10:45:05.269Z",
+    "image_url_answer": null
   },
   {
     "id": 5,
@@ -738,9 +775,10 @@ Response body:
     "user_id": 1,
     "question": "here is my question answer me",
     "answer": "here is my answer question me",
-    "image_url": null,
+    "image_url_question": null,
     "created_at": "2020-01-08T11:34:52.174Z",
-    "updated_at": "2020-01-08T11:34:52.174Z"
+    "updated_at": "2020-01-08T11:34:52.174Z",
+    "image_url_answer": null
   }
 ]
 ```
@@ -764,9 +802,10 @@ Response body:
   "user_id": 1,
   "question": "here is my question answer me",
   "answer": "here is my answer question me",
-  "image_url": null,
+  "image_url_question": null,
   "created_at": "2020-01-08T10:45:05.269Z",
-  "updated_at": "2020-01-08T10:45:05.269Z"
+  "updated_at": "2020-01-08T10:45:05.269Z",
+  "image_url_answer": null
 }
 ```
 
@@ -778,10 +817,11 @@ Request body:
 
 ```json
 {
-  "deck_id": 1,
-  "question": "different question",
-  "answer": "different question",
-  "image_url": "www.gify.com/image"
+  "deckId": 2,
+  "questionText": "updated question",
+  "answerText": "updated question",
+  "imageUrlQuestion": "www.gify.com/image",
+  "imageUrlAnswer": "www.google.com"
 }
 ```
 
@@ -789,7 +829,15 @@ Response body:
 
 ```json
 {
-  "message": "Successfully updated card with the id of id"
+  "id": 17,
+  "deck_id": 2,
+  "user_id": 2,
+  "question": "updated question",
+  "answer": "updated question",
+  "image_url_question": "www.gify.com/image",
+  "created_at": "2020-01-22T13:14:26.879Z",
+  "updated_at": "2020-01-22T13:14:26.879Z",
+  "image_url_answer": "www.google.com"
 }
 ```
 
@@ -828,9 +876,10 @@ Response body:
   "user_id": 1,
   "question": "here is my question answer me",
   "answer": "here is my answer question me",
-  "image_url": null,
+  "image_url_question": null,
   "created_at": "2020-01-08T10:45:05.269Z",
-  "updated_at": "2020-01-08T10:45:05.269Z"
+  "updated_at": "2020-01-08T10:45:05.269Z",
+  "image_url_answer": null
 }
 ```
 

@@ -10,12 +10,14 @@ const {
   viewProfile,
   authGoogle,
   completeGoogleAuth,
+  updatePassword,
 } = require('./controller');
 const {
   signUpSchema,
   loginSchema,
   forgotPasswordSchema,
   resetPasswordSchema,
+  updatePasswordSchema,
 } = require('./authSchema');
 const validate = require('../../utils/validate');
 const {
@@ -65,5 +67,12 @@ authRouter.get(
 );
 
 authRouter.post('/google/:token', completeGoogleAuth);
+
+authRouter.post(
+  '/update_password',
+  authorized,
+  validate(updatePasswordSchema),
+  updatePassword
+);
 
 module.exports = authRouter;

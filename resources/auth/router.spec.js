@@ -401,4 +401,52 @@ describe('Auth Router', () => {
       done();
     });
   });
+
+  describe('Update password endpoint', () => {
+    test('Returns 200 on successful update', async done => {
+      const res = await request(server)
+        .post('/api/auth/register')
+        .send(userObject);
+
+      const { token } = res.body.data;
+      expect(res.status).toBe(201);
+      expect(token).not.toBe(null || undefined);
+
+      const response = await request(server)
+        .post('/api/auth/update_password')
+        .set('Authorization', `${token}`)
+        .send({
+          oldPassword: userObject.password,
+          newPassword: 'newpassword',
+          confirmPassword: 'newpassword',
+        });
+
+      expect(response.status).toBe(200);
+
+      done();
+    });
+
+    test('Fails if old password is invalid', async done => {
+      const res = await request(server)
+        .post('/api/auth/register')
+        .send(userObject);
+
+      const { token } = res.body.data;
+      expect(res.status).toBe(201);
+      expect(token).not.toBe(null || undefined);
+
+      const response = await request(server)
+        .post('/api/auth/update_password')
+        .set('Authorization', `${token}`)
+        .send({
+          oldPassword: 'badpassword',
+          newPassword: 'newpassword',
+          confirmPassword: 'newpassword',
+        });
+
+      expect(response.status).toBe(400);
+
+      done();
+    });
+  });
 });
