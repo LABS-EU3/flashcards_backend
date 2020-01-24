@@ -168,12 +168,12 @@ exports.updatePassword = async (req, res) => {
     if (!isOldPasswordValid) {
       res.status(400).json({ message: 'Old password is invalid' });
       res.end();
+    } else {
+      const hashedPassword = bcrypt.hashSync(newPassword, 10);
+
+      await model.changePassword(subject, hashedPassword);
+      res.status(200).json({ message: 'Password successfully updated' });
     }
-
-    const hashedPassword = bcrypt.hashSync(newPassword, 10);
-
-    await model.changePassword(subject, hashedPassword);
-    res.status(200).json({ message: 'Password successfully updated' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
