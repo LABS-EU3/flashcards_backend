@@ -115,6 +115,7 @@ exports.scoreDeck = async (req, res) => {
 
   const { scores } = req.body;
 
+  let count = 0;
   scores.forEach(async score => {
     const scoreObject = {
       card_id: score.card_id,
@@ -122,13 +123,19 @@ exports.scoreDeck = async (req, res) => {
       user_id: subject,
       rating: score.rating,
     };
-    let resp;
     try {
-      resp = await scoreCard(scoreObject);
+      const resp = await scoreCard(scoreObject);
+      // console.log(resp);
+      count = resp !== 0 ? count + 1 : count;
     } catch (error) {
-      resp = await rescoreCard(scoreObject);
+      const resp = await rescoreCard(scoreObject);
+      // console.log(resp);
+      count = resp !== 0 ? count + 1 : count;
     } finally {
-      res.status(200).json(resp);
+      console.log(count);
     }
+  });
+  res.status(200).json({
+    message: `Successfully scored ${count} out of ${scores.length}`,
   });
 };
