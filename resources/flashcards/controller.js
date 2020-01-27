@@ -4,6 +4,8 @@ const {
   removeCard,
   updateCard,
   flashcardOfTheDay,
+  scoreCard,
+  rescoreCard,
 } = require('./model');
 
 exports.fetchAllCardsByUser = async (req, res) => {
@@ -106,4 +108,27 @@ exports.fetchCardOfTheDay = async (req, res) => {
       message: `Failed to fetch a random card: ${error.message}`,
     });
   }
+};
+
+exports.scoreDeck = async (req, res) => {
+  const { subject } = req.decodedToken;
+
+  const { scores } = req.body;
+
+  scores.forEach(async score => {
+    const scoreObject = {
+      card_id: score.card_id,
+      deck_id: score.deck_id,
+      user_id: subject,
+      rating: score.rating,
+    };
+    let resp;
+    try {
+      resp = await scoreCard(scoreObject);
+    } catch (error) {
+      resp = await rescoreCard(scoreObject);
+    } finally {
+      res.status(200).json(resp);
+    }
+  });
 };

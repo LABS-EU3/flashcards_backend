@@ -54,5 +54,5 @@ exports.rescoreCard = cardScore => {
       deck_id: cardScore.deck_id,
       user_id: cardScore.user_id,
     })
-    .update({ rating: cardScore.score });
+    .update({ rating: cardScore.rating });
 };

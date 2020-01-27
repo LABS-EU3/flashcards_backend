@@ -25,19 +25,43 @@ exports.flashCardSchema = joi.object({
 });
 
 exports.ratingsSchema = joi.object({
-  cards: joi
-    .array()
-    .items(joi.number().integer())
-    .label('Card Ids')
-    .required(),
-  scores: joi
-    .array()
-    .items(joi.number().integer())
-    .label('Scores')
-    .required(),
-  deckId: joi
-    .number()
-    .integer()
-    .label('Deck Id')
-    .required(),
+  // cards: joi
+  //   .array()
+  //   .items(joi.number().integer())
+  //   .label('Card Ids')
+  //   .required(),
+  // scores: joi
+  //   .array()
+  //   .items(joi.number().integer())
+  //   .label('Scores')
+  //   .required(),
+  // deckId: joi
+  //   .number()
+  //   .integer()
+  //   .label('Deck Id')
+  //   .required(),
+
+  scores: joi.array().items(
+    joi.object({
+      card_id: joi
+        .number()
+        .integer()
+        .required(),
+
+      deck_id: joi
+        .number()
+        .integer()
+        .required(),
+
+      rating: joi
+        .number()
+        .integer()
+        .required(),
+
+      user_id: joi
+        .number()
+        .integer()
+        .required(),
+    })
+  ),
 });
