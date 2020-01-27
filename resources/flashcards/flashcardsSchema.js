@@ -41,27 +41,33 @@ exports.ratingsSchema = joi.object({
   //   .label('Deck Id')
   //   .required(),
 
-  scores: joi.array().items(
-    joi.object({
-      card_id: joi
-        .number()
-        .integer()
-        .required(),
+  // a: joi.string().required(),
 
-      deck_id: joi
-        .number()
-        .integer()
-        .required(),
+  scores: joi
+    .array()
+    .items(
+      joi.object({
+        card_id: joi
+          .number()
+          .integer()
+          .required(),
 
-      rating: joi
-        .number()
-        .integer()
-        .required(),
+        deck_id: joi
+          .number()
+          .integer()
+          .required(),
 
-      user_id: joi
-        .number()
-        .integer()
-        .required(),
-    })
-  ),
+        rating: joi
+          .number()
+          .integer()
+          .required(),
+
+        user_id: joi
+          .number()
+          .integer()
+          .required(),
+      })
+    )
+    // .required()
+    .label('Array of scores'),
 });
