@@ -6,6 +6,7 @@ const {
   flashcardOfTheDay,
   scoreCard,
   rescoreCard,
+  checkCardIsRated,
 } = require('./model');
 
 exports.fetchAllCardsByUser = async (req, res) => {
@@ -113,29 +114,40 @@ exports.fetchCardOfTheDay = async (req, res) => {
 exports.scoreDeck = async (req, res) => {
   const { subject } = req.decodedToken;
 
-  const { scores } = req.body;
+  // eslint-disable-next-line camelcase
+  const { card_id, deck_id, rating } = req.body;
 
-  let count = 0;
-  scores.forEach(async score => {
-    const scoreObject = {
-      card_id: score.card_id,
-      deck_id: score.deck_id,
-      user_id: subject,
-      rating: score.rating,
-    };
-    try {
-      const resp = await scoreCard(scoreObject);
-      // console.log(resp);
-      count = resp !== 0 ? count + 1 : count;
-    } catch (error) {
-      const resp = await rescoreCard(scoreObject);
-      // console.log(resp);
-      count = resp !== 0 ? count + 1 : count;
-    } finally {
-      console.log(count);
+  const scoreObject = {
+    user_id: subject,
+    card_id,
+    deck_id,
+    rating,
+  };
+
+  try {
+    const cardHasPreviousScore = await checkCardIsRated({
+      userId: scoreObject.user_id,
+      cardId: scoreObject.card_id,
+    });
+
+    if (cardHasPreviousScore) {
+      const did = await rescoreCard(scoreObject);
+      if (did > 0) {
+        res.status(200).json({
+          message: `Successfully re-scored`,
+        });
+      }
+    } else {
+      const did = await scoreCard(scoreObject);
+      if (did > 0) {
+        res.status(201).json({
+          message: `Successfully scored`,
+        });
+      }
     }
-  });
-  res.status(200).json({
-    message: `Successfully scored ${count} out of ${scores.length}`,
-  });
+  } catch (error) {
+    res.status(500).json({
+      message: `Failed to score card`,
+    });
+  }
 };
