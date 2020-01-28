@@ -42,17 +42,25 @@ exports.flashcardOfTheDay = userId => {
     .limit(1);
 };
 
-// eslint-disable-next-line camelcase
-exports.scoreCard = cardScore => {
-  return db('ratings').insert(cardScore);
-};
-
-exports.rescoreCard = cardScore => {
+exports.checkCardIsRated = ({ userId, cardId }) => {
   return db('ratings')
     .where({
-      card_id: cardScore.card_id,
-      deck_id: cardScore.deck_id,
-      user_id: cardScore.user_id,
+      user_id: userId,
+      card_id: cardId,
     })
-    .update({ rating: cardScore.rating });
+    .first();
+};
+
+exports.scoreCard = cardScoreObject => {
+  return db('ratings').insert(cardScoreObject);
+};
+
+exports.rescoreCard = cardScoreObject => {
+  return db('ratings')
+    .where({
+      card_id: cardScoreObject.card_id,
+      deck_id: cardScoreObject.deck_id,
+      user_id: cardScoreObject.user_id,
+    })
+    .update({ rating: cardScoreObject.rating });
 };
