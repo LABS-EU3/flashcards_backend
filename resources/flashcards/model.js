@@ -52,7 +52,7 @@ exports.checkCardIsRated = ({ userId, cardId }) => {
 };
 
 exports.scoreCard = cardScoreObject => {
-  return db('ratings').insert(cardScoreObject);
+  return db('ratings').insert(cardScoreObject, 'card_id');
 };
 
 exports.rescoreCard = cardScoreObject => {

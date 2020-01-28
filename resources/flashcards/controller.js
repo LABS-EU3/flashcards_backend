@@ -131,15 +131,15 @@ exports.scoreDeck = async (req, res) => {
     });
 
     if (cardHasPreviousScore) {
-      const did = await rescoreCard(scoreObject);
-      if (did > 0) {
+      const result = await rescoreCard(scoreObject);
+      if (result > 0) {
         res.status(200).json({
           message: `Successfully re-scored`,
         });
       }
     } else {
-      const did = await scoreCard(scoreObject);
-      if (did > 0) {
+      const result = await scoreCard(scoreObject);
+      if (result > 0) {
         res.status(201).json({
           message: `Successfully scored`,
         });
