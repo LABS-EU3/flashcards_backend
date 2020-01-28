@@ -5,6 +5,7 @@ exports.deleteUser = async (req, res) => {
     const { subject } = req.decodedToken;
     const { id } = req.params;
 
+    // eslint-disable-next-line radix
     if (parseInt(id) !== subject) {
       res.status(403).json({ message: 'Request is forbidden' });
       return;
