@@ -5,3 +5,9 @@ exports.remove = id => {
     .where({ id })
     .del();
 };
+
+exports.checkUserHasScore = userId => {
+  return db('rankings')
+    .where({ user_id: userId })
+    .first();
+};
