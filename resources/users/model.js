@@ -21,3 +21,17 @@ exports.updateRank = ({ userId, newScore }) => {
     .where({ user_id: userId })
     .update({ score: newScore });
 };
+
+exports.getUserRanking = userId => {
+  const user = db('users')
+    .where({ id: userId })
+    .select('email', 'full_name', 'id')
+    .first();
+
+  const userScore = db('rankings')
+    .select('score')
+    .where({ user_id: userId })
+    .first();
+
+  return Promise.all(user, userScore);
+};
