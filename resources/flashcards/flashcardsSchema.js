@@ -23,3 +23,23 @@ exports.flashCardSchema = joi.object({
     .allow('')
     .label('Image URL Answer'),
 });
+
+exports.ratingsSchema = joi.object({
+  card_id: joi
+    .number()
+    .integer()
+    .label('Card Id')
+    .required(),
+
+  deck_id: joi
+    .number()
+    .integer()
+    .label('Deck Id')
+    .required(),
+
+  rating: joi
+    .number()
+    .integer()
+    .label('Card Score')
+    .required(),
+});

@@ -233,4 +233,61 @@ describe('Flashcards Router', () => {
       done();
     });
   });
+
+  describe('[POST] /api/cards/scoring', () => {
+    test('should score card', async done => {
+      const a = await request(server)
+        .post('/api/cards')
+        .send({
+          ...flashcard,
+          questionText: 'Plants receive their nutrients from the?',
+          answerText: 'sun',
+        })
+        .set('Authorization', authToken);
+
+      const res = await request(server)
+        .post('/api/cards/scoring')
+        .send({
+          deck_id: a.body.card.deck_id,
+          card_id: a.body.card.id,
+          rating: 6,
+        })
+        .set('Authorization', authToken);
+
+      expect(res.status).toBe(201);
+      done();
+    });
+
+    test('should update card score', async done => {
+      const a = await request(server)
+        .post('/api/cards')
+        .send({
+          ...flashcard,
+          questionText: 'Plants receive their nutrients from the?',
+          answerText: 'sun',
+        })
+        .set('Authorization', authToken);
+
+      await request(server)
+        .post('/api/cards/scoring')
+        .send({
+          deck_id: a.body.card.deck_id,
+          card_id: a.body.card.id,
+          rating: 6,
+        })
+        .set('Authorization', authToken);
+
+      const res = await request(server)
+        .post('/api/cards/scoring')
+        .send({
+          deck_id: a.body.card.deck_id,
+          card_id: a.body.card.id,
+          rating: 4,
+        })
+        .set('Authorization', authToken);
+
+      expect(res.status).toBe(200);
+      done();
+    });
+  });
 });
