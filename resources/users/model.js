@@ -11,3 +11,13 @@ exports.checkUserHasScore = userId => {
     .where({ user_id: userId })
     .first();
 };
+
+exports.rankUser = ({ userId, score }) => {
+  return db('rankings').insert({ user_id: userId, score }, 'score');
+};
+
+exports.updateRank = ({ userId, newScore }) => {
+  return db('ratings')
+    .where({ user_id: userId })
+    .update({ score: newScore });
+};
