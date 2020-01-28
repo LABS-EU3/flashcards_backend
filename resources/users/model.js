@@ -22,16 +22,16 @@ exports.updateRank = ({ userId, newScore }) => {
     .update({ score: newScore });
 };
 
-exports.getUserRanking = userId => {
-  const user = db('users')
-    .where({ id: userId })
+exports.getUserRanking = async userId => {
+  const user = await db('users')
     .select('email', 'full_name', 'id')
+    .where({ id: userId })
     .first();
 
-  const userScore = db('rankings')
+  const userScore = await db('rankings')
     .select('score')
     .where({ user_id: userId })
     .first();
 
-  return Promise.all(user, userScore);
+  return [user, userScore];
 };
