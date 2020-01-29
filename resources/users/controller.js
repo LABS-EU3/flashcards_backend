@@ -27,6 +27,9 @@ exports.getUserScore = async (req, res) => {
       ...score,
       ...user,
     };
+    if (userWithScore.score === undefined) {
+      userWithScore.score = 0;
+    }
     res.status(200).json({
       message: `Successfully fetched User score`,
       data: userWithScore,
