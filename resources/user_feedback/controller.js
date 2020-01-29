@@ -1,24 +1,25 @@
-// const { welcomeText } = require('../../utils/constants');
-// const { EMAIL_SECRET, GOOGLE_FRONTEND_REDIRCT } = require('../../config');
-// const emailTemplate = require('../../templates/confirmEmail');
-// const resetPasswordTemplate = require('../../templates/forgotPassword');
-// const sendEmail = require('../../utils/sendEmail');
+const userFeedbackTemplate = require('../../templates/userFeedback');
+const sendEmail = require('../../utils/sendEmail');
+// const model = require('./model');
 // recieves body of text, from user login - get email. Send to Quickdecs email
 // reset_pw: send body of text to QuickDecks email
 
-exports.feedback = async (req, res) => {
+exports.userFeedback = async (req, res) => {
   try {
-    console.log(req);
-    console.log(res);
-    // const feedback = req.body.text;
-    // console.log(feedback);
+    const feedback = req.body.text;
+    const userEmail = req.body.email;
+    // const user = await model.filter({ email: userEmail });
+    // console.log(user);
 
-    // sendEmail(
-    //     'Feedback',
-    //     resetRequestEmail,
-    //     resetPasswordTemplate(resetRequestEmail, passwordResetToken)
-    //   );
+    sendEmail('Feedback', userEmail, userFeedbackTemplate(userEmail, feedback));
+
+    res.status(201).json({
+      message: `User feedback sent successfully`,
+      data: {
+        feedback,
+      },
+    });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({ message: `Failed to sign user up` });
   }
 };
