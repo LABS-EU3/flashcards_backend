@@ -97,6 +97,9 @@ Request Error ( **400 - Bad Request** || **404 - Not Found** || **403 - Unauthor
 | [PUT /api/cards/:id](#put-apicardsId)                          | Edit flashcard          |
 | [DELETE /api/cards/:id](#delete-apicardsId)                    | Delete flashcard        |
 | [GET /api/cards/COTD](#get-apicardsCOTD)                       | Get card of the Day     |
+| -------------------------------------------------------------- | ----------------------- |
+| [POST /api/feedback](#post-apifeedback)                        | Send feedback           |
+
 
 #### GET /
 
@@ -273,7 +276,7 @@ Request body:
 
 #### POST /api/auth/update_Password
 
-_**Description**: updates a user's password._.
+_**Description**: Updates a user's password._.
 
 Request body:
 
@@ -854,7 +857,7 @@ Response body:
 
 #### GET /api/cards/COTD
 
-_**Description**: Delete a flashcard._.
+_**Description**: Get Card Of The Day_.
 
 Request body:
 
@@ -877,6 +880,30 @@ Response body:
   "image_url_answer": null
 }
 ```
+
+## POST /api/feedback
+
+_**Description**: Sends user feedback to the user's email and the QuickDecks email_.
+
+Request body:
+
+```json
+{
+	"text": "Hello there. I love using this app - its so great! Can I send this feedback to you?"
+}
+```
+
+Response body
+
+```json 
+{
+    "message": "User feedback sent successfully",
+    "data": {
+        "feedback": "Hello there. I love using this app - its so great! Can I send this feedback to you?"
+    }
+}
+```
+Required: text: string
 
 ## The Tag Data We Used
 
