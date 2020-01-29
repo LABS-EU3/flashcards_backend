@@ -7,14 +7,14 @@ const {
   resetPassword,
   confirmEmail,
   viewProfile,
-  storeImgUrl,
+  UploadProfileImg,
 } = require('./controller');
 const {
   signUpSchema,
   loginSchema,
   forgotPasswordSchema,
   resetPasswordSchema,
-  storeImgUrlSchema,
+  UploadProfileImgSchema,
 } = require('./authSchema');
 const validate = require('../../utils/validate');
 const {
@@ -47,10 +47,10 @@ authRouter.post('/confirm_email', validateToken, confirmEmail);
 authRouter.get('/view_profile', authorized, viewProfile);
 
 authRouter.post(
-  '/store_imgUrl',
+  '/uploadProfile_img',
   authorized,
-  validate(storeImgUrlSchema),
-  storeImgUrl
+  validate(UploadProfileImgSchema),
+  UploadProfileImg
 );
 
 module.exports = authRouter;
