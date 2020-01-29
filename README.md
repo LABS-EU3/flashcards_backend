@@ -97,6 +97,10 @@ Request Error ( **400 - Bad Request** || **404 - Not Found** || **403 - Unauthor
 | [PUT /api/cards/:id](#put-apicardsId)                          | Edit flashcard          |
 | [DELETE /api/cards/:id](#delete-apicardsId)                    | Delete flashcard        |
 | [GET /api/cards/COTD](#get-apicardsCOTD)                       | Get card of the Day     |
+| [POST api/cards/scoring](#post-apicardsscoring)                | Rate card for user      |
+| -------------------------------------------------------------- | ----------------------  |
+| [GET api/users/:id/score](#get-apiusersIdscore)                | Get single user's score |
+| [GET api/users/leaderboard](#get-apiusersleaderboard)          | Get top scoring users   |
 
 #### GET /
 
@@ -157,7 +161,7 @@ Request body:
 
 Response body:
 
-```json
+```jsonhttp://localhost:4003/
 {
   "token": "aTokenYouShouldNotBotherDecryprting.eyJzdWJqZWN0IjADfe3KLo98IjoiTWFhcnVmIERhdWRhIiwiaWF0IjoxNTc2NzYzNzA0LCJleHAiOjE1NzY4NTAxMDR9.jsihrtPG37mKBHp3xvjrQ-UselessRjSMr5YlPovG5A",
   "user": {
@@ -721,7 +725,7 @@ Response body:
   "user_id": 2,
   "question": "How do I create a flashcard",
   "answer": "Post to /api/card",
-  "image_url_question": "www.realurl.com",
+  "image_url_question": "www.realurl.com",leaderboard
   "created_at": "2020-01-22T13:47:57.348Z",
   "updated_at": "2020-01-22T13:47:57.348Z",
   "image_url_answer": "www.google.com"
@@ -781,7 +785,7 @@ Response body:
 #### GET /api/cards/:id
 
 _**Description**: Retrieves a specific card by the card's id._.
-
+http://localhost:4003/
 Request body:
 
 ```json
@@ -894,6 +898,89 @@ Response body:
 ```json
 {
   "message": "Image url stored successfully"
+}
+```
+
+#### POST /api/cards/scoring
+
+_**Description**: Score single flashcard when user in study mode._.
+
+Request body:
+
+```json
+{
+  "card_id": 1,
+  "deck_id": 3,
+  "rating": 5
+}
+```
+
+Response body:
+
+```json
+{
+    "message": "Successfully scored"
+}
+```
+
+## Users
+
+#### GET api/users/:id/score
+
+_**Description**: Get a single user's score._.
+
+Request body:
+
+```json
+{}
+```
+
+Response body:
+
+```json
+{
+    "message": "Successfully fetched User score",
+    "data": {
+        "score": 10,
+        "email": "maaruf@xyz.com",
+        "full_name": "John Doe",
+        "id": 8
+    }
+}
+```
+
+#### GET api/users/leaderboard
+
+_**Description**: Get top 15 scoring users._.
+
+Request body:
+
+```json
+{}
+```
+
+Response body:
+
+```json
+{
+    "message": "Fetched leaderboard",
+    "data": [
+        {
+            "user_id": 8,
+            "full_name": "Maaruf Doe",
+            "email": "maaruf@xyz.com",
+            "score": 10
+        },
+        .
+        .
+        .
+        {
+            "user_id": 9,
+            "full_name": "Anna Doe",
+            "email": "anna@xyz.com",
+            "score": 5
+        }
+    ]
 }
 ```
 

@@ -7,7 +7,7 @@ const {
   deleteCard,
   editCard,
   fetchCardOfTheDay,
-  scoreDeck,
+  rateCard,
 } = require('./controller');
 const { flashCardSchema, ratingsSchema } = require('./flashcardsSchema');
 const validate = require('../../utils/validate');
@@ -28,6 +28,6 @@ flashcardsRouter.put(
 );
 flashcardsRouter.delete('/:id', userOwnsCard, cardExists, deleteCard);
 
-flashcardsRouter.post('/scoring', validate(ratingsSchema), scoreDeck);
+flashcardsRouter.post('/scoring', validate(ratingsSchema), rateCard);
 
 module.exports = flashcardsRouter;
