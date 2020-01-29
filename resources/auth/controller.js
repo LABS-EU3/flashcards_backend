@@ -130,7 +130,7 @@ exports.viewProfile = async (req, res) => {
   }
 };
 
-exports.storeImgUrl = async (req, res) => {
+exports.UploadProfileImg = async (req, res) => {
   try {
     const { subject } = req.decodedToken;
     const { imageUrl } = req.body;
