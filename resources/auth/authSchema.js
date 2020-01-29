@@ -55,7 +55,7 @@ const resetPasswordSchema = joi.object({
     .valid(joi.ref('password')),
 });
 
-const UploadProfileImgSchema = joi.object({
+const uploadProfileImgSchema = joi.object({
   imageUrl: joi.string().required(),
 });
 
@@ -78,6 +78,6 @@ module.exports = {
   loginSchema,
   forgotPasswordSchema,
   resetPasswordSchema,
-  UploadProfileImgSchema,
+  uploadProfileImgSchema,
   updatePasswordSchema,
 };
