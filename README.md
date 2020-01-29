@@ -98,6 +98,8 @@ Request Error ( **400 - Bad Request** || **404 - Not Found** || **403 - Unauthor
 | [DELETE /api/cards/:id](#delete-apicardsId)                    | Delete flashcard        |
 | [GET /api/cards/COTD](#get-apicardsCOTD)                       | Get card of the Day     |
 | [POST api/cards/scoring](#post-apicardsscoring)                | Rate card for user      |
+| -------------------------------------------------------------- | ----------------------  |
+| [GET api/users/:id/score](#get-apiusersIdscore)                | Get single user's score |
 
 #### GET /
 
@@ -898,6 +900,32 @@ Response body:
 ```json
 {
     "message": "Successfully scored"
+}
+```
+
+## Users
+
+#### GET api/users/:id/score
+
+_**Description**: Get a single user's score._.
+
+Request body:
+
+```json
+{}
+```
+
+Response body:
+
+```json
+{
+    "message": "Successfully fetched User score",
+    "data": {
+        "score": 10,
+        "email": "maaruf@xyz.com",
+        "full_name": "John Doe",
+        "id": 8
+    }
 }
 ```
 
