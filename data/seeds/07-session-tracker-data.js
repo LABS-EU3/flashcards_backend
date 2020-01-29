@@ -1,13 +1,14 @@
-
 exports.seed = function(knex) {
-  // Deletes ALL existing entries
-  return knex('table_name').del()
-    .then(function () {
-      // Inserts seed entries
-      return knex('table_name').insert([
-        {id: 1, colName: 'rowValue1'},
-        {id: 2, colName: 'rowValue2'},
-        {id: 3, colName: 'rowValue3'}
+  return knex('sessions_tracker')
+    .del()
+    .then(function() {
+      return knex('sessions_tracker').insert([
+        { session_id: 1, card_id: 1 },
+        { session_id: 2, card_id: 3 },
+        { session_id: 3, card_id: 5 },
+        { session_id: 4, card_id: 7 },
+        { session_id: 5, card_id: 9 },
+        { session_id: 6, card_id: 11 },
       ]);
     });
 };
