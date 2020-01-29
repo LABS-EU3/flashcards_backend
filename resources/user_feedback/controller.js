@@ -1,10 +1,12 @@
 const userFeedbackTemplate = require('../../templates/userFeedback');
 const sendEmail = require('../../utils/sendEmail');
 const { senderEmail } = require('../../config/index');
-
 const model = require('./model');
-// recieves body of text, from user login - get email. Send to Quickdecs email
-// reset_pw: send body of text to QuickDecks email
+
+// userFeedback recieves a body of text from the user.
+// It gets the email from the logged-in user and an email with feedback
+// is sent to their email address.
+// This is also sent to QuickDecs email, as a blind-copy.
 
 exports.userFeedback = async (req, res) => {
   try {
@@ -12,7 +14,6 @@ exports.userFeedback = async (req, res) => {
     const id = req.decodedToken.subject;
     const userEmailObj = await model.getUserEmail(id);
     const userEmail = userEmailObj.email;
-    console.log(userEmail);
 
     sendEmail(
       'Feedback',
