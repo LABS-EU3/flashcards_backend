@@ -130,6 +130,21 @@ exports.viewProfile = async (req, res) => {
   }
 };
 
+exports.uploadProfileImg = async (req, res) => {
+  try {
+    const { subject } = req.decodedToken;
+    const { imageUrl } = req.body;
+    await model.updateImageUrl(subject, imageUrl);
+    res.status(200).json({
+      message: 'Profile image uploaded successfully',
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: `Error uploading profile image ${error.message}` });
+  }
+};
+
 exports.authGoogle = async (req, res) => {
   try {
     const { user } = req._passport.session;
@@ -156,6 +171,7 @@ exports.completeGoogleAuth = async (req, res) => {
     res.status(401).json({ message: `Failed to complete authorization` });
   }
 };
+
 exports.updatePassword = async (req, res) => {
   try {
     const { oldPassword, newPassword } = req.body;
