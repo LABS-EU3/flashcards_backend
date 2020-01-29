@@ -420,7 +420,7 @@ describe('Auth Router', () => {
 
       // authorize token, send image url and store user image url
       const response = await request(server)
-        .post('/api/auth/store_imgUrl')
+        .post('/api/auth/uploadProfile_img')
         .set('Authorization', `${token}`)
         .send({ imageUrl: 'this-is-a-test' });
       expect(response.status).toBe(200);
