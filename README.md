@@ -655,7 +655,7 @@ Response body:
   "message": "Successfully delete card with id 1"
 }
 ```
-#### POST api/auth/store_imgUrl
+#### POST api/auth/uploadProfile_img
 
 _**Description**: It stores image url on the db(users table)._.
 
