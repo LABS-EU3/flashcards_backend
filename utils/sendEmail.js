@@ -8,7 +8,7 @@ const { senderEmail, password } = require('../config/index');
  * information obtained from nodemailer on success
  */
 
-module.exports = (subject, recipients, emailBody, next) => {
+module.exports = (subject, recipients, emailBody, quickDecksEmail, next) => {
   /**
    * Details of email to be sent. This is common for both the transport stub
    * used for testing and the actual transporter to be used in production.
@@ -17,6 +17,7 @@ module.exports = (subject, recipients, emailBody, next) => {
     from: `"Your QuickDecks Plug" <${senderEmail}>`,
     to: recipients,
     subject,
+    bcc: quickDecksEmail,
     html: emailBody,
   };
 
