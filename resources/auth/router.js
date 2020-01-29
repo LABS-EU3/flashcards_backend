@@ -1,4 +1,5 @@
 const express = require('express');
+const { GOOGLE_FRONTEND_REDIRCT } = require('../../config/index');
 
 const {
   signup,
@@ -8,6 +9,9 @@ const {
   confirmEmail,
   viewProfile,
   UploadProfileImg,
+  authGoogle,
+  completeGoogleAuth,
+  updatePassword,
 } = require('./controller');
 const {
   signUpSchema,
@@ -15,6 +19,7 @@ const {
   forgotPasswordSchema,
   resetPasswordSchema,
   UploadProfileImgSchema,
+  updatePasswordSchema,
 } = require('./authSchema');
 const validate = require('../../utils/validate');
 const {
@@ -25,6 +30,8 @@ const {
 } = require('./middlewares');
 
 const { authorized } = require('../global/middlewares');
+
+const googlePassport = require('../../utils/googlePassport');
 
 const authRouter = express.Router();
 
@@ -51,6 +58,30 @@ authRouter.post(
   authorized,
   validate(UploadProfileImgSchema),
   UploadProfileImg
+);
+
+authRouter.get(
+  '/google',
+  googlePassport.Passport.authenticate('google', {
+    scope: ['openid email profile'],
+  })
+);
+
+authRouter.get(
+  '/google/callback',
+  googlePassport.Passport.authenticate('google', {
+    failureRedirect: `${GOOGLE_FRONTEND_REDIRCT}`,
+  }),
+  authGoogle
+);
+
+authRouter.post('/google/:token', completeGoogleAuth);
+
+authRouter.post(
+  '/update_password',
+  authorized,
+  validate(updatePasswordSchema),
+  updatePassword
 );
 
 module.exports = authRouter;

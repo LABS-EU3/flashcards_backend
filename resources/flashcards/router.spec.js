@@ -16,7 +16,10 @@ const flashcard = {
   deckId: null,
   questionText: 'When will AI takeover',
   answerText: 'What idk',
-  imageUrl: 'https://robots.ieee.org/robots/cb2/Photos/SD/cb2-photo1-full.jpg',
+  imageUrlQuestion:
+    'https://robots.ieee.org/robots/cb2/Photos/SD/cb2-photo1-full.jpg',
+  imageUrlAnswer:
+    'https://robots.ieee.org/robots/cb2/Photos/SD/cb2-photo1-full.jpg',
 };
 
 beforeEach(async done => {
@@ -52,6 +55,7 @@ describe('Flashcards Router', () => {
         .post('/api/cards')
         .send({})
         .set('Authorization', authToken);
+
       expect(res.status).toBe(400);
       expect(res.body).toEqual({ error: '"Question Text" is required' });
       done();
@@ -183,6 +187,106 @@ describe('Flashcards Router', () => {
         .set('Authorization', authToken);
 
       expect(cardsRes.body.cards).toHaveLength(2);
+      done();
+    });
+  });
+
+  describe('[GET] /api/cards/COTD', () => {
+    test('Should get random card', async done => {
+      await request(server)
+        .post('/api/cards')
+        .send(flashcard)
+        .set('Authorization', authToken);
+      await request(server)
+        .post('/api/cards')
+        .send({
+          ...flashcard,
+          questionText: 'Plants receive their nutrients from the?',
+          answerText: 'sun',
+        })
+        .set('Authorization', authToken);
+
+      const res = await request(server)
+        .get(`/api/cards/COTD`)
+        .set('Authorization', authToken);
+
+      expect(res.status).toBe(200);
+      done();
+    });
+    test('return bad 401 with no token', async done => {
+      await request(server)
+        .post('/api/cards')
+        .send(flashcard)
+        .set('Authorization', authToken);
+      await request(server)
+        .post('/api/cards')
+        .send({
+          ...flashcard,
+          questionText: 'Plants receive their nutrients from the?',
+          answerText: 'sun',
+        })
+        .set('Authorization', authToken);
+
+      const res = await request(server).get(`/api/cards/COTD`);
+      expect(res.status).toBe(401);
+
+      done();
+    });
+  });
+
+  describe('[POST] /api/cards/scoring', () => {
+    test('should score card', async done => {
+      const a = await request(server)
+        .post('/api/cards')
+        .send({
+          ...flashcard,
+          questionText: 'Plants receive their nutrients from the?',
+          answerText: 'sun',
+        })
+        .set('Authorization', authToken);
+
+      const res = await request(server)
+        .post('/api/cards/scoring')
+        .send({
+          deck_id: a.body.card.deck_id,
+          card_id: a.body.card.id,
+          rating: 6,
+        })
+        .set('Authorization', authToken);
+
+      expect(res.status).toBe(201);
+      done();
+    });
+
+    test('should update card score', async done => {
+      const a = await request(server)
+        .post('/api/cards')
+        .send({
+          ...flashcard,
+          questionText: 'Plants receive their nutrients from the?',
+          answerText: 'sun',
+        })
+        .set('Authorization', authToken);
+
+      await request(server)
+        .post('/api/cards/scoring')
+        .send({
+          deck_id: a.body.card.deck_id,
+          card_id: a.body.card.id,
+          rating: 6,
+        })
+        .set('Authorization', authToken);
+
+      const res = await request(server)
+        .post('/api/cards/scoring')
+        .send({
+          deck_id: a.body.card.deck_id,
+          card_id: a.body.card.id,
+          rating: 4,
+        })
+        .set('Authorization', authToken);
+
+      expect(res.status).toBe(200);
       done();
     });
   });

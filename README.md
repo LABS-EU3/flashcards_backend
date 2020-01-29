@@ -68,27 +68,35 @@ Request Error ( **400 - Bad Request** || **404 - Not Found** || **403 - Unauthor
 
 ### API Endpoints
 
-| ENDPOINT                                                       | DESCRIPTION            |
-| -------------------------------------------------------------- | ---------------------- |
-| [GET /](#get)                                                  | Base URL               |
-| [POST /api/auth/register](#post-apiauthregister)               | Register new User      |
-| [POST /api/auth/login](#post-apiauthlogin)                     | Login for User         |
-| [POST /api/auth/confirm_email](#post-apiauthconfirm_email)     | Confirm Email for User |
-| [POST /api/auth/forgot_password](#post-apiauthforgot_password) | Request reset token    |
-| [POST /api/auth/reset_password](#post-apiauthreset_password)   | Reset password         |
-| -------------------------------------------------------------- | ---------------------- |
-| [POST /api/decks](#post-apidecks)                              | Create deck            |
-| [GET /api/decks](#get-apidecks)                                | All decks of User      |
-| [GET /api/decks/public](#get-apideckspublic)                   | all public decks       |
-| [GET /api/decks/:id](#get-apidecksId)                          | View one deck          |
-| [PUT /api/decks/:id](#put-apidecksId)                          | Edit deck              |
-| [DELETE /api/decks/:id](#delete-apidecksId)                    | Delete deck            |
-| -------------------------------------------------------------- | ---------------------- |
-| [POST /api/cards](#post-apicard)                               | Create Flashcard       |
-| [GET /api/cards](#get-apicardalluserId)                        | All flashcards of User |
-| [GET /api/cards/:id](#get-apicardId)                           | View one flashcard     |
-| [PUT /api/cards/:id](#put-apicardId)                           | Edit flashcard         |
-| [DELETE /api/cards/:id](#delete-apicardId)                     | Delete flashcard       |
+| ENDPOINT                                                       | DESCRIPTION             |
+| -------------------------------------------------------------- | ----------------------- |
+| [GET /](#get)                                                  | Base URL                |
+| [POST /api/auth/register](#post-apiauthregister)               | Register new User       |
+| [POST /api/auth/login](#post-apiauthlogin)                     | Login for User          |
+| [POST /api/auth/confirm_email](#post-apiauthconfirm_email)     | Confirm Email for User  |
+| [POST /api/auth/forgot_password](#post-apiauthforgot_password) | Request reset token     |
+| [POST /api/auth/reset_password](#post-apiauthreset_password)   | Reset password          |
+| [GET /api/auth/google/](#get-apiauthgoogle)                    | Redirect to google auth |
+| [POST /api/auth/google/:token](#post-apiauthgoogleToken)       | Confirms auth & login   |
+| [POST /api/auth/update_password](#post-apiauthupdate_password) | Update password         |
+| -------------------------------------------------------------- | ----------------------  |
+| [POST /api/decks](#post-apidecks)                              | Create deck             |
+| [GET /api/decks](#get-apidecks)                                | All decks of User       |
+| [GET /api/decks/public](#get-apideckspublic)                   | all public decks        |
+| [GET /api/decks/:id](#get-apidecksId)                          | View one deck           |
+| [PUT /api/decks/:id](#put-apidecksId)                          | Edit deck               |
+| [DELETE /api/decks/:id](#delete-apidecksId)                    | Delete deck             |
+| [GET /api/decks/favorite](#get-apideckstag)                    | Get most used tags      |
+| [GET /api/decks/access/](#put-apidecksaccess)                  | 10 decks last accessed  |
+| [PUT /api/decks/access/:id](#put-apidecksaccessId)             | Update deck access time |
+| [DELETE /api/decks/access/:id](#put-apidecksaccessId)          | Remove accessed entry   |
+| -------------------------------------------------------------- | ----------------------  |
+| [POST /api/cards](#post-apicards)                              | Create Flashcard        |
+| [GET /api/cards](#get-apicards)                                | All flashcards of User  |
+| [GET /api/cards/:id](#get-apicardsId)                          | View one flashcard      |
+| [PUT /api/cards/:id](#put-apicardsId)                          | Edit flashcard          |
+| [DELETE /api/cards/:id](#delete-apicardsId)                    | Delete flashcard        |
+| [GET /api/cards/COTD](#get-apicardsCOTD)                       | Get card of the Day     |
 
 #### GET /
 
@@ -224,11 +232,69 @@ Response body:
 }
 ```
 
+#### GET /api/auth/google
+
+_**Description**: Redirects user to google auth, user will signin or cannot and will be redirected back to the landing page._.
+
+Request body:
+
+```json
+{}
+```
+
+Response body:
+
+```json
+{}
+```
+
+#### POST /api/auth/google/:token
+
+_**Description**: User will be verified in the data based as created and will be sent a token with userID._.
+
+Request body:
+
+```json
+{}
+```
+
+```json
+{
+  "token": "aTokenYouShouldNotBotherDecryprting.eyJzdWJqZWN0IjADfe3KLo98IjoiTWFhcnVmIERhdWRhIiwiaWF0IjoxNTc2NzYzNzA0LCJleHAiOjE1NzY4NTAxMDR9.jsihrtPG37mKBHp3xvjrQ-UselessRjSMr5YlPovG5A",
+  "user": {
+    "id": 1,
+    "full_name": "Anna",
+    "email": "anna@xyz.com",
+    "image_url": null,
+    "isConfirmed": false
+  }
+}
+```
+
+#### POST /api/auth/update_Password
+
+_**Description**: updates a user's password._.
+
+Request body:
+
+```json
+{
+  "newPassword": "my new password",
+  "confirmPassword": "matches my new password"
+}
+```
+
+```json
+{
+  "message": "Password updated successfully"
+}
+```
+
 ## Decks
 
 #### POST /api/decks
 
-_**Description**: Creates a flashcard in a deck._.
+_**Description**: Creates a deck._.
 
 Request body:
 
@@ -258,7 +324,7 @@ Response body:
 
 #### GET /api/decks
 
-_**Description**: Retrieves all flashcards made by a specific User._.
+_**Description**: Retrieves all decks made by a specific User._.
 
 Request body:
 
@@ -307,7 +373,7 @@ Response body:
 
 #### GET /api/decks/public
 
-_**Description**: Retrieves a specific card by the card's id._.
+_**Description**: Get users private decks and all public decks_.
 
 Request body:
 
@@ -374,7 +440,7 @@ Response body:
 
 #### GET /api/decks/:id
 
-_**Description**: Edit a flashcard by flashcard Id._.
+_**Description**: Edit a deck by deck Id._.
 
 Request body:
 
@@ -392,7 +458,7 @@ Response body:
     "deck_name": "Famous Personalities",
     "public": true,
     "created_at": "2020-01-13T15:49:59.080Z",
-    "updated_at": "2020-01-13T15:49:59.080Z",
+    "updated_at": "2020-01-13T15:49:59.080Z"
     "tags": [
       {
         "id": 12,
@@ -410,9 +476,10 @@ Response body:
         "user_id": 6,
         "question": "Who is the father of Geometry?",
         "answer": "Euclid",
-        "image_url": null,
+        "image_url_question": null,
         "created_at": "2020-01-13T10:49:59.086613-05:00",
-        "updated_at": "2020-01-13T10:49:59.086613-05:00"
+        "updated_at": "2020-01-13T10:49:59.086613-05:00",
+        "image_url_answer": null
       },
       {
         "id": 12,
@@ -420,9 +487,10 @@ Response body:
         "user_id": 6,
         "question": "The Indian to beat the computers in mathematical wizardry is",
         "answer": "Shakunthala Devi",
-        "image_url": null,
+        "image_url_question": null,
         "created_at": "2020-01-13T10:49:59.086613-05:00",
-        "updated_at": "2020-01-13T10:49:59.086613-05:00"
+        "updated_at": "2020-01-13T10:49:59.086613-05:00",
+        "image_url_answer": null
       }
     ]
   }
@@ -431,7 +499,7 @@ Response body:
 
 #### PUT /api/decks/:id
 
-_**Description**: Delete a flashcard._.
+_**Description**: Edit a deck._.
 
 Request body:
 
@@ -447,62 +515,64 @@ Response body:
 
 ```json
 {
-    "deck_id": 6,
-    "user_id": 6,
-    "deck_name": "New Decks",
-    "public": true,
-    "created_at": "2020-01-13T15:49:59.080Z",
-    "updated_at": "2020-01-13T15:49:59.080Z",
-    "tags": [
-        {
-            "id": 1,
-            "name": "Accounting & Finance"
-        },
-        {
-            "id": 2,
-            "name": "Aeronautical & Manufacturing Engineering"
-        },
-        {
-            "id": 3,
-            "name": "Agriculture & Forestry"
-        },
-        {
-            "id": 4,
-            "name": "American Studies"
-        },
-        {
-            "id": 12,
-            "name": "Building"
-        }
-    ],
-    "flashcards": [
-        {
-            "id": 11,
-            "deck_id": 6,
-            "user_id": 6,
-            "question": "Who is the father of Geometry?",
-            "answer": "Euclid",
-            "image_url": null,
-            "created_at": "2020-01-13T10:49:59.086613-05:00",
-            "updated_at": "2020-01-13T10:49:59.086613-05:00"
-        },
-        {
-            "id": 12,
-            "deck_id": 6,
-            "user_id": 6,
-            "question": "The Indian to beat the computers in mathematical wizardry is",
-            "answer": "Shakunthala Devi",
-            "image_url": null,
-            "created_at": "2020-01-13T10:49:59.086613-05:00",
-            "updated_at": "2020-01-13T10:49:59.086613-05:00"
-        }
-    ]
+  "deck_id": 6,
+  "user_id": 6,
+  "deck_name": "New Decks",
+  "public": true,
+  "created_at": "2020-01-13T15:49:59.080Z",
+  "updated_at": "2020-01-13T15:49:59.080Z",
+  "tags": [
+    {
+      "id": 1,
+      "name": "Accounting & Finance"
+    },
+    {
+      "id": 2,
+      "name": "Aeronautical & Manufacturing Engineering"
+    },
+    {
+      "id": 3,
+      "name": "Agriculture & Forestry"
+    },
+    {
+      "id": 4,
+      "name": "American Studies"
+    },
+    {
+      "id": 12,
+      "name": "Building"
+    }
+  ],
+  "flashcards": [
+    {
+      "id": 11,
+      "deck_id": 6,
+      "user_id": 6,
+      "question": "Who is the father of Geometry?",
+      "answer": "Euclid",
+      "image_url_question": null,
+      "created_at": "2020-01-13T10:49:59.086613-05:00",
+      "updated_at": "2020-01-13T10:49:59.086613-05:00",
+      "image_url_answer": null
+    },
+    {
+      "id": 12,
+      "deck_id": 6,
+      "user_id": 6,
+      "question": "The Indian to beat the computers in mathematical wizardry is",
+      "answer": "Shakunthala Devi",
+      "image_url_question": null,
+      "created_at": "2020-01-13T10:49:59.086613-05:00",
+      "updated_at": "2020-01-13T10:49:59.086613-05:00",
+      "image_url_answer": null
+    }
+  ]
 }
 ```
 
 #### DELETE /api/decks/:id
 
-_**Description**: Delete a flashcard._.
+_**Description**: Delete a deck._.
 
 Request body:
 
@@ -514,6 +584,112 @@ Response body:
 
 ```json
 {}
+```
+
+#### GET /api/decks/access/
+
+_**Description**: Get users last accessed decks._.
+
+Request body:
+
+```json
+{}
+```
+
+Response body:
+
+```json
+{
+  "data": [
+    {
+      "deck_id": 5,
+      "user_id": 5,
+      "deck_name": "Basic General Knowledge",
+      "public": true,
+      "created_at": "2020-01-16T19:12:08.774Z",
+      "updated_at": "2020-01-16T19:12:08.774Z",
+      "accessed_time": "2020-01-16T19:34:09.450Z"
+    },
+    {
+      "deck_id": 5,
+      "user_id": 5,
+      "deck_name": "Basic General Knowledge",
+      "public": true,
+      "created_at": "2020-01-16T19:12:08.774Z",
+      "updated_at": "2020-01-16T19:12:08.774Z",
+      "accessed_time": "2020-01-16T19:34:09.483Z"
+    }
+  ]
+}
+```
+
+#### PUT /api/decks/access/:id
+
+_**Description**: Update access time on a users deck._.
+
+Request body:
+
+```json
+{}
+```
+
+Response body:
+
+```json
+{}
+```
+
+#### DELETE /api/decks/access/:id
+
+_**Description**: Delete access connection from user to deck._.
+
+Request body:
+
+```json
+{}
+```
+
+Response body:
+
+```json
+{}
+```
+
+#### GET /api/decks/favorite
+
+_**Description**: Get favorite tags._.
+
+Request body:
+
+```json
+{}
+```
+
+Response body:
+
+```json
+[
+  {
+    "name": "Accounting & Finance",
+    "value_occurrence": "3"
+  },
+  {
+    "name": "Aeronautical & Manufacturing Engineering",
+    "value_occurrence": "2"
+  },
+  {
+    "name": "Agriculture & Forestry",
+    "value_occurrence": "1"
+  },
+  {
+    "name": "American Studies",
+    "value_occurrence": "1"
+  },
+  {
+    "name": null,
+    "value_occurrence": "0"
+  }
+]
 ```
 
 ## Flashcards
@@ -526,10 +702,11 @@ Request body:
 
 ```json
 {
-  "deckId": 1,
+  "deckId": 2,
   "questionText": "How do I create a flashcard",
   "answerText": "Post to /api/card",
-  "imageUrl": "www.realurl.com"
+  "imageUrlQuestion": "www.realurl.com",
+  "imageUrlAnswer": "www.google.com"
 }
 ```
 
@@ -539,7 +716,15 @@ Response body:
 
 ```json
 {
-  "message": "`Successfully created card with the id of 1"
+  "id": 20,
+  "deck_id": 2,
+  "user_id": 2,
+  "question": "How do I create a flashcard",
+  "answer": "Post to /api/card",
+  "image_url_question": "www.realurl.com",
+  "created_at": "2020-01-22T13:47:57.348Z",
+  "updated_at": "2020-01-22T13:47:57.348Z",
+  "image_url_answer": "www.google.com"
 }
 ```
 
@@ -563,9 +748,10 @@ Response body:
     "user_id": 1,
     "question": "here is my question answer me",
     "answer": "here is my answer question me",
-    "image_url": null,
+    "image_url_question": null,
     "created_at": "2020-01-08T10:44:38.761Z",
-    "updated_at": "2020-01-08T10:44:38.761Z"
+    "updated_at": "2020-01-08T10:44:38.761Z",
+    "image_url_answer": null
   },
   {
     "id": 3,
@@ -573,9 +759,10 @@ Response body:
     "user_id": 1,
     "question": "here is my question answer me",
     "answer": "here is my answer question me",
-    "image_url": null,
+    "image_url_question": null,
     "created_at": "2020-01-08T10:45:05.269Z",
-    "updated_at": "2020-01-08T10:45:05.269Z"
+    "updated_at": "2020-01-08T10:45:05.269Z",
+    "image_url_answer": null
   },
   {
     "id": 5,
@@ -583,9 +770,10 @@ Response body:
     "user_id": 1,
     "question": "here is my question answer me",
     "answer": "here is my answer question me",
-    "image_url": null,
+    "image_url_question": null,
     "created_at": "2020-01-08T11:34:52.174Z",
-    "updated_at": "2020-01-08T11:34:52.174Z"
+    "updated_at": "2020-01-08T11:34:52.174Z",
+    "image_url_answer": null
   }
 ]
 ```
@@ -609,9 +797,10 @@ Response body:
   "user_id": 1,
   "question": "here is my question answer me",
   "answer": "here is my answer question me",
-  "image_url": null,
+  "image_url_question": null,
   "created_at": "2020-01-08T10:45:05.269Z",
-  "updated_at": "2020-01-08T10:45:05.269Z"
+  "updated_at": "2020-01-08T10:45:05.269Z",
+  "image_url_answer": null
 }
 ```
 
@@ -623,10 +812,11 @@ Request body:
 
 ```json
 {
-  "deck_id": 1,
-  "question": "different question",
-  "answer": "different question",
-  "image_url": "www.gify.com/image"
+  "deckId": 2,
+  "questionText": "updated question",
+  "answerText": "updated question",
+  "imageUrlQuestion": "www.gify.com/image",
+  "imageUrlAnswer": "www.google.com"
 }
 ```
 
@@ -634,7 +824,15 @@ Response body:
 
 ```json
 {
-  "message": "Successfully updated card with the id of id"
+  "id": 17,
+  "deck_id": 2,
+  "user_id": 2,
+  "question": "updated question",
+  "answer": "updated question",
+  "image_url_question": "www.gify.com/image",
+  "created_at": "2020-01-22T13:14:26.879Z",
+  "updated_at": "2020-01-22T13:14:26.879Z",
+  "image_url_answer": "www.google.com"
 }
 ```
 
@@ -651,8 +849,32 @@ Request body:
 Response body:
 
 ```json
+{}
+```
+
+#### GET /api/cards/COTD
+
+_**Description**: Delete a flashcard._.
+
+Request body:
+
+```json
+{}
+```
+
+Response body:
+
+```json
 {
-  "message": "Successfully delete card with id 1"
+  "id": 3,
+  "deck_id": 1,
+  "user_id": 1,
+  "question": "here is my question answer me",
+  "answer": "here is my answer question me",
+  "image_url_question": null,
+  "created_at": "2020-01-08T10:45:05.269Z",
+  "updated_at": "2020-01-08T10:45:05.269Z",
+  "image_url_answer": null
 }
 ```
 #### POST api/auth/uploadProfile_img
@@ -674,6 +896,10 @@ Response body:
   "message": "Image url stored successfully"
 }
 ```
+
+## The Tag Data We Used
+
+Please go to data > seeds > 03-tags-data.js to view the tags we used
 
 ## Technologies
 
