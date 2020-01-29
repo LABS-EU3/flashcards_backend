@@ -8,7 +8,7 @@ const {
   resetPassword,
   confirmEmail,
   viewProfile,
-  UploadProfileImg,
+  uploadProfileImg,
   authGoogle,
   completeGoogleAuth,
   updatePassword,
@@ -18,7 +18,7 @@ const {
   loginSchema,
   forgotPasswordSchema,
   resetPasswordSchema,
-  UploadProfileImgSchema,
+  uploadProfileImgSchema,
   updatePasswordSchema,
 } = require('./authSchema');
 const validate = require('../../utils/validate');
@@ -56,8 +56,8 @@ authRouter.get('/view_profile', authorized, viewProfile);
 authRouter.post(
   '/uploadProfile_img',
   authorized,
-  validate(UploadProfileImgSchema),
-  UploadProfileImg
+  validate(uploadProfileImgSchema),
+  uploadProfileImg
 );
 
 authRouter.get(
