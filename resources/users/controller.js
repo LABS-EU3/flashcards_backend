@@ -42,6 +42,6 @@ exports.getLeaderboard = async (req, res) => {
 
     res.status(200).json({ message: 'Fetched leaderboard', data: leaderboard });
   } catch (error) {
-    res.status(500).json({ message: 'Failed to fetch leaderboard.' });
+    res.status(500).json({ message: `Failed to fetch leaderboard.` });
   }
 };
