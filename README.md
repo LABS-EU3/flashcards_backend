@@ -97,6 +97,7 @@ Request Error ( **400 - Bad Request** || **404 - Not Found** || **403 - Unauthor
 | [PUT /api/cards/:id](#put-apicardsId)                          | Edit flashcard          |
 | [DELETE /api/cards/:id](#delete-apicardsId)                    | Delete flashcard        |
 | [GET /api/cards/COTD](#get-apicardsCOTD)                       | Get card of the Day     |
+| [POST api/cards/scoring](#post-apicardsscoring)                | Rate card for user      |
 
 #### GET /
 
@@ -157,7 +158,7 @@ Request body:
 
 Response body:
 
-```json
+```jsonhttp://localhost:4003/
 {
   "token": "aTokenYouShouldNotBotherDecryprting.eyJzdWJqZWN0IjADfe3KLo98IjoiTWFhcnVmIERhdWRhIiwiaWF0IjoxNTc2NzYzNzA0LCJleHAiOjE1NzY4NTAxMDR9.jsihrtPG37mKBHp3xvjrQ-UselessRjSMr5YlPovG5A",
   "user": {
@@ -781,7 +782,7 @@ Response body:
 #### GET /api/cards/:id
 
 _**Description**: Retrieves a specific card by the card's id._.
-
+http://localhost:4003/
 Request body:
 
 ```json
@@ -875,6 +876,28 @@ Response body:
   "created_at": "2020-01-08T10:45:05.269Z",
   "updated_at": "2020-01-08T10:45:05.269Z",
   "image_url_answer": null
+}
+```
+
+#### POST /api/cards/scoring
+
+_**Description**: Score single flashcard when user in study mode._.
+
+Request body:
+
+```json
+{
+  "card_id": 1,
+  "deck_id": 3,
+  "rating": 5
+}
+```
+
+Response body:
+
+```json
+{
+    "message": "Successfully scored"
 }
 ```
 
