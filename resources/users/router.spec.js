@@ -63,4 +63,25 @@ describe('Users route', () => {
       done();
     });
   });
+
+  describe('[GET] /api/users/:id/score', () => {
+    test('Returns 200 when score successfully fetched', async done => {
+      const res = await request(server)
+        .get(`/api/users/${user.id}/score`)
+        .set('Authorization', authToken);
+
+      expect(res.status).toBe(200);
+      done();
+    });
+
+    test('Score is never undefined', async done => {
+      const res = await request(server)
+        .get(`/api/users/${user.id}/score`)
+        .set('Authorization', authToken);
+
+      expect(res.status).toBe(200);
+      expect(res.body.data.score).not.toBe(undefined || null);
+      done();
+    });
+  });
 });
