@@ -111,7 +111,7 @@ exports.fetchCardOfTheDay = async (req, res) => {
   }
 };
 
-exports.scoreDeck = async (req, res) => {
+exports.rateCard = async (req, res) => {
   const { subject } = req.decodedToken;
 
   // eslint-disable-next-line camelcase
