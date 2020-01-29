@@ -49,3 +49,9 @@ exports.increaseRank = async ({ userId, rating }) => {
     });
   }
 };
+
+exports.topRated = async () => {
+  return db('rankings')
+    .orderBy('score', 'desc')
+    .limit(15);
+};
