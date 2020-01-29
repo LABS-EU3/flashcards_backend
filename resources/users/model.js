@@ -51,7 +51,9 @@ exports.increaseRank = async ({ userId, rating }) => {
 };
 
 exports.topRated = async () => {
-  return db('rankings')
-    .orderBy('score', 'desc')
+  return db('rankings as r')
+    .leftJoin('users as u', 'u.id', 'r.user_id')
+    .select('r.user_id', 'u.full_name', 'u.email', 'r.score')
+    .orderBy('r.score', 'desc')
     .limit(15);
 };
