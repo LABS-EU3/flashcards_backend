@@ -878,6 +878,25 @@ Response body:
   "image_url_answer": null
 }
 ```
+#### POST api/auth/uploadProfile_img
+
+_**Description**: It stores image url on the db(users table)._.
+
+Request body:
+
+```json
+{
+  "imageUrl": "this-is-a-test"
+}
+```
+
+Response body:
+
+```json
+{
+  "message": "Image url stored successfully"
+}
+```
 
 ## The Tag Data We Used
 
