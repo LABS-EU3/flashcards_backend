@@ -1,4 +1,4 @@
-const { remove, getUserRanking } = require('./model');
+const { remove, getUserRanking, topRated } = require('./model');
 
 exports.deleteUser = async (req, res) => {
   try {
@@ -33,5 +33,15 @@ exports.getUserScore = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ message: `Failed to fetch score.` });
+  }
+};
+
+exports.getLeaderboard = async (req, res) => {
+  try {
+    const leaderboard = await topRated();
+
+    res.status(200).json({ message: 'Fetched leaderboard', data: leaderboard });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch leaderboard.' });
   }
 };
