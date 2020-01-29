@@ -100,6 +100,7 @@ Request Error ( **400 - Bad Request** || **404 - Not Found** || **403 - Unauthor
 | [POST api/cards/scoring](#post-apicardsscoring)                | Rate card for user      |
 | -------------------------------------------------------------- | ----------------------  |
 | [GET api/users/:id/score](#get-apiusersIdscore)                | Get single user's score |
+| [GET api/users/leaderboard](#get-apiusersleaderboard)          | Get top scoring users   |
 
 #### GET /
 
@@ -724,7 +725,7 @@ Response body:
   "user_id": 2,
   "question": "How do I create a flashcard",
   "answer": "Post to /api/card",
-  "image_url_question": "www.realurl.com",
+  "image_url_question": "www.realurl.com",leaderboard
   "created_at": "2020-01-22T13:47:57.348Z",
   "updated_at": "2020-01-22T13:47:57.348Z",
   "image_url_answer": "www.google.com"
@@ -926,6 +927,41 @@ Response body:
         "full_name": "John Doe",
         "id": 8
     }
+}
+```
+
+#### GET api/users/leaderboard
+
+_**Description**: Get top 15 scoring users._.
+
+Request body:
+
+```json
+{}
+```
+
+Response body:
+
+```json
+{
+    "message": "Fetched leaderboard",
+    "data": [
+        {
+            "user_id": 8,
+            "full_name": "Maaruf Doe",
+            "email": "maaruf@xyz.com",
+            "score": 10
+        },
+        .
+        .
+        .
+        {
+            "user_id": 9,
+            "full_name": "Anna Doe",
+            "email": "anna@xyz.com",
+            "score": 5
+        }
+    ]
 }
 ```
 
