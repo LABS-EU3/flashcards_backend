@@ -81,11 +81,11 @@ exports.cardAlreadyMarked = async (req, res, next) => {
     if (markedCards === undefined) {
       return next();
     }
-    return res.status(500).json({
+    return res.status(404).json({
       message: `Card is already marked in session as reviewed`,
     });
   } catch (error) {
-    return res.status(400).json({
+    return res.status(404).json({
       message: `Error checking cards have been marked ${error.message}`,
     });
   }
@@ -113,11 +113,11 @@ exports.cardBelongsToDeck = async (req, res, next) => {
     if (cardNotBelong === undefined) {
       return next();
     }
-    return res.status(500).json({
+    return res.status(404).json({
       message: `Card does not belong to this session, does not exists in deck`,
     });
   } catch (error) {
-    return res.status(400).json({
+    return res.status(404).json({
       message: `Error checking cards belong to session${error.message}`,
     });
   }
