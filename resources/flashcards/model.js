@@ -1,5 +1,7 @@
 const db = require('../../data/dbConfig');
 
+const { increaseRank } = require('../users/model');
+
 const getCardById = id => {
   return db('flashcards')
     .where({ id })
@@ -51,11 +53,21 @@ exports.checkCardIsRated = ({ userId, cardId }) => {
     .first();
 };
 
-exports.scoreCard = cardScoreObject => {
+exports.scoreCard = async cardScoreObject => {
+  await increaseRank({
+    userId: cardScoreObject.user_id,
+    rating: cardScoreObject.rating,
+  });
+
   return db('ratings').insert(cardScoreObject, 'card_id');
 };
 
-exports.rescoreCard = cardScoreObject => {
+exports.rescoreCard = async cardScoreObject => {
+  await increaseRank({
+    userId: cardScoreObject.user_id,
+    rating: cardScoreObject.rating,
+  });
+
   return db('ratings')
     .where({
       card_id: cardScoreObject.card_id,

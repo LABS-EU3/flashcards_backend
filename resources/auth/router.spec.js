@@ -402,6 +402,32 @@ describe('Auth Router', () => {
     });
   });
 
+  describe('Store Profile Image Endpoint', () => {
+    test('Returns 200 on success', async done => {
+      // register the user
+      await request(server)
+        .post('/api/auth/register')
+        .send(userObject);
+
+      // log the user in
+      const res = await request(server)
+        .post('/api/auth/login')
+        .send(loginUserObject);
+
+      const { token } = res.body.data;
+      expect(res.status).toBe(200);
+      expect(token).not.toBe(null || undefined);
+
+      // authorize token, send image url and store user image url
+      const response = await request(server)
+        .post('/api/auth/uploadProfile_img')
+        .set('Authorization', `${token}`)
+        .send({ imageUrl: 'this-is-a-test' });
+      expect(response.status).toBe(200);
+      done();
+    });
+  });
+
   describe('Update password endpoint', () => {
     test('Returns 200 on successful update', async done => {
       const res = await request(server)

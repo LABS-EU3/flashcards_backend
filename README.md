@@ -100,6 +100,10 @@ Request Error ( **400 - Bad Request** || **404 - Not Found** || **403 - Unauthor
 | -------------------------------------------------------------- | ----------------------- |
 | [POST /api/feedback](#post-apifeedback)                        | Send feedback           |
 
+| [POST api/cards/scoring](#post-apicardsscoring)                | Rate card for user      |
+| -------------------------------------------------------------- | ----------------------  |
+| [GET api/users/:id/score](#get-apiusersIdscore)                | Get single user's score |
+| [GET api/users/leaderboard](#get-apiusersleaderboard)          | Get top scoring users   |
 
 #### GET /
 
@@ -160,7 +164,7 @@ Request body:
 
 Response body:
 
-```json
+```jsonhttp://localhost:4003/
 {
   "token": "aTokenYouShouldNotBotherDecryprting.eyJzdWJqZWN0IjADfe3KLo98IjoiTWFhcnVmIERhdWRhIiwiaWF0IjoxNTc2NzYzNzA0LCJleHAiOjE1NzY4NTAxMDR9.jsihrtPG37mKBHp3xvjrQ-UselessRjSMr5YlPovG5A",
   "user": {
@@ -784,7 +788,7 @@ Response body:
 #### GET /api/cards/:id
 
 _**Description**: Retrieves a specific card by the card's id._.
-
+http://localhost:4003/
 Request body:
 
 ```json
@@ -878,6 +882,108 @@ Response body:
   "created_at": "2020-01-08T10:45:05.269Z",
   "updated_at": "2020-01-08T10:45:05.269Z",
   "image_url_answer": null
+}
+```
+#### POST api/auth/uploadProfile_img
+
+_**Description**: It stores image url on the db(users table)._.
+
+Request body:
+
+```json
+{
+  "imageUrl": "this-is-a-test"
+}
+```
+
+Response body:
+
+```json
+{
+  "message": "Image url stored successfully"
+}
+```
+
+#### POST /api/cards/scoring
+
+_**Description**: Score single flashcard when user in study mode._.
+
+Request body:
+
+```json
+{
+  "card_id": 1,
+  "deck_id": 3,
+  "rating": 5
+}
+```
+
+Response body:
+
+```json
+{
+    "message": "Successfully scored"
+}
+```
+
+## Users
+
+#### GET api/users/:id/score
+
+_**Description**: Get a single user's score._.
+
+Request body:
+
+```json
+{}
+```
+
+Response body:
+
+```json
+{
+    "message": "Successfully fetched User score",
+    "data": {
+        "score": 10,
+        "email": "maaruf@xyz.com",
+        "full_name": "John Doe",
+        "id": 8
+    }
+}
+```
+
+#### GET api/users/leaderboard
+
+_**Description**: Get top 15 scoring users._.
+
+Request body:
+
+```json
+{}
+```
+
+Response body:
+
+```json
+{
+    "message": "Fetched leaderboard",
+    "data": [
+        {
+            "user_id": 8,
+            "full_name": "Maaruf Doe",
+            "email": "maaruf@xyz.com",
+            "score": 10
+        },
+        .
+        .
+        .
+        {
+            "user_id": 9,
+            "full_name": "Anna Doe",
+            "email": "anna@xyz.com",
+            "score": 5
+        }
+    ]
 }
 ```
 
