@@ -130,16 +130,18 @@ exports.viewProfile = async (req, res) => {
   }
 };
 
-exports.UploadProfileImg = async (req, res) => {
+exports.uploadProfileImg = async (req, res) => {
   try {
     const { subject } = req.decodedToken;
     const { imageUrl } = req.body;
     await model.updateImageUrl(subject, imageUrl);
     res.status(200).json({
-      message: 'Image url stored successfully',
+      message: 'Profile image uploaded successfully',
     });
   } catch (error) {
-    res.status(500).json({ message: `Error storing image ${error.message}` });
+    res
+      .status(500)
+      .json({ message: `Error uploading profile image ${error.message}` });
   }
 };
 
