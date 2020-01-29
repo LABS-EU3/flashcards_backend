@@ -35,3 +35,17 @@ exports.getUserRanking = async userId => {
 
   return [user, userScore];
 };
+
+exports.increaseRank = async ({ userId, rating }) => {
+  const userHasScore = await this.checkUserHasScore(userId);
+  if (userHasScore) {
+    const newScore = Number(userHasScore.score) + Number(rating);
+
+    await this.updateRank({ userId, newScore });
+  } else {
+    await this.rankUser({
+      userId,
+      score: rating,
+    });
+  }
+};

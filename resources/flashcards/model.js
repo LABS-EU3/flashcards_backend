@@ -1,6 +1,6 @@
 const db = require('../../data/dbConfig');
 
-const { checkUserHasScore, rankUser, updateRank } = require('../users/model');
+const { increaseRank } = require('../users/model');
 
 const getCardById = id => {
   return db('flashcards')
@@ -51,20 +51,6 @@ exports.checkCardIsRated = ({ userId, cardId }) => {
       card_id: cardId,
     })
     .first();
-};
-
-const increaseRank = async ({ userId, rating }) => {
-  const userHasScore = await checkUserHasScore(userId);
-  if (userHasScore) {
-    const newScore = Number(userHasScore.score) + Number(rating);
-
-    await updateRank({ userId, newScore });
-  } else {
-    await rankUser({
-      userId,
-      score: rating,
-    });
-  }
 };
 
 exports.scoreCard = async cardScoreObject => {
