@@ -64,8 +64,20 @@ exports.markCardReviewed = data => {
     });
 };
 
+exports.lastUsedSession = id => {
+  return db('sessions')
+    .where({ id })
+    .update({ last_used: db.raw('NOW()::timestamp') });
+};
+
 exports.findReviewById = id => {
   return db('sessions_tracker')
     .where({ id })
+    .first();
+};
+
+exports.findByReview = param => {
+  return db('sessions_tracker')
+    .where(param)
     .first();
 };

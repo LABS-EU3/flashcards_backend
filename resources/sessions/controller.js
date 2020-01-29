@@ -5,6 +5,7 @@ const {
   updateSession,
   getAllSessionsByUser,
   markCardReviewed,
+  lastUsedSession,
 } = require('./model');
 
 exports.fetchSessionById = async (req, res) => {
@@ -82,9 +83,9 @@ exports.modifySession = async (req, res) => {
       );
     }
     if (isCompleted) {
-      const session = await updateSession(sessionId, { isCompleted });
-      res.status(200).json({ data: session });
+      await updateSession(sessionId, { isCompleted });
     }
+    await lastUsedSession(sessionId);
     const session = await findSessionById(sessionId);
     res.status(200).json({ session });
   } catch (error) {
