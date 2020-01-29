@@ -6,13 +6,15 @@ exports.up = function(knex) {
       .unsigned()
       .notNullable()
       .references('id')
-      .inTable('sessions');
+      .inTable('sessions')
+      .onDelete('CASCADE');
     table
       .integer('card_id')
       .unsigned()
       .notNullable()
       .references('id')
-      .inTable('flashcards');
+      .inTable('flashcards')
+      .onDelete('CASCADE');
   });
 };
 

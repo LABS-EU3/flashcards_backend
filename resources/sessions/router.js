@@ -1,9 +1,23 @@
 const express = require('express');
 
+const {
+  fetchSessionById,
+  getUserSessions,
+  makeSession,
+  modifySession,
+  removeSession,
+} = require('./controller');
+
 const sessionRouter = express.Router();
 
-sessionRouter.get('/', (req, res) => {
-  res.json({ message: 'Please' });
-});
+sessionRouter.get('/', getUserSessions);
+
+sessionRouter.post('/', makeSession);
+
+sessionRouter.get('/:sessionId', fetchSessionById);
+
+sessionRouter.put('/:sessionId', modifySession);
+
+sessionRouter.delete('/:sessionId', removeSession);
 
 module.exports = sessionRouter;

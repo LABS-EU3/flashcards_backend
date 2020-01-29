@@ -6,13 +6,15 @@ exports.up = function(knex) {
       .unsigned()
       .notNullable()
       .references('id')
-      .inTable('users');
+      .inTable('users')
+      .onDelete('CASCADE');
     table
       .integer('deck_id')
       .unsigned()
       .notNullable()
       .references('id')
-      .inTable('decks');
+      .inTable('decks')
+      .onDelete('CASCADE');
     table.boolean('isCompleted').defaultTo(false);
     table.timestamp('last_used').defaultTo(knex.fn.now());
   });
