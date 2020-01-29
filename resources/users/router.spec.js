@@ -38,7 +38,7 @@ describe('Users route', () => {
       res = await request(server)
         .delete(`/api/users/${user.id}`)
         .set('Authorization', authToken);
-        
+
       expect(res.status).toBe(200);
 
       res = await request(server)
