@@ -17,7 +17,7 @@ exports.rankUser = ({ userId, score }) => {
 };
 
 exports.updateRank = ({ userId, newScore }) => {
-  return db('ratings')
+  return db('rankings')
     .where({ user_id: userId })
     .update({ score: newScore });
 };
