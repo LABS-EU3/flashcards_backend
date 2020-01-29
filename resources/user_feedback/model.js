@@ -1,8 +1,8 @@
 const db = require('../../data/dbConfig');
 
-exports.filter = filter => {
+exports.getUserEmail = id => {
   return db('users')
-    .select('email', 'id')
-    .where(filter)
+    .select('email')
+    .where({ id })
     .first();
 };
