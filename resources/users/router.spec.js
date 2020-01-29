@@ -84,4 +84,29 @@ describe('Users route', () => {
       done();
     });
   });
+
+  describe('[GET] /api/users/leaderboard', () => {
+    test('Returns 200 when leaderboard successfully fetched', async done => {
+      const res = await request(server)
+        .get(`/api/users/leaderboard`)
+        .set('Authorization', authToken);
+
+      expect(res.status).toBe(200);
+      done();
+    });
+
+    test('Leaderboard is an array', async done => {
+      const res = await request(server)
+        .get(`/api/users/leaderboard`)
+        .set('Authorization', authToken);
+
+      console.log(res.body.data);
+
+      expect(res.status).toBe(200);
+      console.log(typeof res.body.data);
+
+      expect(Array.isArray(res.body.data)).toBe(true);
+      done();
+    });
+  });
 });
