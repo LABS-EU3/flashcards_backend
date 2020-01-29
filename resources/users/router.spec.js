@@ -34,10 +34,11 @@ describe('Users route', () => {
   describe('Delete user endpoint', () => {
     test('Returns 200 on success', async done => {
       let res;
+
       res = await request(server)
         .delete(`/api/users/${user.id}`)
         .set('Authorization', authToken);
-
+        
       expect(res.status).toBe(200);
 
       res = await request(server)
