@@ -3,9 +3,9 @@ const { getCardById } = require('../flashcards/model');
 const { findById } = require('../decks/model');
 
 exports.sesssionExists = async (req, res, next) => {
-  const { sessionId } = req.params;
+  const { id } = req.params;
   try {
-    const sessionExists = await findSessionById(sessionId);
+    const sessionExists = await findSessionById(id);
     if (sessionExists) {
       next();
     } else {
@@ -60,7 +60,7 @@ exports.cardExists = async (req, res, next) => {
 
 exports.cardAlreadyMarked = async (req, res, next) => {
   const { cardIds } = req.body;
-  const { sessionId } = req.params;
+  const { id } = req.params;
   let markedCards;
   try {
     if (cardIds) {
@@ -68,7 +68,7 @@ exports.cardAlreadyMarked = async (req, res, next) => {
         cardIds.map(async cardId => {
           const isMarked = await findByReview({
             card_id: cardId,
-            session_id: sessionId,
+            session_id: id,
           });
           if (isMarked === undefined) {
             return undefined;
@@ -93,13 +93,13 @@ exports.cardAlreadyMarked = async (req, res, next) => {
 
 exports.cardBelongsToDeck = async (req, res, next) => {
   const { cardIds } = req.body;
-  const { sessionId } = req.params;
+  const { id } = req.params;
   let cardNotBelong;
   try {
     if (cardIds) {
       const results = await Promise.all(
         cardIds.map(async cardId => {
-          const session = await findSessionById(sessionId);
+          const session = await findSessionById(id);
           const deck = await findById(session.deck_id);
           const card = await getCardById(cardId);
           if (deck.deck_id === card.deck_id) {

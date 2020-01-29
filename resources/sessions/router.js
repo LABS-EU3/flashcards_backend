@@ -22,10 +22,10 @@ sessionRouter.get('/', getUserSessions);
 
 sessionRouter.post('/', deckExists, makeSession);
 
-sessionRouter.get('/:sessionId', sesssionExists, fetchSessionById);
+sessionRouter.get('/:id', sesssionExists, fetchSessionById);
 
 sessionRouter.put(
-  '/:sessionId',
+  '/:id',
   sesssionExists,
   cardExists,
   cardAlreadyMarked,
@@ -33,6 +33,6 @@ sessionRouter.put(
   modifySession
 );
 
-sessionRouter.delete('/:sessionId', sesssionExists, removeSession);
+sessionRouter.delete('/:id', sesssionExists, removeSession);
 
 module.exports = sessionRouter;

@@ -9,9 +9,9 @@ const {
 } = require('./model');
 
 exports.fetchSessionById = async (req, res) => {
-  const { sessionId } = req.params;
+  const { id } = req.params;
   try {
-    const session = await findSessionById(sessionId);
+    const session = await findSessionById(id);
     res.status(200).json({ session });
   } catch (error) {
     res
@@ -38,9 +38,9 @@ exports.makeSession = async (req, res) => {
 };
 
 exports.removeSession = async (req, res) => {
-  const { sessionId } = req.params;
+  const { id } = req.params;
   try {
-    await deleteSession(sessionId);
+    await deleteSession(id);
     res.status(204).end();
   } catch (error) {
     res
@@ -63,7 +63,7 @@ exports.getUserSessions = async (req, res) => {
 
 exports.modifySession = async (req, res) => {
   const { isCompleted, cardIds } = req.body;
-  const { sessionId } = req.params;
+  const { id } = req.params;
   try {
     if (cardIds) {
       await Promise.all(
@@ -71,7 +71,7 @@ exports.modifySession = async (req, res) => {
           try {
             const reviewedCard = {
               card_id: cardId,
-              session_id: Number(sessionId),
+              session_id: Number(id),
             };
             await markCardReviewed(reviewedCard);
           } catch (error) {
@@ -83,10 +83,10 @@ exports.modifySession = async (req, res) => {
       );
     }
     if (isCompleted) {
-      await updateSession(sessionId, { isCompleted });
+      await updateSession(id, { isCompleted });
     }
-    await lastUsedSession(sessionId);
-    const session = await findSessionById(sessionId);
+    await lastUsedSession(id);
+    const session = await findSessionById(id);
     res.status(200).json({ session });
   } catch (error) {
     res

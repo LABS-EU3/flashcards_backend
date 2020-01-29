@@ -9,8 +9,16 @@ const userObject = {
   imageUrl: 'google.com',
 };
 
+const userObject2 = {
+  fullName: 'Test User3',
+  email: 'testusesr@xyz.com',
+  password: 'ALongSecurePassword',
+  imageUrl: 'google.com',
+};
+
 let user;
 let authToken;
+let authToken2;
 
 beforeEach(async done => {
   await db.raw(
@@ -25,6 +33,12 @@ beforeEach(async done => {
 
   authToken = userRes.body.data.token;
   user = userRes.body.data.user;
+
+  const userRes2 = await request(server)
+    .post('/api/auth/register')
+    .send(userObject2);
+
+  authToken2 = userRes2.body.data.user;
   done();
 });
 
@@ -150,6 +164,51 @@ describe('Decks API endpoints', () => {
 
       expect(response.status).toBe(200);
       expect(response.body.deck_name).toBe('updated-deck');
+      done();
+    });
+
+    test('returns 404 when deck doesnt exists', async done => {
+      const response = await request(server)
+        .put(`/api/decks/5`)
+        .set('Authorization', authToken)
+        .send({ name: 'updated-deck' });
+      expect(response.status).toBe(404);
+      done();
+    });
+    test('returns 404 when tag doesnt exists', async done => {
+      const { body } = await request(server)
+        .post('/api/decks/')
+        .set('Authorization', authToken)
+        .send({ name: 'Test-deck', tags: [1, 2, 3] });
+      const response = await request(server)
+        .put(`/api/decks/${body.deck.id}`)
+        .set('Authorization', authToken)
+        .send({ addTags: [1000, 2131], removeTags: [230] });
+      expect(response.status).toBe(400);
+      done();
+    });
+    test('returns 400 when deck has those tags', async done => {
+      const { body } = await request(server)
+        .post('/api/decks/')
+        .set('Authorization', authToken)
+        .send({ name: 'Test-deck', tags: [1, 2, 3] });
+      const response = await request(server)
+        .put(`/api/decks/${body.deck.id}`)
+        .set('Authorization', authToken)
+        .send({ addTags: [1, 2, 3] });
+      expect(response.status).toBe(400);
+      done();
+    });
+    test('returns 400 when user doesnt own the deck', async done => {
+      const { body } = await request(server)
+        .post('/api/decks/')
+        .set('Authorization', authToken)
+        .send({ name: 'Test-deck', tags: [1, 2, 3] });
+      const response = await request(server)
+        .put(`/api/decks/${body.deck.id}`)
+        .set('Authorization', authToken2)
+        .send({ addTags: [4, 5] });
+      expect(response.status).toBe(401);
       done();
     });
   });
