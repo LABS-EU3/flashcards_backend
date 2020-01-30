@@ -100,10 +100,8 @@ describe('Users route', () => {
         .get(`/api/users/leaderboard`)
         .set('Authorization', authToken);
 
-      console.log(res.body.data);
-
       expect(res.status).toBe(200);
-      console.log(typeof res.body.data);
+      // console.log(typeof res.body.data);
 
       expect(Array.isArray(res.body.data)).toBe(true);
       done();
