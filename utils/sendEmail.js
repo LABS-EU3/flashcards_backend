@@ -3,12 +3,15 @@ const { stubTransport } = require('nodemailer-stub');
 const { senderEmail, password } = require('../config/index');
 
 /** A sendEmail util accepting `subject` as subject of the email to be sent
- * recipient` as email Address of recipent, `emailBody` as the html to be
+ * `recipient` as email Address of recipent, `emailBody` as the html to be
  * sent to the recipent and an optional callback function that returns the
- * information obtained from nodemailer on success
+ * information obtained from nodemailer on success. `quickDecksEmail` as the
+ * bcc (blind-copy), used only for user feedback endpoint (sends feedback
+ * to user and Quckdecks Team). If no need for this copy,
+ * pass last param as `null`.
  */
 
-module.exports = (subject, recipients, emailBody, next) => {
+module.exports = (subject, recipients, emailBody, quickDecksEmail, next) => {
   /**
    * Details of email to be sent. This is common for both the transport stub
    * used for testing and the actual transporter to be used in production.
@@ -17,6 +20,7 @@ module.exports = (subject, recipients, emailBody, next) => {
     from: `"Your QuickDecks Plug" <${senderEmail}>`,
     to: recipients,
     subject,
+    bcc: quickDecksEmail,
     html: emailBody,
   };
 

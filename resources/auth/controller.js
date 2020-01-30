@@ -28,7 +28,7 @@ exports.signup = async (req, res) => {
 
     const emailToken = generateToken(userCreated, EMAIL_SECRET);
 
-    sendEmail(welcomeText, email, emailTemplate(fullName, emailToken));
+    sendEmail(welcomeText, email, emailTemplate(fullName, emailToken), null);
 
     res.status(201).json({
       message: `User created successfully`,
@@ -81,7 +81,8 @@ exports.forgotPassword = async (req, res) => {
     sendEmail(
       'Forgot Password - QuickDecks',
       resetRequestEmail,
-      resetPasswordTemplate(resetRequestEmail, passwordResetToken)
+      resetPasswordTemplate(resetRequestEmail, passwordResetToken),
+      null
     );
     res.status(200).json({ message: `Password reset link sent to your email` });
   } catch (error) {

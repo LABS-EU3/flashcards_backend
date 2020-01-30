@@ -98,6 +98,8 @@ Request Error ( **400 - Bad Request** || **404 - Not Found** || **403 - Unauthor
 | [DELETE /api/cards/:id](#delete-apicardsId)                    | Delete flashcard        |
 | [GET /api/cards/COTD](#get-apicardsCOTD)                       | Get card of the Day     |
 | [POST api/cards/scoring](#post-apicardsscoring)                | Rate card for user      |
+| -------------------------------------------------------------- | ----------------------- |
+| [POST /api/feedback](#post-apifeedback)                        | Send feedback           |
 | -------------------------------------------------------------- | ----------------------  |
 | [GET api/users/:id/score](#get-apiusersIdscore)                | Get single user's score |
 | [GET api/users/leaderboard](#get-apiusersleaderboard)          | Get top scoring users   |
@@ -283,7 +285,7 @@ Request body:
 
 #### POST /api/auth/update_Password
 
-_**Description**: updates a user's password._.
+_**Description**: Updates a user's password._.
 
 Request body:
 
@@ -978,9 +980,6 @@ Response body:
             "email": "maaruf@xyz.com",
             "score": 10
         },
-        .
-        .
-        .
         {
             "user_id": 9,
             "full_name": "Anna Doe",
@@ -991,17 +990,39 @@ Response body:
 }
 ```
 
-## Sessions
+## POST /api/feedback
 
-#### POST /api/sessions/
-
-_**Description**: Creates a session._.
+_**Description**: Sends user feedback to the user's email and the QuickDecks email_.
 
 Request body:
 
 ```json
 {
-  "deckId": 5
+	"feedback": "Hello there. I love using this app - its so great! Can I send this feedback to you?"
+}
+```
+
+Response body
+
+```json 
+{
+    "message": "User feedback sent successfully",
+    "data": {
+        "feedback": "Hello there. I love using this app - its so great! Can I send this feedback to you?"
+    }
+}
+```
+Required: feedback: string
+ 
+## Sessions
+
+#### POST /api/sessions/
+
+Request body: 
+
+```json 
+{
+ "deckId": 5
 }
 ```
 
@@ -1020,9 +1041,11 @@ Response body:
 }
 ```
 
+_**Description**: Creates a session._.
+
 #### GET /api/sessions/
 
-_**Description**: Retrieves all sessions made by a specific User._.
+_**Description**: Retrieves all sessions made by a specific User_.
 
 Request body:
 
