@@ -33,9 +33,9 @@ router.get('/:id', checkId, deckExists, getDeck);
 router.put(
   '/:id',
   validate(editDeckSchema),
-  userOwnsDeck,
-  checkId,
   deckExists,
+  checkId,
+  userOwnsDeck,
   tagsExists,
   preventDuplicateTags,
   updateDeck

@@ -101,6 +101,12 @@ Request Error ( **400 - Bad Request** || **404 - Not Found** || **403 - Unauthor
 | -------------------------------------------------------------- | ----------------------  |
 | [GET api/users/:id/score](#get-apiusersIdscore)                | Get single user's score |
 | [GET api/users/leaderboard](#get-apiusersleaderboard)          | Get top scoring users   |
+| -------------------------------------------------------------- | ----------------------  |
+| [POST /api/sessions](#post-apisessions)                        | Create session          |
+| [GET /api/sessions](#get-apisessions)                          | All sessions of User    |
+| [GET /api/sessions/:id](#get-apisessionsId)                    | View one session        |
+| [PUT /api/sessions/:id](#put-apisessionsId)                    | Edit session            |
+| [DELETE /api/sessions/:id](#delete-apisessionsId)              | Delete session          |
 
 #### GET /
 
@@ -161,7 +167,7 @@ Request body:
 
 Response body:
 
-```jsonhttp://localhost:4003/
+```json
 {
   "token": "aTokenYouShouldNotBotherDecryprting.eyJzdWJqZWN0IjADfe3KLo98IjoiTWFhcnVmIERhdWRhIiwiaWF0IjoxNTc2NzYzNzA0LCJleHAiOjE1NzY4NTAxMDR9.jsihrtPG37mKBHp3xvjrQ-UselessRjSMr5YlPovG5A",
   "user": {
@@ -291,6 +297,26 @@ Request body:
 ```json
 {
   "message": "Password updated successfully"
+}
+```
+
+#### POST api/auth/uploadProfile_img
+
+_**Description**: It stores image url on the db(users table)._.
+
+Request body:
+
+```json
+{
+  "imageUrl": "this-is-a-test"
+}
+```
+
+Response body:
+
+```json
+{
+  "message": "Image url stored successfully"
 }
 ```
 
@@ -725,7 +751,7 @@ Response body:
   "user_id": 2,
   "question": "How do I create a flashcard",
   "answer": "Post to /api/card",
-  "image_url_question": "www.realurl.com",leaderboard
+  "image_url_question": "www.realurl.com",
   "created_at": "2020-01-22T13:47:57.348Z",
   "updated_at": "2020-01-22T13:47:57.348Z",
   "image_url_answer": "www.google.com"
@@ -785,7 +811,7 @@ Response body:
 #### GET /api/cards/:id
 
 _**Description**: Retrieves a specific card by the card's id._.
-http://localhost:4003/
+
 Request body:
 
 ```json
@@ -858,7 +884,7 @@ Response body:
 
 #### GET /api/cards/COTD
 
-_**Description**: Delete a flashcard._.
+_**Description**: Get Card of The Day._.
 
 Request body:
 
@@ -881,25 +907,6 @@ Response body:
   "image_url_answer": null
 }
 ```
-#### POST api/auth/uploadProfile_img
-
-_**Description**: It stores image url on the db(users table)._.
-
-Request body:
-
-```json
-{
-  "imageUrl": "this-is-a-test"
-}
-```
-
-Response body:
-
-```json
-{
-  "message": "Image url stored successfully"
-}
-```
 
 #### POST /api/cards/scoring
 
@@ -919,7 +926,7 @@ Response body:
 
 ```json
 {
-    "message": "Successfully scored"
+  "message": "Successfully scored"
 }
 ```
 
@@ -939,13 +946,13 @@ Response body:
 
 ```json
 {
-    "message": "Successfully fetched User score",
-    "data": {
-        "score": 10,
-        "email": "maaruf@xyz.com",
-        "full_name": "John Doe",
-        "id": 8
-    }
+  "message": "Successfully fetched User score",
+  "data": {
+    "score": 10,
+    "email": "maaruf@xyz.com",
+    "full_name": "John Doe",
+    "id": 8
+  }
 }
 ```
 
@@ -982,6 +989,186 @@ Response body:
         }
     ]
 }
+```
+
+## Sessions
+
+#### POST /api/sessions/
+
+_**Description**: Creates a session._.
+
+Request body:
+
+```json
+{
+  "deckId": 5
+}
+```
+
+Response body:
+
+```json
+{
+  "session": {
+    "id": 22,
+    "deck_id": 5,
+    "user_id": 5,
+    "isCompleted": false,
+    "last_used": "2020-01-29T22:41:44.088Z",
+    "reviewed_cards": [null]
+  }
+}
+```
+
+#### GET /api/sessions/
+
+_**Description**: Retrieves all sessions made by a specific User._.
+
+Request body:
+
+```json
+{}
+```
+
+Response body:
+
+```json
+{
+  "data": [
+    {
+      "id": 5,
+      "deck_id": 5,
+      "user_id": 5,
+      "isCompleted": false,
+      "last_used": "2020-01-29T15:39:24.363Z",
+      "reviewed_cards": [
+        {
+          "id": 5,
+          "session_id": 5,
+          "card_id": 9
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "deck_id": 5,
+      "user_id": 5,
+      "isCompleted": false,
+      "last_used": "2020-01-29T16:56:59.995Z",
+      "reviewed_cards": [
+        {
+          "id": 10,
+          "session_id": 10,
+          "card_id": 1
+        },
+        {
+          "id": 11,
+          "session_id": 10,
+          "card_id": 2
+        },
+        {
+          "id": 12,
+          "session_id": 10,
+          "card_id": 3
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "deck_id": 5,
+      "user_id": 5,
+      "isCompleted": false,
+      "last_used": "2020-01-29T18:12:03.638Z",
+      "reviewed_cards": [null]
+    }
+  ]
+}
+```
+
+#### GET /api/sessions/:id
+
+_**Description**: Retrieves a specific session by the session's id._.
+
+Request body:
+
+```json
+{}
+```
+
+Response body:
+
+```json
+{
+  "session": {
+    "id": 5,
+    "deck_id": 5,
+    "user_id": 5,
+    "isCompleted": false,
+    "last_used": "2020-01-29T15:39:24.363Z",
+    "reviewed_cards": [
+      {
+        "id": 5,
+        "session_id": 5,
+        "card_id": 9
+      }
+    ]
+  }
+}
+```
+
+#### PUT /api/sessions/:id
+
+_**Description**: Edit a session by session Id, you can also send a blank request just to update lastused ._.
+
+Request body:
+
+```json
+{
+  "isCompleted": true,
+  "cardIds": [10]
+}
+```
+
+Response body:
+
+```json
+{
+  "session": {
+    "id": 5,
+    "deck_id": 5,
+    "user_id": 5,
+    "isCompleted": true,
+    "last_used": "2020-01-29T22:48:37.368Z",
+    "reviewed_cards": [
+      {
+        "id": 5,
+        "session_id": 5,
+        "card_id": 9
+      },
+      {
+        "id": 20,
+        "session_id": 5,
+        "card_id": 10
+      }
+    ]
+  }
+}
+```
+
+#### DELETE /api/sessions/:id
+
+_**Description**: Delete a session._.
+
+Request body:
+
+```json
+{}
+```
+
+Response body:
+
+```json
+{}
 ```
 
 ## The Tag Data We Used
