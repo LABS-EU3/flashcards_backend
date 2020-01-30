@@ -1,4 +1,8 @@
-const { findByReview, findSessionById } = require('./model');
+const {
+  findByReview,
+  findSessionById,
+  findSessionByUserDeckId,
+} = require('./model');
 const { getCardById } = require('../flashcards/model');
 const { findById } = require('../decks/model');
 
@@ -15,6 +19,26 @@ exports.sesssionExists = async (req, res, next) => {
     res
       .status(404)
       .json({ message: `Session does not exists ${error.message}` });
+  }
+};
+
+exports.preventDuplicateIncompleteSessions = async (req, res, next) => {
+  const { deckId } = req.body;
+  const { subject } = req.decodedToken;
+  try {
+    const sessionExists = await findSessionByUserDeckId(subject, deckId);
+    if (!sessionExists) {
+      next();
+    } else {
+      res.status(404).json({
+        message: `Cannot create duplicate incomplete sessions `,
+        session: sessionExists,
+      });
+    }
+  } catch (error) {
+    res.status(404).json({
+      message: `Cannot create duplicate incomplete sessions ${error.message}`,
+    });
   }
 };
 

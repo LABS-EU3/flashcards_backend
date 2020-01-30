@@ -14,13 +14,19 @@ const {
   cardAlreadyMarked,
   sesssionExists,
   cardBelongsToDeck,
+  preventDuplicateIncompleteSessions,
 } = require('./middleware');
 
 const sessionRouter = express.Router();
 
 sessionRouter.get('/', getUserSessions);
 
-sessionRouter.post('/', deckExists, makeSession);
+sessionRouter.post(
+  '/',
+  deckExists,
+  preventDuplicateIncompleteSessions,
+  makeSession
+);
 
 sessionRouter.get('/:id', sesssionExists, fetchSessionById);
 
