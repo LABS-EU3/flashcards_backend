@@ -29,6 +29,6 @@ exports.userFeedback = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(500).json({ message: `Failed to sign user up` });
+    res.status(500).json({ message: `Failed to send feedback` });
   }
 };

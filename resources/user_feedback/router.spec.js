@@ -28,9 +28,9 @@ beforeEach(async done => {
   done();
 });
 
-describe('', () => {
-  test('', async () => {
-    // 1 - 200 status code; 2 - check email was sent
+describe('User Feedback Endpoint', () => {
+  test('Will return 201 CREATED and make sure email is sent', async done => {
+    // 1 - 201 status code; 2 - check email was sent
     expect.assertions(2);
 
     const response = await request(server)
@@ -39,11 +39,9 @@ describe('', () => {
       .set('Accept', 'application/json')
       .set('Authorization', authToken)
       .expect('Content-Type', /json/);
-    console.log(response);
-    // should complete successfully
-    expect(response.status).toBe(201);
 
-    // TODO not sure how to express the expect statement here
+    expect(response.status).toBe(201);
     expect(sendMailMock).toHaveBeenCalled();
+    done();
   });
 });
