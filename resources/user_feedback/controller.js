@@ -10,7 +10,7 @@ const model = require('./model');
 
 exports.userFeedback = async (req, res) => {
   try {
-    const feedback = req.body.text;
+    const { feedback } = req.body;
     const id = req.decodedToken.subject;
     const userEmailObj = await model.getUserEmail(id);
     const userEmail = userEmailObj.email;

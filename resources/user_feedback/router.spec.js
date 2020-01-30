@@ -35,7 +35,7 @@ describe('User Feedback Endpoint', () => {
 
     const response = await request(server)
       .post('/api/feedback')
-      .send({ text: 'hello' })
+      .send({ feedback: 'hello' })
       .set('Accept', 'application/json')
       .set('Authorization', authToken)
       .expect('Content-Type', /json/);

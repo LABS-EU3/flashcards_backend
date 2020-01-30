@@ -97,10 +97,9 @@ Request Error ( **400 - Bad Request** || **404 - Not Found** || **403 - Unauthor
 | [PUT /api/cards/:id](#put-apicardsId)                          | Edit flashcard          |
 | [DELETE /api/cards/:id](#delete-apicardsId)                    | Delete flashcard        |
 | [GET /api/cards/COTD](#get-apicardsCOTD)                       | Get card of the Day     |
+| [POST api/cards/scoring](#post-apicardsscoring)                | Rate card for user      |
 | -------------------------------------------------------------- | ----------------------- |
 | [POST /api/feedback](#post-apifeedback)                        | Send feedback           |
-
-| [POST api/cards/scoring](#post-apicardsscoring)                | Rate card for user      |
 | -------------------------------------------------------------- | ----------------------  |
 | [GET api/users/:id/score](#get-apiusersIdscore)                | Get single user's score |
 | [GET api/users/leaderboard](#get-apiusersleaderboard)          | Get top scoring users   |
@@ -999,7 +998,7 @@ Request body:
 
 ```json
 {
-	"text": "Hello there. I love using this app - its so great! Can I send this feedback to you?"
+	"feedback": "Hello there. I love using this app - its so great! Can I send this feedback to you?"
 }
 ```
 
@@ -1013,7 +1012,7 @@ Response body
     }
 }
 ```
-Required: text: string
+Required: feedback: string
  
 ## Sessions
 
