@@ -1010,12 +1010,13 @@ Response body:
 ```json
 {
   "session": {
-    "id": 22,
-    "deck_id": 5,
+    "id": 24,
+    "deck_id": 8,
     "user_id": 5,
     "isCompleted": false,
-    "last_used": "2020-01-29T22:41:44.088Z",
-    "reviewed_cards": [null]
+    "last_used": "2020-01-30T09:23:33.275Z",
+    "reviewed_cards": [null],
+    "flashcards": [null]
   }
 }
 ```
@@ -1036,18 +1037,37 @@ Response body:
 {
   "data": [
     {
-      "id": 5,
+      "id": 9,
       "deck_id": 5,
       "user_id": 5,
       "isCompleted": false,
-      "last_used": "2020-01-29T15:39:24.363Z",
-      "reviewed_cards": [
+      "last_used": "2020-01-29T16:10:41.208Z",
+      "reviewed_cards": [null],
+      "flashcards": [
         {
-          "id": 5,
-          "session_id": 5,
-          "card_id": 9
+          "id": 9,
+          "deck_id": 5,
+          "user_id": 5,
+          "question": "Grand Central Terminal, Park Avenue, New York is the world...?",
+          "answer": "largest railway station",
+          "image_url_question": null,
+          "created_at": "2020-01-29T10:39:24.340918-05:00",
+          "updated_at": "2020-01-29T10:39:24.340918-05:00",
+          "image_url_answer": null
+        },
+        {
+          "id": 10,
+          "deck_id": 5,
+          "user_id": 5,
+          "question": "For which of the following disciplines is Nobel Prize awarded?",
+          "answer": "Physics and Chemistry, Physiology or Medicine, Literature, Peace and Economics",
+          "image_url_question": null,
+          "created_at": "2020-01-29T10:39:24.340918-05:00",
+          "updated_at": "2020-01-29T10:39:24.340918-05:00",
+          "image_url_answer": null
         }
-      ]
+      ],
+      "cards_left": 2
     },
     {
       "id": 10,
@@ -1065,21 +1085,44 @@ Response body:
           "id": 11,
           "session_id": 10,
           "card_id": 2
+        }
+      ],
+      "flashcards": [
+        {
+          "id": 9,
+          "deck_id": 5,
+          "user_id": 5,
+          "question": "Grand Central Terminal, Park Avenue, New York is the world...?",
+          "answer": "largest railway station",
+          "image_url_question": null,
+          "created_at": "2020-01-29T10:39:24.340918-05:00",
+          "updated_at": "2020-01-29T10:39:24.340918-05:00",
+          "image_url_answer": null
         },
         {
-          "id": 12,
-          "session_id": 10,
-          "card_id": 3
+          "id": 10,
+          "deck_id": 5,
+          "user_id": 5,
+          "question": "For which of the following disciplines is Nobel Prize awarded?",
+          "answer": "Physics and Chemistry, Physiology or Medicine, Literature, Peace and Economics",
+          "image_url_question": null,
+          "created_at": "2020-01-29T10:39:24.340918-05:00",
+          "updated_at": "2020-01-29T10:39:24.340918-05:00",
+          "image_url_answer": null
         }
-      ]
+      ],
+      "cards_left": 0
     },
+
     {
-      "id": 12,
-      "deck_id": 5,
+      "id": 24,
+      "deck_id": 8,
       "user_id": 5,
       "isCompleted": false,
-      "last_used": "2020-01-29T18:12:03.638Z",
-      "reviewed_cards": [null]
+      "last_used": "2020-01-30T09:23:33.275Z",
+      "reviewed_cards": [null],
+      "flashcards": [null],
+      "cards_left": 0
     }
   ]
 }
@@ -1134,23 +1177,43 @@ Response body:
 ```json
 {
   "session": {
-    "id": 5,
-    "deck_id": 5,
-    "user_id": 5,
-    "isCompleted": true,
-    "last_used": "2020-01-29T22:48:37.368Z",
+    "id": 6,
+    "deck_id": 6,
+    "user_id": 6,
+    "isCompleted": false,
+    "last_used": "2020-01-29T15:39:24.363Z",
     "reviewed_cards": [
       {
-        "id": 5,
-        "session_id": 5,
-        "card_id": 9
+        "id": 6,
+        "session_id": 6,
+        "card_id": 11
+      }
+    ],
+    "flashcards": [
+      {
+        "id": 11,
+        "deck_id": 6,
+        "user_id": 6,
+        "question": "Who is the father of Geometry?",
+        "answer": "Euclid",
+        "image_url_question": null,
+        "created_at": "2020-01-29T10:39:24.340918-05:00",
+        "updated_at": "2020-01-29T10:39:24.340918-05:00",
+        "image_url_answer": null
       },
       {
-        "id": 20,
-        "session_id": 5,
-        "card_id": 10
+        "id": 12,
+        "deck_id": 6,
+        "user_id": 6,
+        "question": "The Indian to beat the computers in mathematical wizardry is",
+        "answer": "Shakunthala Devi",
+        "image_url_question": null,
+        "created_at": "2020-01-29T10:39:24.340918-05:00",
+        "updated_at": "2020-01-29T10:39:24.340918-05:00",
+        "image_url_answer": null
       }
-    ]
+    ],
+    "cards_left": 1
   }
 }
 ```

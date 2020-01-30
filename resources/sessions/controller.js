@@ -12,7 +12,14 @@ exports.fetchSessionById = async (req, res) => {
   const { id } = req.params;
   try {
     const session = await findSessionById(id);
-    res.status(200).json({ session });
+    const reviewedCount =
+      session.reviewed_cards[0] === null ? 0 : session.reviewed_cards.length;
+    const flashcardCount =
+      session.flashcards[0] === null ? 0 : session.flashcards.length;
+    const cardAmountLeft = flashcardCount - reviewedCount;
+    res
+      .status(200)
+      .json({ session: { ...session, cards_left: cardAmountLeft } });
   } catch (error) {
     res
       .status(500)
@@ -53,7 +60,15 @@ exports.getUserSessions = async (req, res) => {
   const { subject } = req.decodedToken;
   try {
     const sessions = await getAllSessionsByUser(subject);
-    res.status(200).json({ data: sessions });
+    const modifiedSessions = sessions.map(session => {
+      const reviewedCount =
+        session.reviewed_cards[0] === null ? 0 : session.reviewed_cards.length;
+      const flashcardCount =
+        session.flashcards[0] === null ? 0 : session.flashcards.length;
+      const cardAmountLeft = flashcardCount - reviewedCount;
+      return { ...session, cards_left: cardAmountLeft };
+    });
+    res.status(200).json({ data: modifiedSessions });
   } catch (error) {
     res
       .status(500)
