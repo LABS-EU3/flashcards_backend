@@ -52,8 +52,8 @@ exports.getLeaderboard = async (req, res) => {
 exports.updateUserProfile = async (req, res) => {
   try {
     const { subject } = req.decodedToken;
-    const { fullName, email } = req.body;
-    await updateProfile(subject, fullName, email);
+    const { fullName } = req.body;
+    await updateProfile(subject, fullName);
     res.status(200).json({
       message: 'Profile updated successfully',
     });
