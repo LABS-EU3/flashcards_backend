@@ -34,11 +34,12 @@ exports.getDeck = async (req, res) => {
 };
 
 exports.addDeck = async (req, res) => {
-  const { name, tags } = req.body;
+  const { name, tags, isPublic } = req.body;
   const { subject } = req.decodedToken;
   const newDeck = {
     name,
     user_id: subject,
+    public: isPublic,
   };
   try {
     const deck = await Decks.add(newDeck);
