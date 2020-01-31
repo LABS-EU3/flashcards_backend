@@ -2,17 +2,8 @@ const { remove, getUserRanking, topRated, updateProfile } = require('./model');
 
 exports.deleteUser = async (req, res) => {
   try {
-    const { subject } = req.decodedToken;
-    const { id } = req.params;
-
-    // eslint-disable-next-line radix
-    if (parseInt(id) !== subject) {
-      res.status(403).json({ message: 'Request is forbidden' });
-      return;
-    }
-
-    await remove(id);
-    res.status(200).json({ message: 'user successfully deleted' });
+    await remove(req.decodedToken.subject);
+    res.status(200).json({ message: 'User successfully deleted' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

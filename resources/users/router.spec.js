@@ -32,35 +32,49 @@ afterAll(async done => {
 
 describe('Users route', () => {
   describe('Delete user endpoint', () => {
+    test('Validate password input', async done => {
+      const res = await request(server)
+        .delete(`/api/users/`)
+        .set('Authorization', authToken);
+
+      expect(res.status).toBe(400);
+      expect(res.body.error).toBe('"Password" is required');
+
+      done();
+    });
+
+    test('Incorrect Password deleting Account', async done => {
+      const res = await request(server)
+        .delete(`/api/users`)
+        .send({ password: 'veryWrongSomething' })
+        .set('Authorization', authToken);
+
+      expect(res.status).toBe(400);
+      expect(res.body.message).toBe('Invalid User Credential');
+
+      done();
+    });
+
     test('Returns 200 on success', async done => {
       let res;
 
       res = await request(server)
-        .delete(`/api/users/${user.id}`)
+        .delete(`/api/users`)
+        .send({ password: userObject.password })
         .set('Authorization', authToken);
 
       expect(res.status).toBe(200);
+      expect(res.body.message).toBe('User successfully deleted');
 
       res = await request(server)
         .post('/api/auth/login')
         .send({
           email: userObject.email,
-          password: userObject.pasword,
+          password: userObject.password,
         });
 
       // deleted user no longer exists
-      expect(res.status).toBe(400);
-
-      done();
-    });
-
-    test('Returns 403 forbidden', async done => {
-      const res = await request(server)
-        .delete('/api/users/888')
-        .set('Authorization', authToken);
-
-      expect(res.status).toBe(403);
-
+      expect(res.status).toBe(404);
       done();
     });
   });
@@ -102,7 +116,6 @@ describe('Users route', () => {
         .set('Authorization', authToken);
 
       expect(res.status).toBe(200);
-      // console.log(typeof res.body.data);
 
       expect(Array.isArray(res.body.data)).toBe(true);
       done();
@@ -111,28 +124,24 @@ describe('Users route', () => {
 
   describe('Update User Profile Endpoint', () => {
     test('Returns 200 on success', async done => {
-      // register the user
-      await request(server)
-        .post('/api/auth/register')
-        .send(userObject);
+      // authorize token, update user profile
+      const response = await request(server)
+        .put('/api/users/updateprofile')
+        .set('Authorization', authToken)
+        .send({ fullName: 'updated fullName' });
+
+      expect(response.status).toBe(200);
 
       // log the user in
-      const res = await request(server)
+      const login = await request(server)
         .post('/api/auth/login')
         .send({
           email: userObject.email,
           password: userObject.password,
         });
 
-      expect(res.status).toBe(200);
-      expect(authToken).not.toBe(null || undefined);
-
-      // authorize token, update user profile
-      const response = await request(server)
-        .post('/api/users/updateprofile')
-        .set('Authorization', `${authToken}`)
-        .send({ fullName: 'updated fullName' });
-      expect(response.status).toBe(200);
+      expect(login.status).toBe(200);
+      expect(login.body.data.user.full_name).toEqual('updated fullName');
       done();
     });
   });

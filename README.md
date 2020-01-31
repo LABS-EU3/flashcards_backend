@@ -79,6 +79,7 @@ Request Error ( **400 - Bad Request** || **404 - Not Found** || **403 - Unauthor
 | [GET /api/auth/google/](#get-apiauthgoogle)                    | Redirect to google auth |
 | [POST /api/auth/google/:token](#post-apiauthgoogleToken)       | Confirms auth & login   |
 | [POST /api/auth/update_password](#post-apiauthupdate_password) | Update password         |
+| [POST /api/auth/uploadProfile_img](#update-userprofileimg)     | Update Profile Image    |
 | -------------------------------------------------------------- | ----------------------  |
 | [POST /api/decks](#post-apidecks)                              | Create deck             |
 | [GET /api/decks](#get-apidecks)                                | All decks of User       |
@@ -97,20 +98,21 @@ Request Error ( **400 - Bad Request** || **404 - Not Found** || **403 - Unauthor
 | [PUT /api/cards/:id](#put-apicardsId)                          | Edit flashcard          |
 | [DELETE /api/cards/:id](#delete-apicardsId)                    | Delete flashcard        |
 | [GET /api/cards/COTD](#get-apicardsCOTD)                       | Get card of the Day     |
-| [POST api/cards/scoring](#post-apicardsscoring)                | Rate card for user      |
+| [POST /api/cards/scoring](#post-apicardsscoring)               | Rate card for user      |
 | -------------------------------------------------------------- | ----------------------- |
 | [POST /api/feedback](#post-apifeedback)                        | Send feedback           |
 | -------------------------------------------------------------- | ----------------------  |
-| [GET api/users/:id/score](#get-apiusersIdscore)                | Get single user's score |
-| [GET api/users/leaderboard](#get-apiusersleaderboard)          | Get top scoring users   |
+| [GET /api/users/:id/score](#get-apiusersIdscore)               | Get single user's score |
+| [GET /api/users/leaderboard](#get-apiusersleaderboard)         | Get top scoring users   |
+| [PUT  /api/users/updateprofile](#update-userprofilename)       | Update Profile          |
+| [DELETE /api/users](#delete-apideleteuser)                     | Delete User             |
 | -------------------------------------------------------------- | ----------------------  |
 | [POST /api/sessions](#post-apisessions)                        | Create session          |
 | [GET /api/sessions](#get-apisessions)                          | All sessions of User    |
 | [GET /api/sessions/:id](#get-apisessionsId)                    | View one session        |
 | [PUT /api/sessions/:id](#put-apisessionsId)                    | Edit session            |
 | [DELETE /api/sessions/:id](#delete-apisessionsId)              | Delete session          |
-| [POST /api/auth/uploadProfile_img](#update-userprofileimg)     | Update session          |
-| [POST /api/users/updateprofile](#update-userprofilename)       | Update session          |
+
 
 
  
@@ -1273,6 +1275,26 @@ Response body:
       "score": 5
     }
   ]
+}
+```
+
+#### DELETE /api/users/
+
+_**Description**: Delete a user._.
+
+Request body:
+
+```json
+{
+  "password": "this-is-a-password"
+}
+```
+
+Response body:
+
+```json
+{
+  "message": "User successfully deleted"
 }
 ```
 

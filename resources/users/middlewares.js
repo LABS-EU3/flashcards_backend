@@ -1,8 +1,8 @@
+const bcrypt = require('bcrypt');
+
 const validateToken = require('../../utils/validateToken');
 const { EMAIL_SECRET } = require('../../config');
-const model = require('./model');
-
-// new addtions
+const model = require('../auth/model');
 
 exports.checkUserExists = async (req, res, next) => {
   const { email } = req.body;
@@ -53,5 +53,25 @@ exports.validateToken = async (req, res, next) => {
     }
   } catch (error) {
     res.status(400).json({ message: `Confirmation failed: ${error.message}!` });
+  }
+};
+
+exports.validateUserPassword = async (req, res, next) => {
+  try {
+    const user = await model.findBy({ id: req.decodedToken.subject });
+    if (user) {
+      const isPasswordValid = bcrypt.compareSync(
+        req.body.password,
+        user.password
+      );
+      if (isPasswordValid) {
+        return next();
+      }
+    }
+    return res.status(400).json({ message: `Invalid User Credential` });
+  } catch (error) {
+    return res
+      .status(400)
+      .json({ message: `Cannot delete user: ${error.message}!` });
   }
 };

@@ -6,22 +6,27 @@ const {
   getLeaderboard,
   updateUserProfile,
 } = require('./controller');
-
+const {
+  deleteAccountSchema,
+  updateUserProfileSchema,
+} = require('./userSchema');
+const { validateUserPassword } = require('./middlewares');
 const validate = require('../../utils/validate');
-
-const { updateUserProfileSchema } = require('./userSchema');
-
-const { authorized } = require('../global/middlewares');
 
 const userRouter = express.Router();
 
-userRouter.delete('/:id', authorized, deleteUser);
+userRouter.delete(
+  '/',
+  validate(deleteAccountSchema),
+  validateUserPassword,
+  deleteUser
+);
 
-userRouter.get('/:id/score', authorized, getUserScore);
+userRouter.get('/:id/score', getUserScore);
 
 userRouter.get('/leaderboard', getLeaderboard);
 
-userRouter.post(
+userRouter.put(
   '/updateprofile',
   validate(updateUserProfileSchema),
   updateUserProfile
