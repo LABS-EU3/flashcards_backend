@@ -57,3 +57,9 @@ exports.topRated = async () => {
     .orderBy('r.score', 'desc')
     .limit(15);
 };
+
+exports.updateProfile = async (id, fullName) => {
+  return db('users')
+    .where({ id })
+    .update({ full_name: fullName });
+};

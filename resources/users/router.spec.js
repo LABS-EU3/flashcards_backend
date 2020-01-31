@@ -108,4 +108,32 @@ describe('Users route', () => {
       done();
     });
   });
+
+  describe('Update User Profile Endpoint', () => {
+    test('Returns 200 on success', async done => {
+      // register the user
+      await request(server)
+        .post('/api/auth/register')
+        .send(userObject);
+
+      // log the user in
+      const res = await request(server)
+        .post('/api/auth/login')
+        .send({
+          email: userObject.email,
+          password: userObject.password,
+        });
+
+      expect(res.status).toBe(200);
+      expect(authToken).not.toBe(null || undefined);
+
+      // authorize token, update user profile
+      const response = await request(server)
+        .post('/api/users/updateprofile')
+        .set('Authorization', `${authToken}`)
+        .send({ fullName: 'updated fullName' });
+      expect(response.status).toBe(200);
+      done();
+    });
+  });
 });
