@@ -23,7 +23,6 @@ userRouter.get('/leaderboard', getLeaderboard);
 
 userRouter.post(
   '/updateprofile',
-  authorized,
   validate(updateUserProfileSchema),
   updateUserProfile
 );
