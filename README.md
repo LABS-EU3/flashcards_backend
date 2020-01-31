@@ -109,7 +109,11 @@ Request Error ( **400 - Bad Request** || **404 - Not Found** || **403 - Unauthor
 | [GET /api/sessions/:id](#get-apisessionsId)                    | View one session        |
 | [PUT /api/sessions/:id](#put-apisessionsId)                    | Edit session            |
 | [DELETE /api/sessions/:id](#delete-apisessionsId)              | Delete session          |
+| [POST /api/auth/uploadProfile_img](#update-userprofileimg)     | Update session          |
+| [POST /api/users/updateprofile](#update-userprofilename)       | Update session          |
 
+
+ 
 #### GET /
 
 Response body:
@@ -321,6 +325,27 @@ Response body:
   "message": "Image url stored successfully"
 }
 ```
+#### POST api/users/updateprofile
+
+_**Description**: It updates users profile on the db(users table)._.
+
+Request body:
+
+```json
+{
+  "fullName": "updated fullName"
+}
+```
+
+Response body:
+
+```json
+{
+    "message": "Profile updated successfully"
+}
+```
+
+
 
 ## Decks
 
