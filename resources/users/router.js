@@ -7,6 +7,10 @@ const {
   updateUserProfile,
 } = require('./controller');
 
+const validate = require('../../utils/validate');
+
+const { updateUserProfileSchema } = require('./userSchema');
+
 const { authorized } = require('../global/middlewares');
 
 const userRouter = express.Router();
@@ -17,6 +21,11 @@ userRouter.get('/:id/score', authorized, getUserScore);
 
 userRouter.get('/leaderboard', getLeaderboard);
 
-userRouter.post('/updateprofile', updateUserProfile);
+userRouter.post(
+  '/updateprofile',
+  authorized,
+  validate(updateUserProfileSchema),
+  updateUserProfile
+);
 
 module.exports = userRouter;
