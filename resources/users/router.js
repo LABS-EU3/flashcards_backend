@@ -8,7 +8,7 @@ const { deleteAccountSchema } = require('./userSchema');
 const userRouter = express.Router();
 
 userRouter.delete(
-  '/:id',
+  '/',
   validate(deleteAccountSchema),
   validateUserPassword,
   deleteUser

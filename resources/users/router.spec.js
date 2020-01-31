@@ -34,7 +34,7 @@ describe('Users route', () => {
   describe('Delete user endpoint', () => {
     test('Validate password input', async done => {
       const res = await request(server)
-        .delete(`/api/users/${user.id}`)
+        .delete(`/api/users/`)
         .set('Authorization', authToken);
 
       expect(res.status).toBe(400);
@@ -45,7 +45,7 @@ describe('Users route', () => {
 
     test('Incorrect Password deleting Account', async done => {
       const res = await request(server)
-        .delete(`/api/users/${user.id}`)
+        .delete(`/api/users`)
         .send({ password: 'veryWrongSomething' })
         .set('Authorization', authToken);
 
@@ -59,7 +59,7 @@ describe('Users route', () => {
       let res;
 
       res = await request(server)
-        .delete(`/api/users/${user.id}`)
+        .delete(`/api/users`)
         .send({ password: userObject.password })
         .set('Authorization', authToken);
 

@@ -103,7 +103,7 @@ Request Error ( **400 - Bad Request** || **404 - Not Found** || **403 - Unauthor
 | -------------------------------------------------------------- | ----------------------  |
 | [GET api/users/:id/score](#get-apiusersIdscore)                | Get single user's score |
 | [GET api/users/leaderboard](#get-apiusersleaderboard)          | Get top scoring users   |
-| [DELETE /api/users/:user_id](#delete-apideleteuser)            | Delete User             |
+| [DELETE /api/users](#delete-apideleteuser)                     | Delete User             |
 | -------------------------------------------------------------- | ----------------------  |
 | [POST /api/sessions](#post-apisessions)                        | Create session          |
 | [GET /api/sessions](#get-apisessions)                          | All sessions of User    |
@@ -991,7 +991,7 @@ Response body:
 }
 ```
 
-#### DELETE /api/users/:user_id
+#### DELETE /api/users/
 
 _**Description**: Delete a user._.
 
