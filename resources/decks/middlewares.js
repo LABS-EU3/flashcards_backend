@@ -87,6 +87,7 @@ exports.preventDuplicateTags = async (req, res, next) => {
 exports.userOwnsDeck = async (req, res, next) => {
   const { subject } = req.decodedToken;
   const { id } = req.params;
+
   try {
     const deck = await findById(id);
     if (deck.user_id === subject) {

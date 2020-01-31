@@ -1,4 +1,4 @@
-const { remove, getUserRanking, topRated } = require('./model');
+const { remove, getUserRanking, topRated, updateProfile } = require('./model');
 
 exports.deleteUser = async (req, res) => {
   try {
@@ -37,5 +37,20 @@ exports.getLeaderboard = async (req, res) => {
     res.status(200).json({ message: 'Fetched leaderboard', data: leaderboard });
   } catch (error) {
     res.status(500).json({ message: `Failed to fetch leaderboard.` });
+  }
+};
+
+exports.updateUserProfile = async (req, res) => {
+  try {
+    const { subject } = req.decodedToken;
+    const { fullName } = req.body;
+    await updateProfile(subject, fullName);
+    res.status(200).json({
+      message: 'Profile updated successfully',
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: `Error updating profile ${error.message}` });
   }
 };
