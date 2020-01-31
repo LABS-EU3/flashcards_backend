@@ -61,5 +61,5 @@ exports.topRated = async () => {
 exports.updateProfile = async (id, fullName, email) => {
   return db('users')
     .where({ id })
-    .update({ full_name: fullName, email: email });
+    .update({ full_name: fullName, email });
 };
