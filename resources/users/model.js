@@ -58,8 +58,8 @@ exports.topRated = async () => {
     .limit(15);
 };
 
-exports.updateProfile = async (id, fullName, email) => {
+exports.updateProfile = async (id, fullName) => {
   return db('users')
     .where({ id })
-    .update({ full_name: fullName, email });
+    .update({ full_name: fullName });
 };
