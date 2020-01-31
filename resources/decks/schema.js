@@ -6,6 +6,7 @@ const deckSchema = joi.object({
     .label('name')
     .required(),
   tags: joi.array().items(joi.number().integer()),
+  isPublic: joi.string().required(),
 });
 
 const editDeckSchema = joi.object({
