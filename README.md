@@ -395,34 +395,56 @@ Response body:
 {
   "data": [
     {
-      "deck_id": 8,
-      "user_id": 8,
-      "deck_name": "nasdaasdsad",
-      "public": false,
-      "created_at": "2020-01-13T15:51:07.998Z",
-      "updated_at": "2020-01-13T15:51:07.998Z",
+      "deck_id": 5,
+      "user_id": 5,
+      "deck_name": "Basic General Knowledge",
+      "public": true,
+      "created_at": "2020-01-29T15:39:24.335Z",
+      "updated_at": "2020-01-29T15:39:24.335Z",
       "tags": [
-        "Aeronautical & Manufacturing Engineering",
-        "Agriculture & Forestry",
-        "Building",
-        "Counselling",
-        "Film Making",
-        "Hospitality"
+        {
+          "id": 10,
+          "name": "Aural & Oral Sciences"
+        },
+        {
+          "id": 11,
+          "name": "Biological Sciences"
+        }
+      ],
+      "flashcards": [
+        {
+          "id": 9,
+          "deck_id": 5,
+          "user_id": 5,
+          "question": "Grand Central Terminal, Park Avenue, New York is the world...?",
+          "answer": "largest railway station",
+          "image_url_question": "https://res.cloudinary.com/quick-decks/image/upload/v1580472083/flashcard_front_13.jpg",
+          "created_at": "2020-01-29T10:39:24.340918-05:00",
+          "updated_at": "2020-01-29T10:39:24.340918-05:00",
+          "image_url_answer": "https://res.cloudinary.com/quick-decks/image/upload/v1580472154/flashcard_front_13.png"
+        },
+        {
+          "id": 10,
+          "deck_id": 5,
+          "user_id": 5,
+          "question": "For which of the following disciplines is Nobel Prize awarded?",
+          "answer": "Physics and Chemistry, Physiology or Medicine, Literature, Peace and Economics",
+          "image_url_question": null,
+          "created_at": "2020-01-29T10:39:24.340918-05:00",
+          "updated_at": "2020-01-29T10:39:24.340918-05:00",
+          "image_url_answer": null
+        }
       ]
     },
     {
-      "deck_id": 9,
-      "user_id": 8,
-      "deck_name": "New Decks",
+      "deck_id": 8,
+      "user_id": 5,
+      "deck_name": "rich",
       "public": false,
-      "created_at": "2020-01-13T17:10:54.290Z",
-      "updated_at": "2020-01-13T17:10:54.290Z",
-      "tags": [
-        "Accounting & Finance",
-        "Aeronautical & Manufacturing Engineering",
-        "Agriculture & Forestry",
-        "American Studies"
-      ]
+      "created_at": "2020-01-30T08:58:24.174Z",
+      "updated_at": "2020-01-30T08:58:24.174Z",
+      "tags": [null],
+      "flashcards": [null]
     }
   ]
 }
@@ -448,11 +470,41 @@ Response body:
       "user_id": 1,
       "deck_name": "Statistical Learning",
       "public": true,
-      "created_at": "2020-01-13T15:49:59.080Z",
-      "updated_at": "2020-01-13T15:49:59.080Z",
+      "created_at": "2020-01-29T15:39:24.335Z",
+      "updated_at": "2020-01-29T15:39:24.335Z",
       "tags": [
-        "Accounting & Finance",
-        "Aeronautical & Manufacturing Engineering"
+        {
+          "id": 1,
+          "name": "Accounting & Finance"
+        },
+        {
+          "id": 2,
+          "name": "Aeronautical & Manufacturing Engineering"
+        }
+      ],
+      "flashcards": [
+        {
+          "id": 1,
+          "deck_id": 1,
+          "user_id": 1,
+          "question": "What is data mining?",
+          "answer": "Its when biotech and infotech merge and people become data mines",
+          "image_url_question": null,
+          "created_at": "2020-01-08T05:44:38.761-05:00",
+          "updated_at": "2020-01-08T05:44:38.761-05:00",
+          "image_url_answer": null
+        },
+        {
+          "id": 2,
+          "deck_id": 1,
+          "user_id": 1,
+          "question": "Hey Anna hehe sup",
+          "answer": "How you doing?",
+          "image_url_question": null,
+          "created_at": "2020-01-08T05:45:05.269-05:00",
+          "updated_at": "2020-01-08T05:45:05.269-05:00",
+          "image_url_answer": null
+        }
       ]
     },
     {
@@ -460,36 +512,220 @@ Response body:
       "user_id": 3,
       "deck_name": "Technology ",
       "public": true,
-      "created_at": "2020-01-13T15:49:59.080Z",
-      "updated_at": "2020-01-13T15:49:59.080Z",
-      "tags": ["Anthropology", "Archaeology"]
+      "created_at": "2020-01-29T15:39:24.335Z",
+      "updated_at": "2020-01-29T15:39:24.335Z",
+      "tags": [
+        {
+          "id": 6,
+          "name": "Anthropology"
+        },
+        {
+          "id": 7,
+          "name": "Archaeology"
+        }
+      ],
+      "flashcards": [
+        {
+          "id": 5,
+          "deck_id": 3,
+          "user_id": 3,
+          "question": "In which decade was the American Institute of Electrical Engineers (AIEE) founded?",
+          "answer": "1880s",
+          "image_url_question": null,
+          "created_at": "2020-01-29T10:39:24.340918-05:00",
+          "updated_at": "2020-01-29T10:39:24.340918-05:00",
+          "image_url_answer": null
+        },
+        {
+          "id": 6,
+          "deck_id": 3,
+          "user_id": 3,
+          "question": "What is part of a database that holds only one type of information?",
+          "answer": "Field",
+          "image_url_question": null,
+          "created_at": "2020-01-29T10:39:24.340918-05:00",
+          "updated_at": "2020-01-29T10:39:24.340918-05:00",
+          "image_url_answer": null
+        }
+      ]
     },
     {
       "deck_id": 4,
       "user_id": 4,
       "deck_name": "Biology ",
       "public": true,
-      "created_at": "2020-01-13T15:49:59.080Z",
-      "updated_at": "2020-01-13T15:49:59.080Z",
-      "tags": ["Architecture", "Art & Design"]
+      "created_at": "2020-01-29T15:39:24.335Z",
+      "updated_at": "2020-01-29T15:39:24.335Z",
+      "tags": [
+        {
+          "id": 8,
+          "name": "Architecture"
+        },
+        {
+          "id": 9,
+          "name": "Art & Design"
+        }
+      ],
+      "flashcards": [
+        {
+          "id": 7,
+          "deck_id": 4,
+          "user_id": 4,
+          "question": "Ordinary table salt is sodium chloride. What is baking soda?",
+          "answer": "Sodium bicarbonate",
+          "image_url_question": null,
+          "created_at": "2020-01-29T10:39:24.340918-05:00",
+          "updated_at": "2020-01-29T10:39:24.340918-05:00",
+          "image_url_answer": null
+        },
+        {
+          "id": 8,
+          "deck_id": 4,
+          "user_id": 4,
+          "question": "Plants receive their nutrients from the?",
+          "answer": "Sun",
+          "image_url_question": null,
+          "created_at": "2020-01-29T10:39:24.340918-05:00",
+          "updated_at": "2020-01-29T10:39:24.340918-05:00",
+          "image_url_answer": null
+        }
+      ]
     },
     {
       "deck_id": 5,
       "user_id": 5,
       "deck_name": "Basic General Knowledge",
       "public": true,
-      "created_at": "2020-01-13T15:49:59.080Z",
-      "updated_at": "2020-01-13T15:49:59.080Z",
-      "tags": ["Aural & Oral Sciences", "Biological Sciences"]
+      "created_at": "2020-01-29T15:39:24.335Z",
+      "updated_at": "2020-01-29T15:39:24.335Z",
+      "tags": [
+        {
+          "id": 10,
+          "name": "Aural & Oral Sciences"
+        },
+        {
+          "id": 11,
+          "name": "Biological Sciences"
+        }
+      ],
+      "flashcards": [
+        {
+          "id": 9,
+          "deck_id": 5,
+          "user_id": 5,
+          "question": "Grand Central Terminal, Park Avenue, New York is the world...?",
+          "answer": "largest railway station",
+          "image_url_question": "https://res.cloudinary.com/quick-decks/image/upload/v1580472083/flashcard_front_13.jpg",
+          "created_at": "2020-01-29T10:39:24.340918-05:00",
+          "updated_at": "2020-01-29T10:39:24.340918-05:00",
+          "image_url_answer": "https://res.cloudinary.com/quick-decks/image/upload/v1580472154/flashcard_front_13.png"
+        },
+        {
+          "id": 10,
+          "deck_id": 5,
+          "user_id": 5,
+          "question": "For which of the following disciplines is Nobel Prize awarded?",
+          "answer": "Physics and Chemistry, Physiology or Medicine, Literature, Peace and Economics",
+          "image_url_question": null,
+          "created_at": "2020-01-29T10:39:24.340918-05:00",
+          "updated_at": "2020-01-29T10:39:24.340918-05:00",
+          "image_url_answer": null
+        }
+      ]
     },
     {
       "deck_id": 6,
       "user_id": 6,
       "deck_name": "Famous Personalities",
       "public": true,
-      "created_at": "2020-01-13T15:49:59.080Z",
-      "updated_at": "2020-01-13T15:49:59.080Z",
-      "tags": ["Building", "Business & Management Studies"]
+      "created_at": "2020-01-29T15:39:24.335Z",
+      "updated_at": "2020-01-29T15:39:24.335Z",
+      "tags": [
+        {
+          "id": 12,
+          "name": "Building"
+        },
+        {
+          "id": 13,
+          "name": "Business & Management Studies"
+        }
+      ],
+      "flashcards": [
+        {
+          "id": 11,
+          "deck_id": 6,
+          "user_id": 6,
+          "question": "Who is the father of Geometry?",
+          "answer": "Euclid",
+          "image_url_question": null,
+          "created_at": "2020-01-29T10:39:24.340918-05:00",
+          "updated_at": "2020-01-29T10:39:24.340918-05:00",
+          "image_url_answer": null
+        },
+        {
+          "id": 12,
+          "deck_id": 6,
+          "user_id": 6,
+          "question": "The Indian to beat the computers in mathematical wizardry is",
+          "answer": "Shakunthala Devi",
+          "image_url_question": null,
+          "created_at": "2020-01-29T10:39:24.340918-05:00",
+          "updated_at": "2020-01-29T10:39:24.340918-05:00",
+          "image_url_answer": null
+        }
+      ]
+    },
+    {
+      "deck_id": 5,
+      "user_id": 5,
+      "deck_name": "Basic General Knowledge",
+      "public": true,
+      "created_at": "2020-01-29T15:39:24.335Z",
+      "updated_at": "2020-01-29T15:39:24.335Z",
+      "tags": [
+        {
+          "id": 10,
+          "name": "Aural & Oral Sciences"
+        },
+        {
+          "id": 11,
+          "name": "Biological Sciences"
+        }
+      ],
+      "flashcards": [
+        {
+          "id": 9,
+          "deck_id": 5,
+          "user_id": 5,
+          "question": "Grand Central Terminal, Park Avenue, New York is the world...?",
+          "answer": "largest railway station",
+          "image_url_question": "https://res.cloudinary.com/quick-decks/image/upload/v1580472083/flashcard_front_13.jpg",
+          "created_at": "2020-01-29T10:39:24.340918-05:00",
+          "updated_at": "2020-01-29T10:39:24.340918-05:00",
+          "image_url_answer": "https://res.cloudinary.com/quick-decks/image/upload/v1580472154/flashcard_front_13.png"
+        },
+        {
+          "id": 10,
+          "deck_id": 5,
+          "user_id": 5,
+          "question": "For which of the following disciplines is Nobel Prize awarded?",
+          "answer": "Physics and Chemistry, Physiology or Medicine, Literature, Peace and Economics",
+          "image_url_question": null,
+          "created_at": "2020-01-29T10:39:24.340918-05:00",
+          "updated_at": "2020-01-29T10:39:24.340918-05:00",
+          "image_url_answer": null
+        }
+      ]
+    },
+    {
+      "deck_id": 8,
+      "user_id": 5,
+      "deck_name": "rich",
+      "public": false,
+      "created_at": "2020-01-30T08:58:24.174Z",
+      "updated_at": "2020-01-30T08:58:24.174Z",
+      "tags": [null],
+      "flashcards": [null]
     }
   ]
 }
@@ -663,18 +899,43 @@ Response body:
       "user_id": 5,
       "deck_name": "Basic General Knowledge",
       "public": true,
-      "created_at": "2020-01-16T19:12:08.774Z",
-      "updated_at": "2020-01-16T19:12:08.774Z",
-      "accessed_time": "2020-01-16T19:34:09.450Z"
+      "created_at": "2020-01-29T15:39:24.335Z",
+      "updated_at": "2020-01-29T15:39:24.335Z",
+      "accessed_time": "2020-01-29T15:39:24.357Z",
+      "flashcards": [
+        {
+          "id": 9,
+          "deck_id": 5,
+          "user_id": 5,
+          "question": "Grand Central Terminal, Park Avenue, New York is the world...?",
+          "answer": "largest railway station",
+          "image_url_question": "https://res.cloudinary.com/quick-decks/image/upload/v1580472083/flashcard_front_13.jpg",
+          "created_at": "2020-01-29T10:39:24.340918-05:00",
+          "updated_at": "2020-01-29T10:39:24.340918-05:00",
+          "image_url_answer": "https://res.cloudinary.com/quick-decks/image/upload/v1580472154/flashcard_front_13.png"
+        },
+        {
+          "id": 10,
+          "deck_id": 5,
+          "user_id": 5,
+          "question": "For which of the following disciplines is Nobel Prize awarded?",
+          "answer": "Physics and Chemistry, Physiology or Medicine, Literature, Peace and Economics",
+          "image_url_question": null,
+          "created_at": "2020-01-29T10:39:24.340918-05:00",
+          "updated_at": "2020-01-29T10:39:24.340918-05:00",
+          "image_url_answer": null
+        }
+      ]
     },
     {
-      "deck_id": 5,
+      "deck_id": 8,
       "user_id": 5,
-      "deck_name": "Basic General Knowledge",
-      "public": true,
-      "created_at": "2020-01-16T19:12:08.774Z",
-      "updated_at": "2020-01-16T19:12:08.774Z",
-      "accessed_time": "2020-01-16T19:34:09.483Z"
+      "deck_name": "rich",
+      "public": false,
+      "created_at": "2020-01-30T08:58:24.174Z",
+      "updated_at": "2020-01-30T08:58:24.174Z",
+      "accessed_time": "2020-01-30T08:58:24.185Z",
+      "flashcards": [null]
     }
   ]
 }
@@ -997,21 +1258,21 @@ Response body:
 
 ```json
 {
-    "message": "Fetched leaderboard",
-    "data": [
-        {
-            "user_id": 8,
-            "full_name": "Maaruf Doe",
-            "email": "maaruf@xyz.com",
-            "score": 10
-        },
-        {
-            "user_id": 9,
-            "full_name": "Anna Doe",
-            "email": "anna@xyz.com",
-            "score": 5
-        }
-    ]
+  "message": "Fetched leaderboard",
+  "data": [
+    {
+      "user_id": 8,
+      "full_name": "Maaruf Doe",
+      "email": "maaruf@xyz.com",
+      "score": 10
+    },
+    {
+      "user_id": 9,
+      "full_name": "Anna Doe",
+      "email": "anna@xyz.com",
+      "score": 5
+    }
+  ]
 }
 ```
 
@@ -1023,31 +1284,32 @@ Request body:
 
 ```json
 {
-	"feedback": "Hello there. I love using this app - its so great! Can I send this feedback to you?"
+  "feedback": "Hello there. I love using this app - its so great! Can I send this feedback to you?"
 }
 ```
 
 Response body
 
-```json 
+```json
 {
-    "message": "User feedback sent successfully",
-    "data": {
-        "feedback": "Hello there. I love using this app - its so great! Can I send this feedback to you?"
-    }
+  "message": "User feedback sent successfully",
+  "data": {
+    "feedback": "Hello there. I love using this app - its so great! Can I send this feedback to you?"
+  }
 }
 ```
+
 Required: feedback: string
- 
+
 ## Sessions
 
 #### POST /api/sessions/
 
-Request body: 
+Request body:
 
-```json 
+```json
 {
- "deckId": 5
+  "deckId": 5
 }
 ```
 
