@@ -170,10 +170,21 @@ exports.removeAccessConnection = data => {
 exports.getUserLastAccessed = id => {
   return db('recent_accesses as ra')
     .innerJoin('decks as d', 'd.id', 'ra.deck_id')
+    .leftJoin('flashcards as f', 'd.id', 'f.deck_id')
     .select(
       'd.id as deck_id',
       'd.user_id',
       'd.name as deck_name',
+      'd.public',
+      'd.created_at',
+      'd.updated_at',
+      'ra.accessed_time',
+      db.raw('array_to_json(ARRAY_AGG( DISTINCT f)) as flashcards')
+    )
+    .groupBy(
+      'd.id',
+      'd.user_id',
+      'd.name ',
       'd.public',
       'd.created_at',
       'd.updated_at',
