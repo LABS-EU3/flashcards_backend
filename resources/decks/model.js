@@ -3,6 +3,7 @@ const db = require('../../data/dbConfig.js');
 exports.getAll = () => {
   return db('deck_tags as dt')
     .rightJoin('decks as d', 'd.id', 'dt.deck_id')
+    .leftJoin('flashcards as f', 'f.deck_id', 'd.id')
     .leftJoin('tags as t', 't.id', 'dt.tag_id')
     .select(
       'd.id as deck_id',
@@ -11,7 +12,8 @@ exports.getAll = () => {
       'd.public',
       'd.created_at',
       'd.updated_at',
-      db.raw('ARRAY_AGG( DISTINCT t.name) as tags')
+      db.raw('array_to_json(ARRAY_AGG( DISTINCT t)) as tags'),
+      db.raw('array_to_json(ARRAY_AGG( DISTINCT f)) as flashcards')
     )
     .groupBy(
       'd.id',
@@ -27,6 +29,7 @@ exports.getAll = () => {
 exports.getUserDecks = userId => {
   return db('deck_tags as dt')
     .rightJoin('decks as d', 'd.id', 'dt.deck_id')
+    .leftJoin('flashcards as f', 'f.deck_id', 'd.id')
     .leftJoin('tags as t', 't.id', 'dt.tag_id')
     .select(
       'd.id as deck_id',
@@ -35,7 +38,8 @@ exports.getUserDecks = userId => {
       'd.public',
       'd.created_at',
       'd.updated_at',
-      db.raw('ARRAY_AGG( DISTINCT t.name) as tags')
+      db.raw('array_to_json(ARRAY_AGG( DISTINCT t)) as tags'),
+      db.raw('array_to_json(ARRAY_AGG( DISTINCT f)) as flashcards')
     )
     .groupBy(
       'd.id',
