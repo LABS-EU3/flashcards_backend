@@ -402,7 +402,7 @@ describe('Auth Router', () => {
     });
   });
 
-  describe('Store Profile Image Endpoint', () => {
+  describe('Upload Profile Image Endpoint', () => {
     test('Returns 200 on success', async done => {
       // register the user
       await request(server)
