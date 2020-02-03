@@ -31,10 +31,10 @@ exports.ratingsSchema = joi.object({
     .label('Card Id')
     .required(),
 
-  deck_id: joi
+  session_id: joi
     .number()
     .integer()
-    .label('Deck Id')
+    .label('Session Id')
     .required(),
 
   rating: joi
