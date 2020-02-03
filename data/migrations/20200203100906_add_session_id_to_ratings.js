@@ -1,9 +1,9 @@
 exports.up = function(knex) {
   return knex.schema.table('ratings', table => {
+    //   Nullable because new column with pre-existing data.
     table
       .integer('session_id')
       .unsigned()
-      .notNullable()
       .references('id')
       .inTable('sessions')
       .onDelete('CASCADE');
