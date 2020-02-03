@@ -88,7 +88,7 @@ Request Error ( **400 - Bad Request** || **404 - Not Found** || **403 - Unauthor
 | [PUT /api/decks/:id](#put-apidecksId)                          | Edit deck               |
 | [DELETE /api/decks/:id](#delete-apidecksId)                    | Delete deck             |
 | [GET /api/decks/favorite](#get-apideckstag)                    | Get most used tags      |
-| [GET /api/decks/access/](#put-apidecksaccess)                  | 10 decks last accessed  |
+| [GET /api/decks/access/](#put-apidecksaccess)                  | 3  decks last accessed  |
 | [PUT /api/decks/access/:id](#put-apidecksaccessId)             | Update deck access time |
 | [DELETE /api/decks/access/:id](#put-apidecksaccessId)          | Remove accessed entry   |
 | -------------------------------------------------------------- | ----------------------  |
@@ -108,7 +108,7 @@ Request Error ( **400 - Bad Request** || **404 - Not Found** || **403 - Unauthor
 | [DELETE /api/users](#delete-apideleteuser)                     | Delete User             |
 | -------------------------------------------------------------- | ----------------------  |
 | [POST /api/sessions](#post-apisessions)                        | Create session          |
-| [GET /api/sessions](#get-apisessions)                          | All sessions of User    |
+| [GET /api/sessions](#get-apisessions)                          |3    sessions of User    |
 | [GET /api/sessions/:id](#get-apisessionsId)                    | View one session        |
 | [PUT /api/sessions/:id](#put-apisessionsId)                    | Edit session            |
 | [DELETE /api/sessions/:id](#delete-apisessionsId)              | Delete session          |

@@ -60,13 +60,6 @@ exports.deleteSession = id => {
     .del();
 };
 
-exports.updateSession = (id, sessionData) => {
-  const updateFields = Object.keys(sessionData);
-  return db('sessions')
-    .where({ id })
-    .update(sessionData, updateFields);
-};
-
 exports.getAllSessionsByUser = userId => {
   return db('sessions as s')
     .leftJoin('sessions_tracker as st', 'st.session_id', 's.id')
@@ -83,7 +76,7 @@ exports.getAllSessionsByUser = userId => {
     .groupBy('s.id', 's.deck_id', 's.user_id', 's.isCompleted', 's.last_used')
     .where({ 's.user_id': userId })
     .orderBy('s.last_used', 'asc')
-    .limit(15);
+    .limit(3);
 };
 
 exports.markCardReviewed = data => {

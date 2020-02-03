@@ -2,7 +2,6 @@ const {
   findSessionById,
   createSession,
   deleteSession,
-  updateSession,
   getAllSessionsByUser,
   markCardReviewed,
   lastUsedSession,
@@ -98,11 +97,15 @@ exports.modifySession = async (req, res) => {
       );
     }
     if (isCompleted) {
-      await updateSession(id, { isCompleted });
+      await deleteSession(id);
+      res.status(200).json({
+        message: `User successfully completed a session, session is removed`,
+      });
+    } else {
+      await lastUsedSession(id);
+      const session = await findSessionById(id);
+      res.status(200).json({ session });
     }
-    await lastUsedSession(id);
-    const session = await findSessionById(id);
-    res.status(200).json({ session });
   } catch (error) {
     res
       .status(500)

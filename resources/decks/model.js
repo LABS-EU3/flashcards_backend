@@ -192,5 +192,5 @@ exports.getUserLastAccessed = id => {
     )
     .where({ 'ra.user_id': id })
     .orderBy('ra.accessed_time', 'asc')
-    .limit(10);
+    .limit(3);
 };
