@@ -7,6 +7,8 @@ const {
   scoreCard,
 } = require('./model');
 
+const { markCardReviewed } = require('../sessions/model');
+
 exports.fetchAllCardsByUser = async (req, res) => {
   const { subject } = req.decodedToken;
 
@@ -123,6 +125,7 @@ exports.rateCard = async (req, res) => {
   };
 
   try {
+    await markCardReviewed({ session_id, card_id });
     const result = await scoreCard(scoreObject);
     if (result > 0) {
       res.status(201).json({
