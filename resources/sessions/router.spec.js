@@ -16,7 +16,7 @@ let cardId;
 let session;
 
 beforeEach(async done => {
-  await db.raw('TRUNCATE TABLE users, decks, flashcards CASCADE');
+  await db.raw('TRUNCATE TABLE users, decks, flashcards, sessions CASCADE');
   await db.seed.run({
     specific: '03-tags-data.js',
   });
