@@ -6,7 +6,7 @@ const {
 const { getCardById } = require('../flashcards/model');
 const { findById } = require('../decks/model');
 
-exports.sesssionExists = async (req, res, next) => {
+exports.sessionExists = async (req, res, next) => {
   const { id } = req.params;
   try {
     const sessionExists = await findSessionById(id);

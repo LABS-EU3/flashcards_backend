@@ -12,7 +12,7 @@ const {
   cardExists,
   deckExists,
   cardAlreadyMarked,
-  sesssionExists,
+  sessionExists,
   cardBelongsToDeck,
   preventDuplicateIncompleteSessions,
 } = require('./middleware');
@@ -28,17 +28,17 @@ sessionRouter.post(
   makeSession
 );
 
-sessionRouter.get('/:id', sesssionExists, fetchSessionById);
+sessionRouter.get('/:id', sessionExists, fetchSessionById);
 
 sessionRouter.put(
   '/:id',
-  sesssionExists,
+  sessionExists,
   cardExists,
   cardAlreadyMarked,
   cardBelongsToDeck,
   modifySession
 );
 
-sessionRouter.delete('/:id', sesssionExists, removeSession);
+sessionRouter.delete('/:id', sessionExists, removeSession);
 
 module.exports = sessionRouter;
