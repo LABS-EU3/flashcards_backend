@@ -10,7 +10,7 @@
     "server": "nodemon index.js ",
     "lint": "eslint . --ext .js",
     "lint-fix": "eslint . --ext .js --fix",
-    "migrate-dev": "npx knex migrate:rollback && npx knex migrate:latest",
+    "migrate-dev": "npx knex migrate:rollback --all && npx knex migrate:latest",
     "seed": "npx knex seed:run"
   },
   "jest": {
