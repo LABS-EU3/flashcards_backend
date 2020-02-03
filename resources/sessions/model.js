@@ -60,13 +60,6 @@ exports.deleteSession = id => {
     .del();
 };
 
-exports.updateSession = (id, sessionData) => {
-  const updateFields = Object.keys(sessionData);
-  return db('sessions')
-    .where({ id })
-    .update(sessionData, updateFields);
-};
-
 exports.getAllSessionsByUser = userId => {
   return db('sessions as s')
     .leftJoin('sessions_tracker as st', 'st.session_id', 's.id')
