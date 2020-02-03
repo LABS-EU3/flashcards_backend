@@ -62,8 +62,10 @@ exports.getAllSessionsByUser = userId => {
   return db('sessions as s')
     .leftJoin('sessions_tracker as st', 'st.session_id', 's.id')
     .leftJoin('flashcards as f', 'f.deck_id', 's.deck_id')
+    .leftJoin('decks as d', 'd.id', 's.deck_id')
     .select(
       's.id',
+      'd.name',
       's.deck_id',
       's.user_id',
       's.isCompleted',
@@ -71,7 +73,14 @@ exports.getAllSessionsByUser = userId => {
       db.raw('array_to_json(ARRAY_AGG( DISTINCT st)) as reviewed_cards'),
       db.raw('array_to_json(ARRAY_AGG( DISTINCT f)) as flashcards')
     )
-    .groupBy('s.id', 's.deck_id', 's.user_id', 's.isCompleted', 's.last_used')
+    .groupBy(
+      's.id',
+      'd.name',
+      's.deck_id',
+      's.user_id',
+      's.isCompleted',
+      's.last_used'
+    )
     .where({ 's.user_id': userId })
     .orderBy('s.last_used', 'asc')
     .limit(15);
