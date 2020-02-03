@@ -115,12 +115,13 @@ exports.rateCard = async (req, res) => {
   const { subject } = req.decodedToken;
 
   // eslint-disable-next-line camelcase
-  const { card_id, deck_id, rating } = req.body;
+  const { card_id, deck_id, session_id, rating } = req.body;
 
   const scoreObject = {
     user_id: subject,
     card_id,
     deck_id,
+    session_id,
     rating,
   };
 

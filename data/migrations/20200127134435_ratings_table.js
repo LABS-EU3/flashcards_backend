@@ -23,7 +23,8 @@ exports.up = function(knex) {
 
     table.integer('rating').notNullable();
 
-    table.primary(['user_id', 'card_id']);
+    // table.primary(['user_id', 'card_id']);
+    table.increments();
   });
 };
 
