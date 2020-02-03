@@ -7,6 +7,7 @@ exports.up = function(knex) {
       .notNullable()
       .references('id')
       .inTable('users')
+      .onUpdate('CASCADE')
       .onDelete('CASCADE');
     table
       .integer('deck_id')
@@ -14,6 +15,7 @@ exports.up = function(knex) {
       .notNullable()
       .references('id')
       .inTable('decks')
+      .onUpdate('CASCADE')
       .onDelete('CASCADE');
     table.boolean('isCompleted').defaultTo(false);
     table.timestamp('last_used').defaultTo(knex.fn.now());

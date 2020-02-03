@@ -83,7 +83,7 @@ exports.getAllSessionsByUser = userId => {
     .groupBy('s.id', 's.deck_id', 's.user_id', 's.isCompleted', 's.last_used')
     .where({ 's.user_id': userId })
     .orderBy('s.last_used', 'asc')
-    .limit(15);
+    .limit(3);
 };
 
 exports.markCardReviewed = data => {

@@ -7,6 +7,7 @@ exports.up = function(knex) {
       .notNullable()
       .references('id')
       .inTable('sessions')
+      .onUpdate('CASCADE')
       .onDelete('CASCADE');
     table
       .integer('card_id')
@@ -14,6 +15,7 @@ exports.up = function(knex) {
       .notNullable()
       .references('id')
       .inTable('flashcards')
+      .onUpdate('CASCADE')
       .onDelete('CASCADE');
   });
 };

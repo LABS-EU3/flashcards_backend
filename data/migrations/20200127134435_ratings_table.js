@@ -5,21 +5,27 @@ exports.up = function(knex) {
       .unsigned()
       .notNullable()
       .references('id')
-      .inTable('users');
+      .inTable('users')
+      .onUpdate('CASCADE')
+      .onDelete('CASCADE');
 
     table
       .integer('card_id')
       .unsigned()
       .notNullable()
       .references('id')
-      .inTable('flashcards');
+      .inTable('flashcards')
+      .onUpdate('CASCADE')
+      .onDelete('CASCADE');
 
     table
       .integer('deck_id')
       .unsigned()
       .notNullable()
       .references('id')
-      .inTable('decks');
+      .inTable('decks')
+      .onUpdate('CASCADE')
+      .onDelete('CASCADE');
 
     table.integer('rating').notNullable();
 

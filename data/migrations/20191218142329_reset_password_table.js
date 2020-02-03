@@ -4,7 +4,9 @@ exports.up = function(knex) {
     table
       .integer('user_id')
       .references('id')
-      .inTable('users');
+      .inTable('users')
+      .onUpdate('CASCADE')
+      .onDelete('CASCADE');
     table
       .string('token')
       .notNullable()
