@@ -1,6 +1,6 @@
 exports.up = function(knex) {
   return knex.schema.table('ratings', table => {
-    table.dropColumns('deck_id', 'user_id');
+    table.dropColumns('deck_id');
     table
       .integer('session_id')
       .unsigned()
