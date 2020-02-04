@@ -6,6 +6,12 @@ const BACKEND_HOST = process.env.HOST;
 const frontEndSite =
   process.env.FRONTEND_SITE || `https://site.quickdecksapp.com/`;
 const EMAIL_SECRET = process.env.EMAIL_SECRET || `emailSecret`;
+const {
+  GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET,
+  GOOGLE_FRONTEND_REDIRCT,
+  GOOGLE_BACKEND_BASEURL,
+} = process.env;
 
 module.exports = {
   port,
@@ -15,4 +21,8 @@ module.exports = {
   BACKEND_HOST,
   frontEndSite,
   EMAIL_SECRET,
+  GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET,
+  GOOGLE_FRONTEND_REDIRCT,
+  GOOGLE_BACKEND_BASEURL,
 };

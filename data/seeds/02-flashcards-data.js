@@ -10,9 +10,6 @@ exports.seed = function(knex) {
           question: 'What is data mining?',
           answer:
             'Its when biotech and infotech merge and people become data mines',
-          image_url:
-            // eslint-disable-next-line max-len
-            'https://i.kinja-img.com/gawker-media/image/upload/c_fit,f_auto,fl_progressive,q_80,w_470/17irehr1akl9yjpg.jpg',
           created_at: '2020-01-08T10:44:38.761Z',
           updated_at: '2020-01-08T10:44:38.761Z',
         },
@@ -21,7 +18,6 @@ exports.seed = function(knex) {
           user_id: 1,
           question: 'Hey Anna hehe sup',
           answer: 'How you doing?',
-          image_url: null,
           created_at: '2020-01-08T10:45:05.269Z',
           updated_at: '2020-01-08T10:45:05.269Z',
         },
@@ -30,7 +26,6 @@ exports.seed = function(knex) {
           user_id: 2,
           question: 'Which of the following is used in pencils?',
           answer: 'Graphite',
-          image_url: null,
         },
         {
           deck_id: 2,
@@ -38,7 +33,6 @@ exports.seed = function(knex) {
           question:
             'Brass gets discoloured in air because of the presence of which of the following gases in air?',
           answer: 'Hydrogen sulphide',
-          image_url: null,
         },
         {
           deck_id: 3,
@@ -46,7 +40,6 @@ exports.seed = function(knex) {
           question:
             'In which decade was the American Institute of Electrical Engineers (AIEE) founded?',
           answer: '1880s',
-          image_url: null,
         },
         {
           deck_id: 3,
@@ -54,7 +47,6 @@ exports.seed = function(knex) {
           question:
             'What is part of a database that holds only one type of information?',
           answer: 'Field',
-          image_url: null,
         },
         {
           deck_id: 4,
@@ -62,14 +54,12 @@ exports.seed = function(knex) {
           question:
             'Ordinary table salt is sodium chloride. What is baking soda?',
           answer: 'Sodium bicarbonate',
-          image_url: null,
         },
         {
           deck_id: 4,
           user_id: 4,
           question: 'Plants receive their nutrients from the?',
           answer: 'Sun',
-          image_url: null,
         },
         {
           deck_id: 5,
@@ -77,7 +67,6 @@ exports.seed = function(knex) {
           question:
             'Grand Central Terminal, Park Avenue, New York is the world...?',
           answer: 'largest railway station',
-          image_url: null,
         },
         {
           deck_id: 5,
@@ -86,14 +75,12 @@ exports.seed = function(knex) {
             'For which of the following disciplines is Nobel Prize awarded?',
           answer:
             'Physics and Chemistry, Physiology or Medicine, Literature, Peace and Economics',
-          image_url: null,
         },
         {
           deck_id: 6,
           user_id: 6,
           question: 'Who is the father of Geometry?',
           answer: 'Euclid',
-          image_url: null,
         },
         {
           deck_id: 6,
@@ -101,14 +88,12 @@ exports.seed = function(knex) {
           question:
             'The Indian to beat the computers in mathematical wizardry is',
           answer: 'Shakunthala Devi',
-          image_url: null,
         },
         {
           deck_id: 7,
           user_id: 7,
           question: 'here is my question answer me',
           answer: 'here is my answer question me',
-          image_url: null,
         },
       ]);
     });

@@ -67,3 +67,9 @@ exports.confirmEmail = id => {
       return this.filter({ id: userId });
     });
 };
+
+exports.updateImageUrl = async (id, imgUrl) => {
+  return db('users')
+    .where({ id })
+    .update('image_url', imgUrl);
+};

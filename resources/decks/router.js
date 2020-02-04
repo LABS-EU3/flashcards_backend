@@ -7,9 +7,13 @@ const {
   deleteDeck,
   updateDeck,
   getAllDecks,
+  getFavoriteTags,
+  accessDeck,
+  recentlyAccessed,
+  removeAccessed,
 } = require('./controller');
 const validate = require('../../utils/validate');
-const { deckSchema } = require('./schema');
+const { deckSchema, editDeckSchema } = require('./schema');
 const {
   deckExists,
   tagsExists,
@@ -18,16 +22,20 @@ const {
 } = require('./middlewares');
 const { checkId } = require('../global/middlewares');
 
+router.get('/access', recentlyAccessed);
+router.put('/access/:id', deckExists, accessDeck);
+router.delete('/access/:id', deckExists, removeAccessed);
 router.post('/', validate(deckSchema), tagsExists, addDeck);
 router.get('/', getUsersDecks);
+router.get('/favorite', getFavoriteTags);
 router.get('/public', getAllDecks);
 router.get('/:id', checkId, deckExists, getDeck);
 router.put(
   '/:id',
-  validate(deckSchema),
-  userOwnsDeck,
-  checkId,
+  validate(editDeckSchema),
   deckExists,
+  checkId,
+  userOwnsDeck,
   tagsExists,
   preventDuplicateTags,
   updateDeck

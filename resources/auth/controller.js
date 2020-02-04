@@ -1,10 +1,11 @@
+/* eslint-disable no-underscore-dangle */
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
-
+const jwt = require('jsonwebtoken');
 const model = require('./model');
 const generateToken = require('../../utils/generateToken');
 const { welcomeText } = require('../../utils/constants');
-const { EMAIL_SECRET } = require('../../config');
+const { EMAIL_SECRET, GOOGLE_FRONTEND_REDIRCT } = require('../../config');
 const emailTemplate = require('../../templates/confirmEmail');
 const resetPasswordTemplate = require('../../templates/forgotPassword');
 const sendEmail = require('../../utils/sendEmail');
@@ -27,7 +28,7 @@ exports.signup = async (req, res) => {
 
     const emailToken = generateToken(userCreated, EMAIL_SECRET);
 
-    sendEmail(welcomeText, email, emailTemplate(fullName, emailToken));
+    sendEmail(welcomeText, email, emailTemplate(fullName, emailToken), null);
 
     res.status(201).json({
       message: `User created successfully`,
@@ -65,7 +66,6 @@ exports.login = async (req, res) => {
     res.status(500).json({ message: `Failed to log user in` });
   }
 };
-
 exports.forgotPassword = async (req, res) => {
   try {
     const passwordResetToken = crypto.randomBytes(20).toString('hex');
@@ -81,7 +81,8 @@ exports.forgotPassword = async (req, res) => {
     sendEmail(
       'Forgot Password - QuickDecks',
       resetRequestEmail,
-      resetPasswordTemplate(resetRequestEmail, passwordResetToken)
+      resetPasswordTemplate(resetRequestEmail, passwordResetToken),
+      null
     );
     res.status(200).json({ message: `Password reset link sent to your email` });
   } catch (error) {
@@ -127,5 +128,70 @@ exports.viewProfile = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ message: `Error loading profile ${error.message}` });
+  }
+};
+
+exports.uploadProfileImg = async (req, res) => {
+  try {
+    const { subject } = req.decodedToken;
+    const { imageUrl } = req.body;
+    await model.updateImageUrl(subject, imageUrl);
+    res.status(200).json({
+      message: 'Profile image uploaded successfully',
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: `Error uploading profile image ${error.message}` });
+  }
+};
+
+exports.authGoogle = async (req, res) => {
+  try {
+    const { user } = req._passport.session;
+    const token = await generateToken(user);
+    res.status(200).redirect(`${GOOGLE_FRONTEND_REDIRCT}${token}`);
+  } catch (error) {
+    res.status(401).json({
+      message: `Error authenticating via google ${error.message}`,
+    });
+  }
+};
+
+exports.completeGoogleAuth = async (req, res) => {
+  try {
+    const { token } = req.params;
+    const decodedToken = jwt.decode(token);
+    const userId = decodedToken.subject;
+    const foundUser = await model.filter({ id: userId });
+    res.status(200).json({
+      message: `Welcome. You're logged in!`,
+      data: { token, user: foundUser },
+    });
+  } catch (error) {
+    res.status(401).json({ message: `Failed to complete authorization` });
+  }
+};
+
+exports.updatePassword = async (req, res) => {
+  try {
+    const { oldPassword, newPassword } = req.body;
+    const { subject } = req.decodedToken;
+
+    const user = await model.findBy({ id: subject });
+
+    const isOldPasswordValid = bcrypt.compareSync(oldPassword, user.password);
+
+    if (!isOldPasswordValid) {
+      res.status(400).json({ message: 'Old password is invalid' });
+      res.end();
+    } else {
+      const hashedPassword = bcrypt.hashSync(newPassword, 10);
+
+      await model.changePassword(subject, hashedPassword);
+      res.status(200).json({ message: 'Password successfully updated' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };

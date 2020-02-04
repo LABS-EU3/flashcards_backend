@@ -20,10 +20,13 @@ exports.tagsExists = async (req, res, next) => {
     const results = await Promise.all(
       removeTags.map(async tag => {
         const tagObject = await findTagById(tag);
-        if (Object.getOwnPropertyNames(tagObject).length < 2) {
-          return 1;
+        if (tagObject) {
+          if (Object.getOwnPropertyNames(tagObject).length < 2) {
+            return 1;
+          }
+          return undefined;
         }
-        return undefined;
+        return 1;
       })
     );
     error = results.find(result => result === 1);
@@ -32,10 +35,13 @@ exports.tagsExists = async (req, res, next) => {
     const results = await Promise.all(
       addTags.map(async tag => {
         const tagObject = await findTagById(tag);
-        if (Object.getOwnPropertyNames(tagObject).length < 2) {
-          return 1;
+        if (tagObject) {
+          if (Object.getOwnPropertyNames(tagObject).length < 2) {
+            return 1;
+          }
+          return undefined;
         }
-        return undefined;
+        return 1;
       })
     );
     error = results.find(result => result === 1);
@@ -68,11 +74,11 @@ exports.preventDuplicateTags = async (req, res, next) => {
     if (hasTags === undefined) {
       return next();
     }
-    return res.status(500).json({
+    return res.status(400).json({
       message: `One of your tags already exists`,
     });
   } catch (error) {
-    return res.status(500).json({
+    return res.status(400).json({
       message: `One of your tags are not valid`,
     });
   }
@@ -81,18 +87,19 @@ exports.preventDuplicateTags = async (req, res, next) => {
 exports.userOwnsDeck = async (req, res, next) => {
   const { subject } = req.decodedToken;
   const { id } = req.params;
+
   try {
     const deck = await findById(id);
     if (deck.user_id === subject) {
       next();
     } else {
-      res.status(500).json({
+      res.status(401).json({
         message: `You do not own this deck to make changes to it`,
       });
     }
   } catch (error) {
-    res.status(500).json({
-      message: `This deck does not exists`,
+    res.status(401).json({
+      message: `You do not own this deck to make changes to it`,
     });
   }
 };

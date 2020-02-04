@@ -1,5 +1,5 @@
 exports.up = function(knex) {
-  return knex.schema.createTable('reset_password', table => {
+  return knex.schema.createTable('ranking', table => {
     table.increments();
     table
       .integer('user_id')
@@ -7,14 +7,10 @@ exports.up = function(knex) {
       .inTable('users')
       .onUpdate('CASCADE')
       .onDelete('CASCADE');
-    table
-      .string('token')
-      .notNullable()
-      .unique();
-    table.boolean('active');
+    table.integer('score');
   });
 };
 
 exports.down = function(knex) {
-  return knex.schema.dropTableIfExists('reset_password');
+  return knex.schema.dropTableIfExists('ranking');
 };

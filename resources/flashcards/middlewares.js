@@ -1,4 +1,4 @@
-const { getCardById } = require('./model');
+const { getCardById, checkCardIsRated } = require('./model');
 
 exports.cardExists = async (req, res, next) => {
   const { id } = req.params;
@@ -33,4 +33,17 @@ exports.userOwnsCard = async (req, res, next) => {
   return res.status(404).json({
     message: 'Flashcard does not exist',
   });
+};
+
+exports.cardIsRated = async (req, res, next) => {
+  const isRated = await checkCardIsRated({
+    sessionId: req.body.session_id,
+    cardId: req.body.card_id,
+  });
+
+  if (isRated)
+    res.status(404).json({ message: 'User has already rated this card' });
+  else {
+    next();
+  }
 };
