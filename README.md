@@ -1151,10 +1151,11 @@ Response body:
   "data": [
     {
       "id": 4,
+      "name": "Biology ",
       "deck_id": 4,
       "user_id": 4,
       "isCompleted": false,
-      "last_used": "2020-02-03T09:21:15.211Z",
+      "last_used": "2020-02-04T10:05:26.158Z",
       "reviewed_cards": [
         {
           "id": 4,
@@ -1166,12 +1167,12 @@ Response body:
         {
           "id": 7,
           "deck_id": 4,
-          "user_id": 4, 
+          "user_id": 4,
           "question": "Ordinary table salt is sodium chloride. What is baking soda?",
           "answer": "Sodium bicarbonate",
           "image_url_question": null,
-          "created_at": "2020-02-03T04:21:15.188077-05:00",
-          "updated_at": "2020-02-03T04:21:15.188077-05:00",
+          "created_at": "2020-02-04T05:05:26.135926-05:00",
+          "updated_at": "2020-02-04T05:05:26.135926-05:00",
           "image_url_answer": null
         },
         {
@@ -1181,8 +1182,8 @@ Response body:
           "question": "Plants receive their nutrients from the?",
           "answer": "Sun",
           "image_url_question": null,
-          "created_at": "2020-02-03T04:21:15.188077-05:00",
-          "updated_at": "2020-02-03T04:21:15.188077-05:00",
+          "created_at": "2020-02-04T05:05:26.135926-05:00",
+          "updated_at": "2020-02-04T05:05:26.135926-05:00",
           "image_url_answer": null
         }
       ],
@@ -1225,13 +1226,13 @@ Response body:
 
 #### PUT /api/sessions/:id
 
-_**Description**: Edit a session by session Id, you can also send a blank request just to update lastused ._.
+_**Description**: Edit a session by session Id, you can also send a blank request just to update lastused, when send "isCompleted": true, it will remove the session completely ._.
 
 Request body:
 
 ```json
 {
-  "isCompleted": true,
+  
   "cardIds": [10]
 }
 ```
