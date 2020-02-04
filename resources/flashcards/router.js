@@ -11,7 +11,7 @@ const {
 } = require('./controller');
 const { flashCardSchema, ratingsSchema } = require('./flashcardsSchema');
 const validate = require('../../utils/validate');
-const { cardExists, userOwnsCard } = require('./middlewares');
+const { cardExists, userOwnsCard, cardIsRated } = require('./middlewares');
 
 const flashcardsRouter = express.Router();
 
@@ -28,6 +28,11 @@ flashcardsRouter.put(
 );
 flashcardsRouter.delete('/:id', userOwnsCard, cardExists, deleteCard);
 
-flashcardsRouter.post('/scoring', validate(ratingsSchema), rateCard);
+flashcardsRouter.post(
+  '/scoring',
+  cardIsRated,
+  validate(ratingsSchema),
+  rateCard
+);
 
 module.exports = flashcardsRouter;

@@ -5,9 +5,9 @@ const {
   updateCard,
   flashcardOfTheDay,
   scoreCard,
-  rescoreCard,
-  checkCardIsRated,
 } = require('./model');
+
+const { markCardReviewed } = require('../sessions/model');
 
 exports.fetchAllCardsByUser = async (req, res) => {
   const { subject } = req.decodedToken;
@@ -115,39 +115,26 @@ exports.rateCard = async (req, res) => {
   const { subject } = req.decodedToken;
 
   // eslint-disable-next-line camelcase
-  const { card_id, deck_id, rating } = req.body;
+  const { card_id, session_id, rating } = req.body;
 
   const scoreObject = {
     user_id: subject,
     card_id,
-    deck_id,
+    session_id,
     rating,
   };
 
   try {
-    const cardHasPreviousScore = await checkCardIsRated({
-      userId: scoreObject.user_id,
-      cardId: scoreObject.card_id,
-    });
-
-    if (cardHasPreviousScore) {
-      const result = await rescoreCard(scoreObject);
-      if (result > 0) {
-        res.status(200).json({
-          message: `Successfully re-scored`,
-        });
-      }
-    } else {
-      const result = await scoreCard(scoreObject);
-      if (result > 0) {
-        res.status(201).json({
-          message: `Successfully scored`,
-        });
-      }
+    await markCardReviewed({ session_id, card_id });
+    const result = await scoreCard(scoreObject);
+    if (result > 0) {
+      res.status(201).json({
+        message: `Successfully scored`,
+      });
     }
   } catch (error) {
     res.status(500).json({
-      message: `Failed to score card`,
+      message: `Failed to score card ${error}`,
     });
   }
 };

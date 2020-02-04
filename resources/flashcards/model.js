@@ -44,10 +44,10 @@ exports.flashcardOfTheDay = userId => {
     .limit(1);
 };
 
-exports.checkCardIsRated = ({ userId, cardId }) => {
+exports.checkCardIsRated = ({ sessionId, cardId }) => {
   return db('ratings')
     .where({
-      user_id: userId,
+      session_id: sessionId,
       card_id: cardId,
     })
     .first();

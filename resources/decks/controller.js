@@ -135,7 +135,12 @@ exports.recentlyAccessed = async (req, res) => {
   const { subject } = req.decodedToken;
   try {
     const decks = await Decks.getUserLastAccessed(subject);
-    res.status(200).json({ data: decks });
+    const modifiedDecks = decks.map(deck => {
+      const flashcardCount =
+        deck.flashcards[0] === null ? 0 : deck.flashcards.length;
+      return { ...deck, cards_left: flashcardCount };
+    });
+    res.status(200).json({ data: modifiedDecks });
   } catch (error) {
     res.status(500).json({
       message: `Error getting accessed deck: ${error.message}`,

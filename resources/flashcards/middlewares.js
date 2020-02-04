@@ -36,15 +36,14 @@ exports.userOwnsCard = async (req, res, next) => {
 };
 
 exports.cardIsRated = async (req, res, next) => {
-  const { subject } = req.decodedToken;
-
   const isRated = await checkCardIsRated({
-    userId: subject,
+    sessionId: req.body.session_id,
     cardId: req.body.card_id,
   });
 
-  if (isRated) req.isRated = true;
-  else req.isRated = false;
-
-  next();
+  if (isRated)
+    res.status(404).json({ message: 'User has already rated this card' });
+  else {
+    next();
+  }
 };

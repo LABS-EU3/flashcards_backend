@@ -988,7 +988,7 @@ Request body:
 ```json
 {
   "card_id": 1,
-  "deck_id": 3,
+  "session_id": 3,
   "rating": 5
 }
 ```
