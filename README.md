@@ -25,15 +25,27 @@ These instructions will get you a copy of the project up and running on your loc
 
   ```.env
   PORT
-  TEST_DATABASE_URL
   DATABASE_URL
-  SECRET
-  EMAIL_SECRET
-  DB_ENV
-  FRONTEND_SITE
-  NODEMAILER_EMAIL_ADDRESS
+  TEST_DATABASE_URL
   NODEMAILER_EMAIL_PASSWORD
+  NODEMAILER_EMAIL_ADDRESS
+  HOST
+  FRONTEND_SITE
+  EMAIL_SECRE
+  SECRET
+  RESET_PASSWORD_REDIRECT
+  FRONTEND_SITE
+  EMAIL_CONFIRMATION_REDIRECT
+  GOOGLE_CLIENT_ID
+  GOOGLE_CLIENT_SECRET
+  GOOGLE_FRONTEND_REDIRCT
+  GOOGLE_BACKEND_BASEUR
+
   ```
+
+- Set up your database
+  `$npm run migrate-dev`
+  then `npm run seed`
 
 - To start API
   `$ npm start`
@@ -88,7 +100,7 @@ Request Error ( **400 - Bad Request** || **404 - Not Found** || **403 - Unauthor
 | [PUT /api/decks/:id](#put-apidecksId)                          | Edit deck               |
 | [DELETE /api/decks/:id](#delete-apidecksId)                    | Delete deck             |
 | [GET /api/decks/favorite](#get-apideckstag)                    | Get most used tags      |
-| [GET /api/decks/access/](#put-apidecksaccess)                  | 3  decks last accessed  |
+| [GET /api/decks/access/](#put-apidecksaccess)                  | 3 decks last accessed   |
 | [PUT /api/decks/access/:id](#put-apidecksaccessId)             | Update deck access time |
 | [DELETE /api/decks/access/:id](#put-apidecksaccessId)          | Remove accessed entry   |
 | -------------------------------------------------------------- | ----------------------  |
@@ -104,18 +116,15 @@ Request Error ( **400 - Bad Request** || **404 - Not Found** || **403 - Unauthor
 | -------------------------------------------------------------- | ----------------------  |
 | [GET /api/users/:id/score](#get-apiusersIdscore)               | Get single user's score |
 | [GET /api/users/leaderboard](#get-apiusersleaderboard)         | Get top scoring users   |
-| [PUT  /api/users/updateprofile](#update-userprofilename)       | Update Profile          |
+| [PUT /api/users/updateprofile](#update-userprofilename)        | Update Profile          |
 | [DELETE /api/users](#delete-apideleteuser)                     | Delete User             |
 | -------------------------------------------------------------- | ----------------------  |
 | [POST /api/sessions](#post-apisessions)                        | Create session          |
-| [GET /api/sessions](#get-apisessions)                          |3    sessions of User    |
+| [GET /api/sessions](#get-apisessions)                          | 3 sessions of User      |
 | [GET /api/sessions/:id](#get-apisessionsId)                    | View one session        |
 | [PUT /api/sessions/:id](#put-apisessionsId)                    | Edit session            |
 | [DELETE /api/sessions/:id](#delete-apisessionsId)              | Delete session          |
 
-
-
- 
 #### GET /
 
 Response body:
@@ -137,7 +146,7 @@ Request body:
 ```json
 {
   "fullName": "Maaruf Dauda",
-  "email": "maaruf@xyz.com",
+  "email": "maaruf@xyz2.com",
   "password": "ALongSecurePassword"
 }
 ```
@@ -148,13 +157,14 @@ Response body:
 {
   "message": "User created successfully",
   "data": {
-    "token": "aTokenYouShouldNotBotherDecryprting.eyJzdWJqZWN0IjADfe3KLo98IjoiTWFhcnVmIERhdWRhIiwiaWF0IjoxNTc2NzYzNzA0LCJleHAiOjE1NzY4NTAxMDR9.jsihrtPG37mKBHp3xvjrQ-UselessRjSMr5YlPovG5A",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0IjoxMCwibmFtZSI6Ik1hYXJ1ZiBEYXVkYSIsImlhdCI6MTU4MDgwOTYzOSwiZXhwIjoxNTgwODk2MDM5fQ.DWK6gTVBKBR2SFWBVds5oA8o6vfWznxTRVvBTyeKbgo",
     "user": {
-      "id": 1,
+      "id": 10,
       "full_name": "Maaruf Dauda",
-      "email": "maaruf@xyz.com",
+      "email": "maaruf@xyz2.com",
       "image_url": null,
-      "isConfirmed": false
+      "isConfirmed": false,
+      "createdon": "2020-02-04T09:47:19.974Z"
     }
   }
 }
@@ -168,8 +178,8 @@ Request body:
 
 ```json
 {
-  "email": "anna@email.com",
-  "password": "SecurityIsNotAFad"
+  "email": "maaruf@xyz2.com",
+  "password": "ALongSecurePassword"
 }
 ```
 
@@ -177,13 +187,16 @@ Response body:
 
 ```json
 {
-  "token": "aTokenYouShouldNotBotherDecryprting.eyJzdWJqZWN0IjADfe3KLo98IjoiTWFhcnVmIERhdWRhIiwiaWF0IjoxNTc2NzYzNzA0LCJleHAiOjE1NzY4NTAxMDR9.jsihrtPG37mKBHp3xvjrQ-UselessRjSMr5YlPovG5A",
-  "user": {
-    "id": 1,
-    "full_name": "Anna",
-    "email": "anna@xyz.com",
-    "image_url": null,
-    "isConfirmed": false
+  "message": "Welcome. You're logged in!",
+  "data": {
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0IjoxMCwibmFtZSI6Ik1hYXJ1ZiBEYXVkYSIsImlhdCI6MTU4MDgwOTY4NSwiZXhwIjoxNTgwODk2MDg1fQ.PSLZhEXbvn9uFns5kwFUsSfnT56zk9B3cvAd_ocm2oA",
+    "user": {
+      "id": 10,
+      "full_name": "Maaruf Dauda",
+      "email": "maaruf@xyz2.com",
+      "isConfirmed": false,
+      "createdon": "2020-02-04T09:47:19.974Z"
+    }
   }
 }
 ```
@@ -284,7 +297,8 @@ Request body:
     "full_name": "Anna",
     "email": "anna@xyz.com",
     "image_url": null,
-    "isConfirmed": false
+    "isConfirmed": false,
+    "createdon": "2020-02-04T09:47:19.974Z"
   }
 }
 ```
@@ -327,6 +341,7 @@ Response body:
   "message": "Image url stored successfully"
 }
 ```
+
 #### POST api/users/updateprofile
 
 _**Description**: It updates users profile on the db(users table)._.
@@ -343,11 +358,9 @@ Response body:
 
 ```json
 {
-    "message": "Profile updated successfully"
+  "message": "Profile updated successfully"
 }
 ```
-
-
 
 ## Decks
 
@@ -371,12 +384,12 @@ Response body:
 ```json
 {
   "deck": {
-    "id": 9,
-    "user_id": 8,
+    "id": 17,
+    "user_id": 10,
     "name": "New Decks",
     "public": false,
-    "created_at": "2020-01-13T17:10:54.290Z",
-    "updated_at": "2020-01-13T17:10:54.290Z"
+    "created_at": "2020-02-04T09:49:52.265Z",
+    "updated_at": "2020-02-04T09:49:52.265Z"
   }
 }
 ```
@@ -397,55 +410,30 @@ Response body:
 {
   "data": [
     {
-      "deck_id": 5,
-      "user_id": 5,
-      "deck_name": "Basic General Knowledge",
-      "public": true,
-      "created_at": "2020-01-29T15:39:24.335Z",
-      "updated_at": "2020-01-29T15:39:24.335Z",
+      "deck_id": 17,
+      "user_id": 10,
+      "deck_name": "New Decks",
+      "public": false,
+      "created_at": "2020-02-04T09:49:52.265Z",
+      "updated_at": "2020-02-04T09:49:52.265Z",
       "tags": [
         {
-          "id": 10,
-          "name": "Aural & Oral Sciences"
+          "id": 1,
+          "name": "Accounting & Finance"
         },
         {
-          "id": 11,
-          "name": "Biological Sciences"
+          "id": 2,
+          "name": "Aeronautical & Manufacturing Engineering"
+        },
+        {
+          "id": 3,
+          "name": "Agriculture & Forestry"
+        },
+        {
+          "id": 4,
+          "name": "American Studies"
         }
       ],
-      "flashcards": [
-        {
-          "id": 9,
-          "deck_id": 5,
-          "user_id": 5,
-          "question": "Grand Central Terminal, Park Avenue, New York is the world...?",
-          "answer": "largest railway station",
-          "image_url_question": "https://res.cloudinary.com/quick-decks/image/upload/v1580472083/flashcard_front_13.jpg",
-          "created_at": "2020-01-29T10:39:24.340918-05:00",
-          "updated_at": "2020-01-29T10:39:24.340918-05:00",
-          "image_url_answer": "https://res.cloudinary.com/quick-decks/image/upload/v1580472154/flashcard_front_13.png"
-        },
-        {
-          "id": 10,
-          "deck_id": 5,
-          "user_id": 5,
-          "question": "For which of the following disciplines is Nobel Prize awarded?",
-          "answer": "Physics and Chemistry, Physiology or Medicine, Literature, Peace and Economics",
-          "image_url_question": null,
-          "created_at": "2020-01-29T10:39:24.340918-05:00",
-          "updated_at": "2020-01-29T10:39:24.340918-05:00",
-          "image_url_answer": null
-        }
-      ]
-    },
-    {
-      "deck_id": 8,
-      "user_id": 5,
-      "deck_name": "rich",
-      "public": false,
-      "created_at": "2020-01-30T08:58:24.174Z",
-      "updated_at": "2020-01-30T08:58:24.174Z",
-      "tags": [null],
       "flashcards": [null]
     }
   ]
@@ -468,54 +456,12 @@ Response body:
 {
   "data": [
     {
-      "deck_id": 1,
-      "user_id": 1,
-      "deck_name": "Statistical Learning",
-      "public": true,
-      "created_at": "2020-01-29T15:39:24.335Z",
-      "updated_at": "2020-01-29T15:39:24.335Z",
-      "tags": [
-        {
-          "id": 1,
-          "name": "Accounting & Finance"
-        },
-        {
-          "id": 2,
-          "name": "Aeronautical & Manufacturing Engineering"
-        }
-      ],
-      "flashcards": [
-        {
-          "id": 1,
-          "deck_id": 1,
-          "user_id": 1,
-          "question": "What is data mining?",
-          "answer": "Its when biotech and infotech merge and people become data mines",
-          "image_url_question": null,
-          "created_at": "2020-01-08T05:44:38.761-05:00",
-          "updated_at": "2020-01-08T05:44:38.761-05:00",
-          "image_url_answer": null
-        },
-        {
-          "id": 2,
-          "deck_id": 1,
-          "user_id": 1,
-          "question": "Hey Anna hehe sup",
-          "answer": "How you doing?",
-          "image_url_question": null,
-          "created_at": "2020-01-08T05:45:05.269-05:00",
-          "updated_at": "2020-01-08T05:45:05.269-05:00",
-          "image_url_answer": null
-        }
-      ]
-    },
-    {
       "deck_id": 3,
       "user_id": 3,
       "deck_name": "Technology ",
       "public": true,
-      "created_at": "2020-01-29T15:39:24.335Z",
-      "updated_at": "2020-01-29T15:39:24.335Z",
+      "created_at": "2020-02-03T09:21:15.181Z",
+      "updated_at": "2020-02-03T09:21:15.181Z",
       "tags": [
         {
           "id": 6,
@@ -534,8 +480,8 @@ Response body:
           "question": "In which decade was the American Institute of Electrical Engineers (AIEE) founded?",
           "answer": "1880s",
           "image_url_question": null,
-          "created_at": "2020-01-29T10:39:24.340918-05:00",
-          "updated_at": "2020-01-29T10:39:24.340918-05:00",
+          "created_at": "2020-02-03T04:21:15.188077-05:00",
+          "updated_at": "2020-02-03T04:21:15.188077-05:00",
           "image_url_answer": null
         },
         {
@@ -545,8 +491,8 @@ Response body:
           "question": "What is part of a database that holds only one type of information?",
           "answer": "Field",
           "image_url_question": null,
-          "created_at": "2020-01-29T10:39:24.340918-05:00",
-          "updated_at": "2020-01-29T10:39:24.340918-05:00",
+          "created_at": "2020-02-03T04:21:15.188077-05:00",
+          "updated_at": "2020-02-03T04:21:15.188077-05:00",
           "image_url_answer": null
         }
       ]
@@ -556,8 +502,8 @@ Response body:
       "user_id": 4,
       "deck_name": "Biology ",
       "public": true,
-      "created_at": "2020-01-29T15:39:24.335Z",
-      "updated_at": "2020-01-29T15:39:24.335Z",
+      "created_at": "2020-02-03T09:21:15.181Z",
+      "updated_at": "2020-02-03T09:21:15.181Z",
       "tags": [
         {
           "id": 8,
@@ -576,8 +522,8 @@ Response body:
           "question": "Ordinary table salt is sodium chloride. What is baking soda?",
           "answer": "Sodium bicarbonate",
           "image_url_question": null,
-          "created_at": "2020-01-29T10:39:24.340918-05:00",
-          "updated_at": "2020-01-29T10:39:24.340918-05:00",
+          "created_at": "2020-02-03T04:21:15.188077-05:00",
+          "updated_at": "2020-02-03T04:21:15.188077-05:00",
           "image_url_answer": null
         },
         {
@@ -587,146 +533,37 @@ Response body:
           "question": "Plants receive their nutrients from the?",
           "answer": "Sun",
           "image_url_question": null,
-          "created_at": "2020-01-29T10:39:24.340918-05:00",
-          "updated_at": "2020-01-29T10:39:24.340918-05:00",
+          "created_at": "2020-02-03T04:21:15.188077-05:00",
+          "updated_at": "2020-02-03T04:21:15.188077-05:00",
           "image_url_answer": null
         }
       ]
     },
     {
-      "deck_id": 5,
-      "user_id": 5,
-      "deck_name": "Basic General Knowledge",
-      "public": true,
-      "created_at": "2020-01-29T15:39:24.335Z",
-      "updated_at": "2020-01-29T15:39:24.335Z",
-      "tags": [
-        {
-          "id": 10,
-          "name": "Aural & Oral Sciences"
-        },
-        {
-          "id": 11,
-          "name": "Biological Sciences"
-        }
-      ],
-      "flashcards": [
-        {
-          "id": 9,
-          "deck_id": 5,
-          "user_id": 5,
-          "question": "Grand Central Terminal, Park Avenue, New York is the world...?",
-          "answer": "largest railway station",
-          "image_url_question": "https://res.cloudinary.com/quick-decks/image/upload/v1580472083/flashcard_front_13.jpg",
-          "created_at": "2020-01-29T10:39:24.340918-05:00",
-          "updated_at": "2020-01-29T10:39:24.340918-05:00",
-          "image_url_answer": "https://res.cloudinary.com/quick-decks/image/upload/v1580472154/flashcard_front_13.png"
-        },
-        {
-          "id": 10,
-          "deck_id": 5,
-          "user_id": 5,
-          "question": "For which of the following disciplines is Nobel Prize awarded?",
-          "answer": "Physics and Chemistry, Physiology or Medicine, Literature, Peace and Economics",
-          "image_url_question": null,
-          "created_at": "2020-01-29T10:39:24.340918-05:00",
-          "updated_at": "2020-01-29T10:39:24.340918-05:00",
-          "image_url_answer": null
-        }
-      ]
-    },
-    {
-      "deck_id": 6,
-      "user_id": 6,
-      "deck_name": "Famous Personalities",
-      "public": true,
-      "created_at": "2020-01-29T15:39:24.335Z",
-      "updated_at": "2020-01-29T15:39:24.335Z",
-      "tags": [
-        {
-          "id": 12,
-          "name": "Building"
-        },
-        {
-          "id": 13,
-          "name": "Business & Management Studies"
-        }
-      ],
-      "flashcards": [
-        {
-          "id": 11,
-          "deck_id": 6,
-          "user_id": 6,
-          "question": "Who is the father of Geometry?",
-          "answer": "Euclid",
-          "image_url_question": null,
-          "created_at": "2020-01-29T10:39:24.340918-05:00",
-          "updated_at": "2020-01-29T10:39:24.340918-05:00",
-          "image_url_answer": null
-        },
-        {
-          "id": 12,
-          "deck_id": 6,
-          "user_id": 6,
-          "question": "The Indian to beat the computers in mathematical wizardry is",
-          "answer": "Shakunthala Devi",
-          "image_url_question": null,
-          "created_at": "2020-01-29T10:39:24.340918-05:00",
-          "updated_at": "2020-01-29T10:39:24.340918-05:00",
-          "image_url_answer": null
-        }
-      ]
-    },
-    {
-      "deck_id": 5,
-      "user_id": 5,
-      "deck_name": "Basic General Knowledge",
-      "public": true,
-      "created_at": "2020-01-29T15:39:24.335Z",
-      "updated_at": "2020-01-29T15:39:24.335Z",
-      "tags": [
-        {
-          "id": 10,
-          "name": "Aural & Oral Sciences"
-        },
-        {
-          "id": 11,
-          "name": "Biological Sciences"
-        }
-      ],
-      "flashcards": [
-        {
-          "id": 9,
-          "deck_id": 5,
-          "user_id": 5,
-          "question": "Grand Central Terminal, Park Avenue, New York is the world...?",
-          "answer": "largest railway station",
-          "image_url_question": "https://res.cloudinary.com/quick-decks/image/upload/v1580472083/flashcard_front_13.jpg",
-          "created_at": "2020-01-29T10:39:24.340918-05:00",
-          "updated_at": "2020-01-29T10:39:24.340918-05:00",
-          "image_url_answer": "https://res.cloudinary.com/quick-decks/image/upload/v1580472154/flashcard_front_13.png"
-        },
-        {
-          "id": 10,
-          "deck_id": 5,
-          "user_id": 5,
-          "question": "For which of the following disciplines is Nobel Prize awarded?",
-          "answer": "Physics and Chemistry, Physiology or Medicine, Literature, Peace and Economics",
-          "image_url_question": null,
-          "created_at": "2020-01-29T10:39:24.340918-05:00",
-          "updated_at": "2020-01-29T10:39:24.340918-05:00",
-          "image_url_answer": null
-        }
-      ]
-    },
-    {
-      "deck_id": 8,
-      "user_id": 5,
-      "deck_name": "rich",
+      "deck_id": 17,
+      "user_id": 10,
+      "deck_name": "New Decks",
       "public": false,
-      "created_at": "2020-01-30T08:58:24.174Z",
-      "updated_at": "2020-01-30T08:58:24.174Z",
-      "tags": [null],
+      "created_at": "2020-02-04T09:49:52.265Z",
+      "updated_at": "2020-02-04T09:49:52.265Z",
+      "tags": [
+        {
+          "id": 1,
+          "name": "Accounting & Finance"
+        },
+        {
+          "id": 2,
+          "name": "Aeronautical & Manufacturing Engineering"
+        },
+        {
+          "id": 3,
+          "name": "Agriculture & Forestry"
+        },
+        {
+          "id": 4,
+          "name": "American Studies"
+        }
+      ],
       "flashcards": [null]
     }
   ]
@@ -753,7 +590,7 @@ Response body:
     "deck_name": "Famous Personalities",
     "public": true,
     "created_at": "2020-01-13T15:49:59.080Z",
-    "updated_at": "2020-01-13T15:49:59.080Z"
+    "updated_at": "2020-01-13T15:49:59.080Z",
     "tags": [
       {
         "id": 12,
@@ -801,8 +638,8 @@ Request body:
 ```json
 {
   "name": "New Decks",
-  "addTags": [1, 2, 3, 4],
-  "removeTags": [13]
+  "addTags": [15],
+  "removeTags": [3]
 }
 ```
 
@@ -810,12 +647,12 @@ Response body:
 
 ```json
 {
-  "deck_id": 6,
-  "user_id": 6,
+  "deck_id": 17,
+  "user_id": 10,
   "deck_name": "New Decks",
-  "public": true,
-  "created_at": "2020-01-13T15:49:59.080Z",
-  "updated_at": "2020-01-13T15:49:59.080Z",
+  "public": false,
+  "created_at": "2020-02-04T09:49:52.265Z",
+  "updated_at": "2020-02-04T09:49:52.265Z",
   "tags": [
     {
       "id": 1,
@@ -826,42 +663,19 @@ Response body:
       "name": "Aeronautical & Manufacturing Engineering"
     },
     {
-      "id": 3,
-      "name": "Agriculture & Forestry"
-    },
-    {
       "id": 4,
       "name": "American Studies"
     },
     {
       "id": 12,
       "name": "Building"
-    }
-  ],
-  "flashcards": [
-    {
-      "id": 11,
-      "deck_id": 6,
-      "user_id": 6,
-      "question": "Who is the father of Geometry?",
-      "answer": "Euclid",
-      "image_url_question": null,
-      "created_at": "2020-01-13T10:49:59.086613-05:00",
-      "updated_at": "2020-01-13T10:49:59.086613-05:00",
-      "image_url_answer": null
     },
     {
-      "id": 12,
-      "deck_id": 6,
-      "user_id": 6,
-      "question": "The Indian to beat the computers in mathematical wizardry is",
-      "answer": "Shakunthala Devi",
-      "image_url_question": null,
-      "created_at": "2020-01-13T10:49:59.086613-05:00",
-      "updated_at": "2020-01-13T10:49:59.086613-05:00",
-      "image_url_answer": null
+      "id": 15,
+      "name": "Chemical Engineering"
     }
-  ]
+  ],
+  "flashcards": [null]
 }
 ```
 
@@ -897,46 +711,13 @@ Response body:
 {
   "data": [
     {
-      "deck_id": 5,
-      "user_id": 5,
-      "deck_name": "Basic General Knowledge",
-      "public": true,
-      "created_at": "2020-01-29T15:39:24.335Z",
-      "updated_at": "2020-01-29T15:39:24.335Z",
-      "accessed_time": "2020-01-29T15:39:24.357Z",
-      "flashcards": [
-        {
-          "id": 9,
-          "deck_id": 5,
-          "user_id": 5,
-          "question": "Grand Central Terminal, Park Avenue, New York is the world...?",
-          "answer": "largest railway station",
-          "image_url_question": "https://res.cloudinary.com/quick-decks/image/upload/v1580472083/flashcard_front_13.jpg",
-          "created_at": "2020-01-29T10:39:24.340918-05:00",
-          "updated_at": "2020-01-29T10:39:24.340918-05:00",
-          "image_url_answer": "https://res.cloudinary.com/quick-decks/image/upload/v1580472154/flashcard_front_13.png"
-        },
-        {
-          "id": 10,
-          "deck_id": 5,
-          "user_id": 5,
-          "question": "For which of the following disciplines is Nobel Prize awarded?",
-          "answer": "Physics and Chemistry, Physiology or Medicine, Literature, Peace and Economics",
-          "image_url_question": null,
-          "created_at": "2020-01-29T10:39:24.340918-05:00",
-          "updated_at": "2020-01-29T10:39:24.340918-05:00",
-          "image_url_answer": null
-        }
-      ]
-    },
-    {
-      "deck_id": 8,
-      "user_id": 5,
-      "deck_name": "rich",
+      "deck_id": 17,
+      "user_id": 10,
+      "deck_name": "New Decks",
       "public": false,
-      "created_at": "2020-01-30T08:58:24.174Z",
-      "updated_at": "2020-01-30T08:58:24.174Z",
-      "accessed_time": "2020-01-30T08:58:24.185Z",
+      "created_at": "2020-02-04T09:49:52.265Z",
+      "updated_at": "2020-02-04T09:49:52.265Z",
+      "accessed_time": "2020-02-04T09:49:52.295Z",
       "flashcards": [null]
     }
   ]
@@ -945,7 +726,7 @@ Response body:
 
 #### PUT /api/decks/access/:id
 
-_**Description**: Update access time on a users deck._.
+_**Description**: Update access time on a users deck id being the deck id._.
 
 Request body:
 
@@ -961,7 +742,7 @@ Response body:
 
 #### DELETE /api/decks/access/:id
 
-_**Description**: Delete access connection from user to deck._.
+_**Description**: Delete access connection from user to deck id being the deck id._.
 
 Request body:
 
@@ -1369,92 +1150,44 @@ Response body:
 {
   "data": [
     {
-      "id": 9,
-      "deck_id": 5,
-      "user_id": 5,
+      "id": 4,
+      "name": "Biology ",
+      "deck_id": 4,
+      "user_id": 4,
       "isCompleted": false,
-      "last_used": "2020-01-29T16:10:41.208Z",
-      "reviewed_cards": [null],
-      "flashcards": [
-        {
-          "id": 9,
-          "deck_id": 5,
-          "user_id": 5,
-          "question": "Grand Central Terminal, Park Avenue, New York is the world...?",
-          "answer": "largest railway station",
-          "image_url_question": null,
-          "created_at": "2020-01-29T10:39:24.340918-05:00",
-          "updated_at": "2020-01-29T10:39:24.340918-05:00",
-          "image_url_answer": null
-        },
-        {
-          "id": 10,
-          "deck_id": 5,
-          "user_id": 5,
-          "question": "For which of the following disciplines is Nobel Prize awarded?",
-          "answer": "Physics and Chemistry, Physiology or Medicine, Literature, Peace and Economics",
-          "image_url_question": null,
-          "created_at": "2020-01-29T10:39:24.340918-05:00",
-          "updated_at": "2020-01-29T10:39:24.340918-05:00",
-          "image_url_answer": null
-        }
-      ],
-      "cards_left": 2
-    },
-    {
-      "id": 10,
-      "deck_id": 5,
-      "user_id": 5,
-      "isCompleted": false,
-      "last_used": "2020-01-29T16:56:59.995Z",
+      "last_used": "2020-02-04T10:05:26.158Z",
       "reviewed_cards": [
         {
-          "id": 10,
-          "session_id": 10,
-          "card_id": 1
-        },
-        {
-          "id": 11,
-          "session_id": 10,
-          "card_id": 2
+          "id": 4,
+          "session_id": 4,
+          "card_id": 7
         }
       ],
       "flashcards": [
         {
-          "id": 9,
-          "deck_id": 5,
-          "user_id": 5,
-          "question": "Grand Central Terminal, Park Avenue, New York is the world...?",
-          "answer": "largest railway station",
+          "id": 7,
+          "deck_id": 4,
+          "user_id": 4,
+          "question": "Ordinary table salt is sodium chloride. What is baking soda?",
+          "answer": "Sodium bicarbonate",
           "image_url_question": null,
-          "created_at": "2020-01-29T10:39:24.340918-05:00",
-          "updated_at": "2020-01-29T10:39:24.340918-05:00",
+          "created_at": "2020-02-04T05:05:26.135926-05:00",
+          "updated_at": "2020-02-04T05:05:26.135926-05:00",
           "image_url_answer": null
         },
         {
-          "id": 10,
-          "deck_id": 5,
-          "user_id": 5,
-          "question": "For which of the following disciplines is Nobel Prize awarded?",
-          "answer": "Physics and Chemistry, Physiology or Medicine, Literature, Peace and Economics",
+          "id": 8,
+          "deck_id": 4,
+          "user_id": 4,
+          "question": "Plants receive their nutrients from the?",
+          "answer": "Sun",
           "image_url_question": null,
-          "created_at": "2020-01-29T10:39:24.340918-05:00",
-          "updated_at": "2020-01-29T10:39:24.340918-05:00",
+          "created_at": "2020-02-04T05:05:26.135926-05:00",
+          "updated_at": "2020-02-04T05:05:26.135926-05:00",
           "image_url_answer": null
         }
       ],
-      "cards_left": 0
-    },
-
-    {
-      "id": 24,
-      "deck_id": 8,
-      "user_id": 5,
-      "isCompleted": false,
-      "last_used": "2020-01-30T09:23:33.275Z",
-      "reviewed_cards": [null],
-      "flashcards": [null],
-      "cards_left": 0
+      "cards_left": 1
     }
   ]
 }
@@ -1493,13 +1226,13 @@ Response body:
 
 #### PUT /api/sessions/:id
 
-_**Description**: Edit a session by session Id, you can also send a blank request just to update lastused ._.
+_**Description**: Edit a session by session Id, you can also send a blank request just to update lastused, when send "isCompleted": true, it will remove the session completely ._.
 
 Request body:
 
 ```json
 {
-  "isCompleted": true,
+  
   "cardIds": [10]
 }
 ```
@@ -1568,8 +1301,8 @@ Response body:
 
 ## The Tag Data We Used
 
-Please go to data > seeds > 03-tags-data.js to view the tags we used
+[Seed Data](https://github.com/LABS-EU3/flashcards_backend/blob/2c6cc1f194b91d1570645e4c946c77704aa58a9a/data/seeds/03-tags-data.js)
 
 ## Technologies
 
-- Node | Express | hapi/joi | bcryptjs | cors | knex | Postgres | Jest | Supertest | jsonwebtoken
+- Node | @hapi/joi | bcrypt | cors | crypto | dotenv | express | helmet | jsonwebtoken | knex | mailgen |nodemailer | nodemailer-stub | passport | passport-google-oauth | pg
